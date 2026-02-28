@@ -10,4 +10,6 @@ import java.util.UUID;
 @Repository
 public interface SpringDataEmissionRepository extends JpaRepository<EmissionRecordEntity, UUID> {
     List<EmissionRecordEntity> findByTenantIdAndPlantId(UUID tenantId, UUID plantId);
+
+    List<EmissionRecordEntity> findByTenantIdAndScopeOrderByRecordedAtDesc(UUID tenantId, String scope);
 }

@@ -37,4 +37,11 @@ public class JpaEmissionRepository implements EmissionRepository {
                 .map(mapper::toDomain)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<EmissionRecord> findByTenantAndScope(UUID tenantId, String scope) {
+        return repository.findByTenantIdAndScopeOrderByRecordedAtDesc(tenantId, scope).stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+    }
 }

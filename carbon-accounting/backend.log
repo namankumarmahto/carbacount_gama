@@ -15,7 +15,7 @@
 [[1;34mINFO[m] 
 [[1;34mINFO[m] [1m--- [0;32mmaven-compiler-plugin:3.11.0:compile[m [1m(default-compile)[m @ [36mcarbon-accounting[0;1m ---[m
 [[1;34mINFO[m] Changes detected - recompiling the module! :source
-[[1;34mINFO[m] Compiling 79 source files with javac [debug release 17] to target/classes
+[[1;34mINFO[m] Compiling 82 source files with javac [debug release 17] to target/classes
 [[1;34mINFO[m] 
 [[1;34mINFO[m] [1m--- [0;32mmaven-resources-plugin:3.3.1:testResources[m [1m(default-testResources)[m @ [36mcarbon-accounting[0;1m ---[m
 [[1;34mINFO[m] skip non existing resourceDirectory /home/naman/Desktop/carbacount_gama/carbon-accounting/src/test/resources
@@ -28,66 +28,66 @@
 [[1;34mINFO[m] 
 [[1;34mINFO[m] [1m--- [0;32mspring-boot-maven-plugin:3.2.3:run[m [1m(default-cli)[m @ [36mcarbon-accounting[0;1m ---[m
 [[1;34mINFO[m] Attaching agents: []
-00:28:57,171 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 1.4.14
-00:28:57,174 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - Here is a list of configurators discovered as a service, by rank: 
-00:28:57,174 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 -   org.springframework.boot.logging.logback.RootLogLevelConfigurator
-00:28:57,174 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - They will be invoked in order until ExecutionStatus.DO_NOT_INVOKE_NEXT_IF_ANY is returned.
-00:28:57,174 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - Constructed configurator of type class org.springframework.boot.logging.logback.RootLogLevelConfigurator
-00:28:57,188 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - org.springframework.boot.logging.logback.RootLogLevelConfigurator.configure() call lasted 0 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
-00:28:57,188 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - Trying to configure with ch.qos.logback.classic.joran.SerializedModelConfigurator
-00:28:57,189 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - Constructed configurator of type class ch.qos.logback.classic.joran.SerializedModelConfigurator
-00:28:57,192 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.scmo]
-00:28:57,192 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.scmo]
-00:28:57,192 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - ch.qos.logback.classic.joran.SerializedModelConfigurator.configure() call lasted 3 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
-00:28:57,192 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
-00:28:57,193 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
-00:28:57,194 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
-00:28:57,194 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.xml]
-00:28:57,194 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 1 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
-00:28:57,194 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - Trying to configure with ch.qos.logback.classic.BasicConfigurator
-00:28:57,195 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - Constructed configurator of type class ch.qos.logback.classic.BasicConfigurator
-00:28:57,195 |-INFO in ch.qos.logback.classic.BasicConfigurator@e19bb76 - Setting up default configuration.
-00:28:57,213 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - ch.qos.logback.classic.BasicConfigurator.configure() call lasted 18 milliseconds. ExecutionStatus=NEUTRAL
-00:28:57,672 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [Console]
-00:28:57,672 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
-00:28:57,688 |-WARN in ch.qos.logback.core.ConsoleAppender[Console] - This appender no longer admits a layout as a sub-component, set an encoder instead.
-00:28:57,689 |-WARN in ch.qos.logback.core.ConsoleAppender[Console] - To ensure compatibility, wrapping your layout in LayoutWrappingEncoder.
-00:28:57,689 |-WARN in ch.qos.logback.core.ConsoleAppender[Console] - See also http://logback.qos.ch/codes.html#layoutInsteadOfEncoder for details
-00:28:57,689 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [RollingFile]
-00:28:57,689 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.rolling.RollingFileAppender]
-00:28:57,699 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1361393151 - No compression will be used
-00:28:57,700 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1361393151 - Will use the pattern ./logs/archived/application-%d{yyyy-MM-dd}.%i.log for the active file
-00:28:57,717 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@71529963 - The date pattern is 'yyyy-MM-dd' from file name pattern './logs/archived/application-%d{yyyy-MM-dd}.%i.log'.
-00:28:57,717 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@71529963 - Roll-over at midnight.
-00:28:57,722 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@71529963 - Setting initial period to 2026-02-28T18:58:51.567Z
-00:28:57,722 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@71529963 - SizeAndTimeBasedFNATP is deprecated. Use SizeAndTimeBasedRollingPolicy instead
-00:28:57,722 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@71529963 - For more information see http://logback.qos.ch/manual/appenders.html#SizeAndTimeBasedRollingPolicy
-00:28:57,726 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[RollingFile] - Active log file name: ./logs/application.log
-00:28:57,727 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[RollingFile] - File property is set to [./logs/application.log]
-00:28:57,727 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [ErrorFile]
-00:28:57,727 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.rolling.RollingFileAppender]
-00:28:57,729 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1638435724 - No compression will be used
-00:28:57,729 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1638435724 - Will use the pattern ./logs/archived/error-%d{yyyy-MM-dd}.%i.log for the active file
-00:28:57,730 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@22295ec4 - The date pattern is 'yyyy-MM-dd' from file name pattern './logs/archived/error-%d{yyyy-MM-dd}.%i.log'.
-00:28:57,730 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@22295ec4 - Roll-over at midnight.
-00:28:57,730 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@22295ec4 - Setting initial period to 2026-02-28T18:28:24.018Z
-00:28:57,730 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@22295ec4 - SizeAndTimeBasedFNATP is deprecated. Use SizeAndTimeBasedRollingPolicy instead
-00:28:57,730 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@22295ec4 - For more information see http://logback.qos.ch/manual/appenders.html#SizeAndTimeBasedRollingPolicy
-00:28:57,731 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[ErrorFile] - Active log file name: ./logs/error.log
-00:28:57,731 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[ErrorFile] - File property is set to [./logs/error.log]
-00:28:57,731 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
-00:28:57,731 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@5adb0db3 - Propagating INFO level on Logger[ROOT] onto the JUL framework
-00:28:57,732 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [RollingFile] to Logger[ROOT]
-00:28:57,732 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [Console] to Logger[ROOT]
-00:28:57,732 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [ErrorFile] to Logger[ROOT]
-00:28:57,732 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [com.carbon.accounting] to INFO
-00:28:57,732 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@5adb0db3 - Propagating INFO level on Logger[com.carbon.accounting] onto the JUL framework
-00:28:57,734 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting additivity of logger [com.carbon.accounting] to false
-00:28:57,734 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [RollingFile] to Logger[com.carbon.accounting]
-00:28:57,734 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [Console] to Logger[com.carbon.accounting]
-00:28:57,734 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [ErrorFile] to Logger[com.carbon.accounting]
-00:28:57,734 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@3f270e0a - End of configuration.
-00:28:57,734 |-INFO in org.springframework.boot.logging.logback.SpringBootJoranConfigurator@1a760689 - Registering current configuration as safe fallback point
+00:54:39,735 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 1.4.14
+00:54:39,738 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - Here is a list of configurators discovered as a service, by rank: 
+00:54:39,738 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 -   org.springframework.boot.logging.logback.RootLogLevelConfigurator
+00:54:39,738 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - They will be invoked in order until ExecutionStatus.DO_NOT_INVOKE_NEXT_IF_ANY is returned.
+00:54:39,738 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - Constructed configurator of type class org.springframework.boot.logging.logback.RootLogLevelConfigurator
+00:54:39,750 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - org.springframework.boot.logging.logback.RootLogLevelConfigurator.configure() call lasted 0 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+00:54:39,750 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - Trying to configure with ch.qos.logback.classic.joran.SerializedModelConfigurator
+00:54:39,751 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - Constructed configurator of type class ch.qos.logback.classic.joran.SerializedModelConfigurator
+00:54:39,753 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.scmo]
+00:54:39,754 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.scmo]
+00:54:39,754 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - ch.qos.logback.classic.joran.SerializedModelConfigurator.configure() call lasted 3 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+00:54:39,754 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+00:54:39,754 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+00:54:39,755 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+00:54:39,755 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.xml]
+00:54:39,755 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 1 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+00:54:39,755 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - Trying to configure with ch.qos.logback.classic.BasicConfigurator
+00:54:39,756 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - Constructed configurator of type class ch.qos.logback.classic.BasicConfigurator
+00:54:39,756 |-INFO in ch.qos.logback.classic.BasicConfigurator@e19bb76 - Setting up default configuration.
+00:54:39,770 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4f1bfe23 - ch.qos.logback.classic.BasicConfigurator.configure() call lasted 14 milliseconds. ExecutionStatus=NEUTRAL
+00:54:40,119 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [Console]
+00:54:40,120 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+00:54:40,133 |-WARN in ch.qos.logback.core.ConsoleAppender[Console] - This appender no longer admits a layout as a sub-component, set an encoder instead.
+00:54:40,133 |-WARN in ch.qos.logback.core.ConsoleAppender[Console] - To ensure compatibility, wrapping your layout in LayoutWrappingEncoder.
+00:54:40,133 |-WARN in ch.qos.logback.core.ConsoleAppender[Console] - See also http://logback.qos.ch/codes.html#layoutInsteadOfEncoder for details
+00:54:40,133 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [RollingFile]
+00:54:40,133 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.rolling.RollingFileAppender]
+00:54:40,140 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1361393151 - No compression will be used
+00:54:40,141 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1361393151 - Will use the pattern ./logs/archived/application-%d{yyyy-MM-dd}.%i.log for the active file
+00:54:40,155 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@71529963 - The date pattern is 'yyyy-MM-dd' from file name pattern './logs/archived/application-%d{yyyy-MM-dd}.%i.log'.
+00:54:40,155 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@71529963 - Roll-over at midnight.
+00:54:40,159 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@71529963 - Setting initial period to 2026-02-28T19:24:35.520Z
+00:54:40,159 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@71529963 - SizeAndTimeBasedFNATP is deprecated. Use SizeAndTimeBasedRollingPolicy instead
+00:54:40,159 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@71529963 - For more information see http://logback.qos.ch/manual/appenders.html#SizeAndTimeBasedRollingPolicy
+00:54:40,162 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[RollingFile] - Active log file name: ./logs/application.log
+00:54:40,163 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[RollingFile] - File property is set to [./logs/application.log]
+00:54:40,163 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [ErrorFile]
+00:54:40,163 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.rolling.RollingFileAppender]
+00:54:40,165 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1638435724 - No compression will be used
+00:54:40,165 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1638435724 - Will use the pattern ./logs/archived/error-%d{yyyy-MM-dd}.%i.log for the active file
+00:54:40,165 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@22295ec4 - The date pattern is 'yyyy-MM-dd' from file name pattern './logs/archived/error-%d{yyyy-MM-dd}.%i.log'.
+00:54:40,165 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@22295ec4 - Roll-over at midnight.
+00:54:40,166 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@22295ec4 - Setting initial period to 2026-02-28T18:28:24.018Z
+00:54:40,166 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@22295ec4 - SizeAndTimeBasedFNATP is deprecated. Use SizeAndTimeBasedRollingPolicy instead
+00:54:40,166 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@22295ec4 - For more information see http://logback.qos.ch/manual/appenders.html#SizeAndTimeBasedRollingPolicy
+00:54:40,166 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[ErrorFile] - Active log file name: ./logs/error.log
+00:54:40,166 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[ErrorFile] - File property is set to [./logs/error.log]
+00:54:40,166 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+00:54:40,166 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@5adb0db3 - Propagating INFO level on Logger[ROOT] onto the JUL framework
+00:54:40,167 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [RollingFile] to Logger[ROOT]
+00:54:40,167 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [Console] to Logger[ROOT]
+00:54:40,167 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [ErrorFile] to Logger[ROOT]
+00:54:40,167 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [com.carbon.accounting] to INFO
+00:54:40,167 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@5adb0db3 - Propagating INFO level on Logger[com.carbon.accounting] onto the JUL framework
+00:54:40,168 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting additivity of logger [com.carbon.accounting] to false
+00:54:40,168 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [RollingFile] to Logger[com.carbon.accounting]
+00:54:40,168 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [Console] to Logger[com.carbon.accounting]
+00:54:40,168 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [ErrorFile] to Logger[com.carbon.accounting]
+00:54:40,168 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@3f270e0a - End of configuration.
+00:54:40,169 |-INFO in org.springframework.boot.logging.logback.SpringBootJoranConfigurator@1a760689 - Registering current configuration as safe fallback point
 
 
   .   ____          _            __ _ _
@@ -98,57 +98,258 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.3)
 
-2026-03-01 00:28:57 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
-2026-03-01 00:28:57 [main] INFO  c.c.a.CarbonAccountingApplication - Starting CarbonAccountingApplication using Java 17.0.17 with PID 159581 (/home/naman/Desktop/carbacount_gama/carbon-accounting/target/classes started by naman in /home/naman/Desktop/carbacount_gama/carbon-accounting)
-2026-03-01 00:28:57 [main] INFO  c.c.a.CarbonAccountingApplication - No active profile set, falling back to 1 default profile: "default"
-2026-03-01 00:28:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
-2026-03-01 00:28:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-03-01 00:28:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 138 ms. Found 9 JPA repository interfaces.
-2026-03-01 00:28:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
-2026-03-01 00:28:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2026-03-01 00:28:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbon.accounting.infrastructure.persistence.repository.SpringDataAuditLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2026-03-01 00:28:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbon.accounting.infrastructure.persistence.repository.SpringDataEmissionCategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2026-03-01 00:28:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbon.accounting.infrastructure.persistence.repository.SpringDataEmissionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2026-03-01 00:28:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbon.accounting.infrastructure.persistence.repository.SpringDataEnergyRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2026-03-01 00:28:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbon.accounting.infrastructure.persistence.repository.SpringDataIndustryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2026-03-01 00:28:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbon.accounting.infrastructure.persistence.repository.SpringDataIndustryTypeRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2026-03-01 00:28:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbon.accounting.infrastructure.persistence.repository.SpringDataPlantRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2026-03-01 00:28:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbon.accounting.infrastructure.persistence.repository.SpringDataTenantRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2026-03-01 00:28:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbon.accounting.infrastructure.persistence.repository.SpringDataUserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
-2026-03-01 00:28:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
-2026-03-01 00:28:59 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
-2026-03-01 00:28:59 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
-2026-03-01 00:28:59 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2026-03-01 00:28:59 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
-2026-03-01 00:28:59 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2026-03-01 00:28:59 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1923 ms
-2026-03-01 00:29:00 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2026-03-01 00:29:00 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@18e8eb59
-2026-03-01 00:29:00 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2026-03-01 00:29:00 [main] INFO  o.f.c.i.license.VersionPrinter - Flyway Community Edition 9.22.3 by Redgate
-2026-03-01 00:29:00 [main] INFO  o.f.c.i.license.VersionPrinter - See release notes here: https://rd.gt/416ObMi
-2026-03-01 00:29:00 [main] INFO  o.f.c.i.license.VersionPrinter - 
-2026-03-01 00:29:00 [main] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://localhost:5433/carbon_db (PostgreSQL 18.3)
-2026-03-01 00:29:00 [main] WARN  o.f.c.i.database.base.Database - Flyway upgrade recommended: PostgreSQL 18.3 is newer than this version of Flyway and support has not been tested. The latest supported version of PostgreSQL is 15.
-2026-03-01 00:29:00 [main] INFO  o.f.core.internal.command.DbValidate - Successfully validated 10 migrations (execution time 00:00.023s)
-2026-03-01 00:29:00 [main] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": 10
-2026-03-01 00:29:00 [main] INFO  o.f.core.internal.command.DbMigrate - Schema "public" is up to date. No migration necessary.
-2026-03-01 00:29:00 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2026-03-01 00:29:00 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
-2026-03-01 00:29:00 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2026-03-01 00:29:00 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-03-01 00:29:00 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2026-03-01 00:29:01 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-03-01 00:29:01 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-03-01 00:29:02 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2026-03-01 00:29:02 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
-2026-03-01 00:29:02 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6231bb88, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@331886ac, org.springframework.security.web.context.SecurityContextHolderFilter@14f1db20, org.springframework.security.web.header.HeaderWriterFilter@3dfef314, org.springframework.web.filter.CorsFilter@66373f77, org.springframework.security.web.authentication.logout.LogoutFilter@455082d2, com.carbon.accounting.interfaces.rest.filter.RateLimitingFilter@1b3a1e42, com.carbon.accounting.infrastructure.security.JwtAuthenticationFilter@1a5ea4cf, com.carbon.accounting.interfaces.rest.filter.TenantFilter@41030c21, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@56034552, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@23f4aaeb, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@834944, org.springframework.security.web.session.SessionManagementFilter@4ba88ab5, org.springframework.security.web.access.ExceptionTranslationFilter@485902cd, org.springframework.security.web.access.intercept.AuthorizationFilter@2c05ccdb]
-2026-03-01 00:29:02 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
-2026-03-01 00:29:02 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path ''
-2026-03-01 00:29:02 [main] INFO  c.c.a.CarbonAccountingApplication - Started CarbonAccountingApplication in 5.631 seconds (process running for 5.929)
-2026-03-01 00:29:49 [http-nio-8081-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2026-03-01 00:29:49 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2026-03-01 00:29:49 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2026-03-01 00:54:40 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2026-03-01 00:54:40 [main] INFO  c.c.a.CarbonAccountingApplication - Starting CarbonAccountingApplication using Java 17.0.17 with PID 171459 (/home/naman/Desktop/carbacount_gama/carbon-accounting/target/classes started by naman in /home/naman/Desktop/carbacount_gama/carbon-accounting)
+2026-03-01 00:54:40 [main] INFO  c.c.a.CarbonAccountingApplication - No active profile set, falling back to 1 default profile: "default"
+2026-03-01 00:54:41 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-03-01 00:54:41 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-01 00:54:41 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 118 ms. Found 9 JPA repository interfaces.
+2026-03-01 00:54:41 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-03-01 00:54:41 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-01 00:54:41 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbon.accounting.infrastructure.persistence.repository.SpringDataAuditLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-01 00:54:41 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbon.accounting.infrastructure.persistence.repository.SpringDataEmissionCategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-01 00:54:41 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbon.accounting.infrastructure.persistence.repository.SpringDataEmissionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-01 00:54:41 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbon.accounting.infrastructure.persistence.repository.SpringDataEnergyRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-01 00:54:41 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbon.accounting.infrastructure.persistence.repository.SpringDataIndustryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-01 00:54:41 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbon.accounting.infrastructure.persistence.repository.SpringDataIndustryTypeRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-01 00:54:41 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbon.accounting.infrastructure.persistence.repository.SpringDataPlantRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-01 00:54:41 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbon.accounting.infrastructure.persistence.repository.SpringDataTenantRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-01 00:54:41 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbon.accounting.infrastructure.persistence.repository.SpringDataUserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-01 00:54:41 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+2026-03-01 00:54:41 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-03-01 00:54:41 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+2026-03-01 00:54:41 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-03-01 00:54:41 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2026-03-01 00:54:41 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-03-01 00:54:41 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1666 ms
+2026-03-01 00:54:42 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-01 00:54:42 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@189633f2
+2026-03-01 00:54:42 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-01 00:54:42 [main] INFO  o.f.c.i.license.VersionPrinter - Flyway Community Edition 9.22.3 by Redgate
+2026-03-01 00:54:42 [main] INFO  o.f.c.i.license.VersionPrinter - See release notes here: https://rd.gt/416ObMi
+2026-03-01 00:54:42 [main] INFO  o.f.c.i.license.VersionPrinter - 
+2026-03-01 00:54:42 [main] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://localhost:5433/carbon_db (PostgreSQL 18.3)
+2026-03-01 00:54:42 [main] WARN  o.f.c.i.database.base.Database - Flyway upgrade recommended: PostgreSQL 18.3 is newer than this version of Flyway and support has not been tested. The latest supported version of PostgreSQL is 15.
+2026-03-01 00:54:42 [main] INFO  o.f.core.internal.command.DbValidate - Successfully validated 10 migrations (execution time 00:00.021s)
+2026-03-01 00:54:42 [main] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": 10
+2026-03-01 00:54:42 [main] INFO  o.f.core.internal.command.DbMigrate - Schema "public" is up to date. No migration necessary.
+2026-03-01 00:54:42 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-01 00:54:42 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2026-03-01 00:54:42 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-03-01 00:54:42 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-01 00:54:42 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-01 00:54:43 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-01 00:54:43 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-01 00:54:44 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-01 00:54:44 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+2026-03-01 00:54:44 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@7cb15360, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@dc9033f, org.springframework.security.web.context.SecurityContextHolderFilter@76296c86, org.springframework.security.web.header.HeaderWriterFilter@294a150c, org.springframework.web.filter.CorsFilter@2c5dfc9b, org.springframework.security.web.authentication.logout.LogoutFilter@47c8c176, com.carbon.accounting.interfaces.rest.filter.RateLimitingFilter@2527765a, com.carbon.accounting.infrastructure.security.JwtAuthenticationFilter@37e7e089, com.carbon.accounting.interfaces.rest.filter.TenantFilter@6ea4b4b2, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@26c6be2d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@784dd9da, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@2db27b46, org.springframework.security.web.session.SessionManagementFilter@5e1d6ace, org.springframework.security.web.access.ExceptionTranslationFilter@4cb1af3f, org.springframework.security.web.access.intercept.AuthorizationFilter@7e2bd635]
+2026-03-01 00:54:45 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
+2026-03-01 00:54:45 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path ''
+2026-03-01 00:54:45 [main] INFO  c.c.a.CarbonAccountingApplication - Started CarbonAccountingApplication in 5.54 seconds (process running for 5.807)
+2026-03-01 00:56:28 [http-nio-8081-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-01 00:56:28 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-03-01 00:56:28 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    left join
+        plant p1_0 
+            on p1_0.id=ere1_0.plant_id 
+    where
+        ere1_0.tenant_id=? 
+        and p1_0.id=?
+Running daily aggregation...
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ite1_0.id,
+        ite1_0.created_at,
+        ite1_0.name 
+    from
+        industry_type ite1_0
+Hibernate: 
+    select
+        ite1_0.id,
+        ite1_0.created_at,
+        ite1_0.name 
+    from
+        industry_type ite1_0
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ite1_0.id,
+        ite1_0.created_at,
+        ite1_0.name 
+    from
+        industry_type ite1_0
+Hibernate: 
+    select
+        ite1_0.id,
+        ite1_0.created_at,
+        ite1_0.name 
+    from
+        industry_type ite1_0
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        te1_0.id,
+        te1_0.active,
+        te1_0.created_at,
+        te1_0.industry_type,
+        te1_0.name 
+    from
+        tenants te1_0 
+    where
+        te1_0.id=?
+Hibernate: 
+    insert 
+    into
+        tenants
+        (active, created_at, industry_type, name, id) 
+    values
+        (?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        industry
+        (created_at, industry_type_id, location, name, sector, tenant_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        plant
+        (created_at, industry_id, location, name, tenant_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (email, industry_id, industry_type_id, name, password, role, tenant_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
 Hibernate: 
     select
         ue1_0.id,
@@ -195,6 +396,39 @@ Hibernate:
         and i1_0.id=?
 Hibernate: 
     select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    left join
+        plant p1_0 
+            on p1_0.id=ere1_0.plant_id 
+    where
+        ere1_0.tenant_id=? 
+        and p1_0.id=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
         pe1_0.id,
         pe1_0.created_at,
         pe1_0.industry_id,
@@ -211,31 +445,23 @@ Hibernate:
         and i1_0.id=?
 Hibernate: 
     select
-        ue1_0.id,
-        ue1_0.email,
-        ue1_0.industry_id,
-        ue1_0.industry_type_id,
-        ue1_0.name,
-        ue1_0.password,
-        ue1_0.role,
-        ue1_0.tenant_id 
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
     from
-        users ue1_0 
+        emission_record ere1_0 
+    left join
+        plant p1_0 
+            on p1_0.id=ere1_0.plant_id 
     where
-        ue1_0.email=?
-Hibernate: 
-    select
-        ece1_0.id,
-        ece1_0.category_name,
-        ece1_0.created_at,
-        ece1_0.industry_type_id,
-        ece1_0.is_custom,
-        ece1_0.scope 
-    from
-        emission_category ece1_0 
-    where
-        ece1_0.industry_type_id=? 
-        and ece1_0.scope=?
+        ere1_0.tenant_id=? 
+        and p1_0.id=?
 Hibernate: 
     select
         ue1_0.id,
@@ -250,18 +476,6 @@ Hibernate:
         users ue1_0 
     where
         ue1_0.email=?
-Hibernate: 
-    select
-        pe1_0.id,
-        pe1_0.created_at,
-        pe1_0.industry_id,
-        pe1_0.location,
-        pe1_0.name,
-        pe1_0.tenant_id 
-    from
-        plant pe1_0 
-    where
-        pe1_0.id=?
 Hibernate: 
     select
         ere1_0.id,
@@ -276,37 +490,503 @@ Hibernate:
     from
         emission_record ere1_0 
     where
-        ere1_0.id=?
-2026-03-01 00:31:12 [task-1] INFO  c.c.a.i.service.AuditServiceImpl - Logging audit action: CREATE_EMISSION on resource: EMISSION_RECORD by user: nkm@gmail.com
+        ere1_0.tenant_id=? 
+        and ere1_0.scope=? 
+    order by
+        ere1_0.recorded_at desc
 Hibernate: 
     select
-        ale1_0.id,
-        ale1_0.action,
-        ale1_0.details,
-        ale1_0.ip_address,
-        ale1_0.resource,
-        ale1_0.resource_id,
-        ale1_0.tenant_id,
-        ale1_0.timestamp,
-        ale1_0.user_id 
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
     from
-        audit_logs ale1_0 
+        users ue1_0 
     where
-        ale1_0.id=?
+        ue1_0.email=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    where
+        ere1_0.tenant_id=? 
+        and ere1_0.scope=? 
+    order by
+        ere1_0.recorded_at desc
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    where
+        ere1_0.tenant_id=? 
+        and ere1_0.scope=? 
+    order by
+        ere1_0.recorded_at desc
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    left join
+        plant p1_0 
+            on p1_0.id=ere1_0.plant_id 
+    where
+        ere1_0.tenant_id=? 
+        and p1_0.id=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    left join
+        plant p1_0 
+            on p1_0.id=ere1_0.plant_id 
+    where
+        ere1_0.tenant_id=? 
+        and p1_0.id=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    where
+        ere1_0.tenant_id=? 
+        and ere1_0.scope=? 
+    order by
+        ere1_0.recorded_at desc
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    where
+        ere1_0.tenant_id=? 
+        and ere1_0.scope=? 
+    order by
+        ere1_0.recorded_at desc
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    left join
+        plant p1_0 
+            on p1_0.id=ere1_0.plant_id 
+    where
+        ere1_0.tenant_id=? 
+        and p1_0.id=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    left join
+        plant p1_0 
+            on p1_0.id=ere1_0.plant_id 
+    where
+        ere1_0.tenant_id=? 
+        and p1_0.id=?
+Hibernate: 
+    select
+        ite1_0.id,
+        ite1_0.created_at,
+        ite1_0.name 
+    from
+        industry_type ite1_0
+Hibernate: 
+    select
+        ite1_0.id,
+        ite1_0.created_at,
+        ite1_0.name 
+    from
+        industry_type ite1_0
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        te1_0.id,
+        te1_0.active,
+        te1_0.created_at,
+        te1_0.industry_type,
+        te1_0.name 
+    from
+        tenants te1_0 
+    where
+        te1_0.id=?
 Hibernate: 
     insert 
     into
-        audit_logs
-        (action, details, ip_address, resource, resource_id, tenant_id, timestamp, user_id, id) 
+        tenants
+        (active, created_at, industry_type, name, id) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?)
 Hibernate: 
     insert 
     into
-        emission_record
-        (category_id, created_at, custom_category_name, plant_id, recorded_at, scope, tenant_id, total_emission, id) 
+        industry
+        (created_at, industry_type_id, location, name, sector, tenant_id, id) 
     values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    insert 
+    into
+        plant
+        (created_at, industry_id, location, name, tenant_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.id=?
+Hibernate: 
+    insert 
+    into
+        users
+        (email, industry_id, industry_type_id, name, password, role, tenant_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
 Hibernate: 
     select
         ue1_0.id,
@@ -533,7 +1213,712 @@ Hibernate:
         emission_record ere1_0 
     where
         ere1_0.id=?
-2026-03-01 00:31:35 [task-2] INFO  c.c.a.i.service.AuditServiceImpl - Logging audit action: CREATE_EMISSION on resource: EMISSION_RECORD by user: nkm@gmail.com
+2026-03-01 01:16:48 [task-1] INFO  c.c.a.i.service.AuditServiceImpl - Logging audit action: CREATE_EMISSION on resource: EMISSION_RECORD by user: ayush@gmail.com
+Hibernate: 
+    insert 
+    into
+        emission_record
+        (category_id, created_at, custom_category_name, plant_id, recorded_at, scope, tenant_id, total_emission, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        ale1_0.id,
+        ale1_0.action,
+        ale1_0.details,
+        ale1_0.ip_address,
+        ale1_0.resource,
+        ale1_0.resource_id,
+        ale1_0.tenant_id,
+        ale1_0.timestamp,
+        ale1_0.user_id 
+    from
+        audit_logs ale1_0 
+    where
+        ale1_0.id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, details, ip_address, resource, resource_id, tenant_id, timestamp, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    left join
+        plant p1_0 
+            on p1_0.id=ere1_0.plant_id 
+    where
+        ere1_0.tenant_id=? 
+        and p1_0.id=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    left join
+        plant p1_0 
+            on p1_0.id=ere1_0.plant_id 
+    where
+        ere1_0.tenant_id=? 
+        and p1_0.id=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ece1_0.id,
+        ece1_0.category_name,
+        ece1_0.created_at,
+        ece1_0.industry_type_id,
+        ece1_0.is_custom,
+        ece1_0.scope 
+    from
+        emission_category ece1_0 
+    where
+        ece1_0.industry_type_id=? 
+        and ece1_0.scope=?
+Hibernate: 
+    select
+        ite1_0.id,
+        ite1_0.created_at,
+        ite1_0.name 
+    from
+        industry_type ite1_0
+Hibernate: 
+    select
+        ite1_0.id,
+        ite1_0.created_at,
+        ite1_0.name 
+    from
+        industry_type ite1_0
+Hibernate: 
+    select
+        ite1_0.id,
+        ite1_0.created_at,
+        ite1_0.name 
+    from
+        industry_type ite1_0
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    where
+        pe1_0.id=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    where
+        ere1_0.id=?
+2026-03-01 01:17:53 [task-2] INFO  c.c.a.i.service.AuditServiceImpl - Logging audit action: CREATE_EMISSION on resource: EMISSION_RECORD by user: ayush@gmail.com
+Hibernate: 
+    insert 
+    into
+        emission_record
+        (category_id, created_at, custom_category_name, plant_id, recorded_at, scope, tenant_id, total_emission, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        ale1_0.id,
+        ale1_0.action,
+        ale1_0.details,
+        ale1_0.ip_address,
+        ale1_0.resource,
+        ale1_0.resource_id,
+        ale1_0.tenant_id,
+        ale1_0.timestamp,
+        ale1_0.user_id 
+    from
+        audit_logs ale1_0 
+    where
+        ale1_0.id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, details, ip_address, resource, resource_id, tenant_id, timestamp, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    left join
+        plant p1_0 
+            on p1_0.id=ere1_0.plant_id 
+    where
+        ere1_0.tenant_id=? 
+        and p1_0.id=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    left join
+        plant p1_0 
+            on p1_0.id=ere1_0.plant_id 
+    where
+        ere1_0.tenant_id=? 
+        and p1_0.id=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    where
+        ere1_0.tenant_id=? 
+        and ere1_0.scope=? 
+    order by
+        ere1_0.recorded_at desc
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    left join
+        plant p1_0 
+            on p1_0.id=ere1_0.plant_id 
+    where
+        ere1_0.tenant_id=? 
+        and p1_0.id=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    left join
+        plant p1_0 
+            on p1_0.id=ere1_0.plant_id 
+    where
+        ere1_0.tenant_id=? 
+        and p1_0.id=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ece1_0.id,
+        ece1_0.category_name,
+        ece1_0.created_at,
+        ece1_0.industry_type_id,
+        ece1_0.is_custom,
+        ece1_0.scope 
+    from
+        emission_category ece1_0 
+    where
+        ece1_0.industry_type_id=? 
+        and ece1_0.scope=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    where
+        pe1_0.id=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    where
+        ere1_0.id=?
+2026-03-01 01:18:56 [task-3] INFO  c.c.a.i.service.AuditServiceImpl - Logging audit action: CREATE_EMISSION on resource: EMISSION_RECORD by user: nkm@gmail.com
 Hibernate: 
     insert 
     into
@@ -764,6 +2149,20 @@ Hibernate:
         ue1_0.email=?
 Hibernate: 
     select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
         pe1_0.id,
         pe1_0.created_at,
         pe1_0.industry_id,
@@ -772,8 +2171,80 @@ Hibernate:
         pe1_0.tenant_id 
     from
         plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
     where
-        pe1_0.id=?
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    left join
+        plant p1_0 
+            on p1_0.id=ere1_0.plant_id 
+    where
+        ere1_0.tenant_id=? 
+        and p1_0.id=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    left join
+        plant p1_0 
+            on p1_0.id=ere1_0.plant_id 
+    where
+        ere1_0.tenant_id=? 
+        and p1_0.id=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
 Hibernate: 
     select
         ere1_0.id,
@@ -788,37 +2259,134 @@ Hibernate:
     from
         emission_record ere1_0 
     where
-        ere1_0.id=?
-2026-03-01 00:31:52 [task-3] INFO  c.c.a.i.service.AuditServiceImpl - Logging audit action: CREATE_EMISSION on resource: EMISSION_RECORD by user: nkm@gmail.com
-Hibernate: 
-    insert 
-    into
-        emission_record
-        (category_id, created_at, custom_category_name, plant_id, recorded_at, scope, tenant_id, total_emission, id) 
-    values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ere1_0.tenant_id=? 
+        and ere1_0.scope=? 
+    order by
+        ere1_0.recorded_at desc
 Hibernate: 
     select
-        ale1_0.id,
-        ale1_0.action,
-        ale1_0.details,
-        ale1_0.ip_address,
-        ale1_0.resource,
-        ale1_0.resource_id,
-        ale1_0.tenant_id,
-        ale1_0.timestamp,
-        ale1_0.user_id 
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
     from
-        audit_logs ale1_0 
+        users ue1_0 
     where
-        ale1_0.id=?
+        ue1_0.email=?
 Hibernate: 
-    insert 
-    into
-        audit_logs
-        (action, details, ip_address, resource, resource_id, tenant_id, timestamp, user_id, id) 
-    values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    where
+        ere1_0.tenant_id=? 
+        and ere1_0.scope=? 
+    order by
+        ere1_0.recorded_at desc
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
+    from
+        emission_record ere1_0 
+    where
+        ere1_0.tenant_id=? 
+        and ere1_0.scope=? 
+    order by
+        ere1_0.recorded_at desc
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
 Hibernate: 
     select
         ue1_0.id,
@@ -1020,6 +2588,20 @@ Hibernate:
         ue1_0.email=?
 Hibernate: 
     select
+        ue1_0.id,
+        ue1_0.email,
+        ue1_0.industry_id,
+        ue1_0.industry_type_id,
+        ue1_0.name,
+        ue1_0.password,
+        ue1_0.role,
+        ue1_0.tenant_id 
+    from
+        users ue1_0 
+    where
+        ue1_0.email=?
+Hibernate: 
+    select
         pe1_0.id,
         pe1_0.created_at,
         pe1_0.industry_id,
@@ -1028,8 +2610,28 @@ Hibernate:
         pe1_0.tenant_id 
     from
         plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
     where
-        pe1_0.id=?
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
+Hibernate: 
+    select
+        pe1_0.id,
+        pe1_0.created_at,
+        pe1_0.industry_id,
+        pe1_0.location,
+        pe1_0.name,
+        pe1_0.tenant_id 
+    from
+        plant pe1_0 
+    left join
+        industry i1_0 
+            on i1_0.id=pe1_0.industry_id 
+    where
+        pe1_0.tenant_id=? 
+        and i1_0.id=?
 Hibernate: 
     select
         ere1_0.id,
@@ -1043,38 +2645,31 @@ Hibernate:
         ere1_0.total_emission 
     from
         emission_record ere1_0 
+    left join
+        plant p1_0 
+            on p1_0.id=ere1_0.plant_id 
     where
-        ere1_0.id=?
-2026-03-01 00:33:21 [task-4] INFO  c.c.a.i.service.AuditServiceImpl - Logging audit action: CREATE_EMISSION on resource: EMISSION_RECORD by user: nkm@gmail.com
-Hibernate: 
-    insert 
-    into
-        emission_record
-        (category_id, created_at, custom_category_name, plant_id, recorded_at, scope, tenant_id, total_emission, id) 
-    values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ere1_0.tenant_id=? 
+        and p1_0.id=?
 Hibernate: 
     select
-        ale1_0.id,
-        ale1_0.action,
-        ale1_0.details,
-        ale1_0.ip_address,
-        ale1_0.resource,
-        ale1_0.resource_id,
-        ale1_0.tenant_id,
-        ale1_0.timestamp,
-        ale1_0.user_id 
+        ere1_0.id,
+        ere1_0.category_id,
+        ere1_0.created_at,
+        ere1_0.custom_category_name,
+        ere1_0.plant_id,
+        ere1_0.recorded_at,
+        ere1_0.scope,
+        ere1_0.tenant_id,
+        ere1_0.total_emission 
     from
-        audit_logs ale1_0 
+        emission_record ere1_0 
+    left join
+        plant p1_0 
+            on p1_0.id=ere1_0.plant_id 
     where
-        ale1_0.id=?
-Hibernate: 
-    insert 
-    into
-        audit_logs
-        (action, details, ip_address, resource, resource_id, tenant_id, timestamp, user_id, id) 
-    values
-        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ere1_0.tenant_id=? 
+        and p1_0.id=?
 Hibernate: 
     select
         ue1_0.id,

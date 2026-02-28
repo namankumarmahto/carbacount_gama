@@ -22,6 +22,14 @@ export const plantApi = {
 export const dashboardApi = {
     getDashboard: () =>
         axiosInstance.get<ApiResponse<DashboardData>>('/api/dashboard'),
+    getScopeDashboard: (scope: string, startDate?: string, endDate?: string) => {
+        let url = `/api/dashboard/scope/${scope}`;
+        const params = new URLSearchParams();
+        if (startDate) params.append('startDate', startDate);
+        if (endDate) params.append('endDate', endDate);
+        if (params.toString()) url += `?${params.toString()}`;
+        return axiosInstance.get<ApiResponse<import('../types').ScopeDashboardResponse>>(url);
+    }
 };
 
 export const referenceApi = {

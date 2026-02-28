@@ -59,3 +59,17 @@ export interface EmissionCategory {
     categoryName: string;
     isCustom: boolean;
 }
+
+export interface EmissionRecordDetail {
+    id: string;
+    category: string;
+    value: number;
+    recordedAt: string;
+}
+
+export interface ScopeDashboardResponse {
+    scope: string;
+    totalEmission: number;
+    categoryBreakdown: CategoryEmission[];
+    records: EmissionRecordDetail[];
+}

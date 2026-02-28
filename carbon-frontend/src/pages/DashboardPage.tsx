@@ -7,13 +7,18 @@ import {
 } from 'recharts';
 import {
     TrendingDown, TrendingUp, Factory, Zap, Globe, Gauge,
-    Leaf, Info, AlertCircle, BarChart as BarChartIcon
+    Leaf, Info, AlertCircle, BarChart as BarChartIcon, X, Calendar
 } from 'lucide-react';
+import type { ScopeDashboardResponse } from '../types';
 
 const DashboardPage: React.FC = () => {
     const [data, setData] = useState<DashboardData | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+
+    const [selectedScope, setSelectedScope] = useState<string | null>(null);
+    const [scopeDetails, setScopeDetails] = useState<ScopeDashboardResponse | null>(null);
+    const [scopeLoading, setScopeLoading] = useState(false);
 
     useEffect(() => {
         const fetchDashboard = async () => {
@@ -67,6 +72,21 @@ const DashboardPage: React.FC = () => {
         { name: 'Scope 3 (Indirect)', value: data.scope3Total, color: '#f59e0b' },
     ];
 
+    const handleScopeClick = async (scope: string) => {
+        setSelectedScope(scope);
+        setScopeLoading(true);
+        try {
+            const response = await dashboardApi.getScopeDashboard(scope);
+            if (response.data.success) {
+                setScopeDetails(response.data.data);
+            }
+        } catch (err) {
+            console.error("Failed to fetch scope details", err);
+        } finally {
+            setScopeLoading(false);
+        }
+    };
+
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
             {/* Header Section */}
@@ -106,6 +126,7 @@ const DashboardPage: React.FC = () => {
                     trend="-5.1%"
                     trendUp={false}
                     description="Stationary & mobile combustion"
+                    onClick={() => handleScopeClick('SCOPE1')}
                 />
                 <StatCard
                     title="Scope 2 Energy"
@@ -114,6 +135,16 @@ const DashboardPage: React.FC = () => {
                     trend="-1.2%"
                     trendUp={false}
                     description="Purchased electricity & heating"
+                    onClick={() => handleScopeClick('SCOPE2')}
+                />
+                <StatCard
+                    title="Scope 3 Indirect"
+                    value={`${data.scope3Total.toLocaleString()} t`}
+                    icon={<Leaf className="text-orange-400" />}
+                    trend="+2.1%"
+                    trendUp={true}
+                    description="Value chain emissions"
+                    onClick={() => handleScopeClick('SCOPE3')}
                 />
             </div>
 
@@ -227,6 +258,118 @@ const DashboardPage: React.FC = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Scope Details Modal */}
+            {selectedScope && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200">
+                    <div className="bg-slate-900 border border-slate-700/80 rounded-3xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
+                        {/* Modal Header */}
+                        <div className="px-8 py-6 border-b border-slate-800 flex justify-between items-center bg-slate-800/40">
+                            <div>
+                                <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+                                    {selectedScope === 'SCOPE1' && <Factory className="text-emerald-500" />}
+                                    {selectedScope === 'SCOPE2' && <Zap className="text-blue-500" />}
+                                    {selectedScope === 'SCOPE3' && <Leaf className="text-orange-500" />}
+                                    {selectedScope.replace('SCOPE', 'Scope ')} Detailed View
+                                </h2>
+                                <p className="text-slate-400 text-sm mt-1">Deep dive into recorded emissions</p>
+                            </div>
+                            <button
+                                onClick={() => setSelectedScope(null)}
+                                className="p-2 text-slate-400 hover:text-white hover:bg-slate-700 rounded-full transition-colors"
+                            >
+                                <X className="w-6 h-6" />
+                            </button>
+                        </div>
+
+                        {scopeLoading ? (
+                            <div className="p-12 flex flex-col items-center justify-center gap-4 flex-1">
+                                <div className="w-8 h-8 border-4 border-green-500/20 border-t-green-500 rounded-full animate-spin"></div>
+                                <span className="text-slate-400">Loading records...</span>
+                            </div>
+                        ) : scopeDetails ? (
+                            <div className="overflow-y-auto flex-1 p-8 space-y-8 custom-scrollbar">
+                                {/* Details Top row */}
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div className="bg-slate-800/50 rounded-2xl p-6 border border-slate-700/50">
+                                        <p className="text-slate-400 text-sm font-medium mb-1">Total {selectedScope.replace('SCOPE', 'Scope ')} Emission</p>
+                                        <p className="text-3xl font-bold text-white">{scopeDetails.totalEmission.toLocaleString()} <span className="text-lg text-slate-500">tCO2e</span></p>
+                                    </div>
+                                    <div className="md:col-span-2 bg-slate-800/50 rounded-2xl p-6 border border-slate-700/50">
+                                        <p className="text-slate-400 text-sm font-medium mb-3">Category Breakdown</p>
+                                        <div className="space-y-3">
+                                            {scopeDetails.categoryBreakdown.map((cat, idx) => (
+                                                <div key={idx} className="flex justify-between items-center text-sm">
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                                                        <span className="text-slate-300">{cat.categoryName}</span>
+                                                    </div>
+                                                    <span className="text-white font-medium">{cat.totalEmission.toLocaleString()} t</span>
+                                                </div>
+                                            ))}
+                                            {scopeDetails.categoryBreakdown.length === 0 && (
+                                                <span className="text-slate-500">No categories found in this scope.</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Records Table */}
+                                <div>
+                                    <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                                        <Calendar className="w-5 h-5 text-slate-400" />
+                                        Individual Records
+                                    </h3>
+                                    <div className="bg-slate-800/30 rounded-2xl border border-slate-700/50 overflow-hidden">
+                                        <table className="w-full text-left">
+                                            <thead className="bg-slate-800/80 text-slate-400 text-xs uppercase tracking-wider">
+                                                <tr>
+                                                    <th className="px-6 py-4 font-medium">Date</th>
+                                                    <th className="px-6 py-4 font-medium">Category</th>
+                                                    <th className="px-6 py-4 font-medium text-right">Value (tCO2e)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-slate-700/50 text-sm">
+                                                {scopeDetails.records.map((record) => (
+                                                    <tr key={record.id} className="hover:bg-slate-800/50 transition-colors">
+                                                        <td className="px-6 py-4 text-slate-300">
+                                                            {new Date(record.recordedAt).toLocaleDateString(undefined, {
+                                                                year: 'numeric',
+                                                                month: 'short',
+                                                                day: 'numeric'
+                                                            })}
+                                                        </td>
+                                                        <td className="px-6 py-4">
+                                                            <span className="px-3 py-1 bg-slate-700/50 text-slate-300 rounded-full text-xs font-medium border border-slate-600">
+                                                                {record.category}
+                                                            </span>
+                                                        </td>
+                                                        <td className="px-6 py-4 text-right text-white font-mono font-medium">
+                                                            {record.value.toLocaleString()}
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                                {scopeDetails.records.length === 0 && (
+                                                    <tr>
+                                                        <td colSpan={3} className="px-6 py-8 text-center text-slate-500">
+                                                            No emission records found for this scope.
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="p-8 text-center text-red-400 flex-1 flex flex-col justify-center items-center">
+                                <AlertCircle className="w-8 h-8 mb-2" />
+                                Failed to load scope details.
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
@@ -238,8 +381,12 @@ const StatCard: React.FC<{
     trend: string;
     trendUp: boolean;
     description: string;
-}> = ({ title, value, icon, trend, trendUp, description }) => (
-    <div className="bg-slate-800/40 border border-slate-700/50 p-6 rounded-2xl hover:border-slate-600 transition-all group">
+    onClick?: () => void;
+}> = ({ title, value, icon, trend, trendUp, description, onClick }) => (
+    <div
+        onClick={onClick}
+        className={`bg-slate-800/40 border border-slate-700/50 p-6 rounded-2xl transition-all group ${onClick ? 'cursor-pointer hover:border-green-500/50 hover:bg-slate-800/80 hover:scale-[1.02] shadow-sm hover:shadow-green-500/10' : 'hover:border-slate-600'}`}
+    >
         <div className="flex justify-between items-start mb-4">
             <div className="p-3 bg-slate-900 rounded-xl border border-slate-700 group-hover:bg-slate-800 transition-colors">
                 {icon}

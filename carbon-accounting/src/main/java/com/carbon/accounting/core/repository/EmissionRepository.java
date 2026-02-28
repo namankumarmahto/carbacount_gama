@@ -8,4 +8,6 @@ public interface EmissionRepository {
     EmissionRecord save(EmissionRecord record);
 
     List<EmissionRecord> findByTenantAndPlant(UUID tenantId, UUID plantId);
+
+    List<EmissionRecord> findByTenantAndScope(UUID tenantId, String scope);
 }
