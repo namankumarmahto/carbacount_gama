@@ -11,5 +11,14 @@ import java.util.UUID;
 public interface SpringDataEmissionRepository extends JpaRepository<EmissionRecordEntity, UUID> {
     List<EmissionRecordEntity> findByTenantIdAndPlantId(UUID tenantId, UUID plantId);
 
+    List<EmissionRecordEntity> findByTenantIdAndPlantIdAndStatus(UUID tenantId, UUID plantId, String status);
+
     List<EmissionRecordEntity> findByTenantIdAndScopeOrderByRecordedAtDesc(UUID tenantId, String scope);
+
+    List<EmissionRecordEntity> findByTenantIdAndScopeAndStatusOrderByRecordedAtDesc(UUID tenantId, String scope,
+            String status);
+
+    List<EmissionRecordEntity> findByTenantIdOrderByRecordedAtDesc(UUID tenantId);
+
+    List<EmissionRecordEntity> findByTenantIdAndStatusOrderByRecordedAtDesc(UUID tenantId, String status);
 }

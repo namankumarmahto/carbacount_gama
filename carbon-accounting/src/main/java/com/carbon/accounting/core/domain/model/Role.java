@@ -1,7 +1,8 @@
 package com.carbon.accounting.core.domain.model;
 
 public enum Role {
+    OWNER,
     ADMIN,
-    INDUSTRY,
-    AUDITOR
+    DATA_ENTRY,
+    VIEWER
 }

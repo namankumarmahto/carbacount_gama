@@ -20,7 +20,7 @@ public class RealtimeEmissionController {
     private final RealTimeEmissionIngestionService ingestionService;
 
     @PostMapping
-    @PreAuthorize("hasRole('INDUSTRY')")
+    @PreAuthorize("hasRole('INDUSTRY') or hasRole('OWNER')")
     public ResponseEntity<ApiResponse<String>> ingestEmission(@Valid @RequestBody AddEmissionRequestDTO request) {
         ingestionService.ingest(request);
         return ResponseEntity.ok(new ApiResponse<>(true, "Real-time data ingested successfully", null));

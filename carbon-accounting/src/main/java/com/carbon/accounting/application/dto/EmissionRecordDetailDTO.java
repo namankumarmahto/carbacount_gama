@@ -10,6 +10,9 @@ import java.util.UUID;
 public class EmissionRecordDetailDTO {
     private UUID id;
     private String category;
+    private String activityType;
+    private Double activityQuantity;
+    private String activityUnit;
     private Double value;
     private Instant recordedAt;
 }

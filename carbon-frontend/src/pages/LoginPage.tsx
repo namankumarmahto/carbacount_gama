@@ -1,10 +1,25 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 import { authApi } from '../api/services';
 import { useAuth } from '../context/AuthContext';
-import { LogIn, Mail, Lock, ShieldAlert } from 'lucide-react';
+import { getHomePath } from '../routes/AppRoutes';
+import type { User } from '../types';
+import { LogIn, Mail, Lock, ShieldAlert, Users } from 'lucide-react';
+
+const ROLES = ['OWNER', 'ADMIN', 'DATA ENTRY', 'VIEWER'];
+
+// Map display role names → backend JWT role strings
+const ROLE_MAP: Record<string, string> = {
+    'OWNER': 'OWNER',
+    'ADMIN': 'ADMIN',
+    'DATA ENTRY': 'DATA_ENTRY',
+    'VIEWER': 'VIEWER',
+};
 
 const LoginPage: React.FC = () => {
+    const [role, setRole] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -15,15 +30,37 @@ const LoginPage: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!role) {
+            setError('Please select a role before signing in.');
+            return;
+        }
         setLoading(true);
         setError('');
 
         try {
             const response = await authApi.login({ email, password });
             if (response.data.success) {
-                const { token, role, industryId, industryTypeId } = response.data.data;
-                login(token, role, industryId, industryTypeId);
-                navigate('/');
+                const data = response.data.data;
+                const { token, userName, industryName } = data;
+
+                // Decode the JWT to get the ACTUAL role assigned to this account
+                const decoded: any = jwtDecode(token);
+                const actualRole = decoded.role?.replace('ROLE_', '') as User['role'];
+
+                // Enforce role mismatch: the selected role must match the actual account role
+                const expectedRole = ROLE_MAP[role];
+                if (expectedRole !== actualRole) {
+                    setError(
+                        `Access denied. Your account is registered as "${actualRole}", not "${role}". Please select the correct role.`
+                    );
+                    return; // Do NOT store token or redirect
+                }
+
+                // Role matches — proceed with login
+                const industryId = data.industryId || '';
+                const industryTypeId = data.industryTypeId || '';
+                login(token, industryId, industryTypeId, userName, industryName);
+                navigate(getHomePath(actualRole));
             } else {
                 setError(response.data.message);
             }
@@ -54,6 +91,25 @@ const LoginPage: React.FC = () => {
                     )}
 
                     <form onSubmit={handleSubmit} className="space-y-6">
+                        <div>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">Select Role</label>
+                            <div className="relative">
+                                <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                                <select
+                                    className="w-full pl-11 pr-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all appearance-none"
+                                    value={role}
+                                    onChange={(e) => setRole(e.target.value)}
+                                >
+                                    <option value="" disabled>Choose a role...</option>
+                                    {ROLES.map((r) => (
+                                        <option key={r} value={r}>
+                                            {r}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+
                         <div>
                             <label className="block text-sm font-medium text-slate-300 mb-2">Email Address</label>
                             <div className="relative">

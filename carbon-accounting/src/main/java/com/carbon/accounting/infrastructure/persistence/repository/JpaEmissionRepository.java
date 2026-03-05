@@ -39,9 +39,42 @@ public class JpaEmissionRepository implements EmissionRepository {
     }
 
     @Override
+    public List<EmissionRecord> findByTenantAndPlantAndStatus(UUID tenantId, UUID plantId, String status) {
+        return repository.findByTenantIdAndPlantIdAndStatus(tenantId, plantId, status).stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<EmissionRecord> findByTenantAndScope(UUID tenantId, String scope) {
         return repository.findByTenantIdAndScopeOrderByRecordedAtDesc(tenantId, scope).stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EmissionRecord> findByTenantAndScopeAndStatus(UUID tenantId, String scope, String status) {
+        return repository.findByTenantIdAndScopeAndStatusOrderByRecordedAtDesc(tenantId, scope, status).stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EmissionRecord> findByTenant(UUID tenantId) {
+        return repository.findByTenantIdOrderByRecordedAtDesc(tenantId).stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EmissionRecord> findByTenantAndStatus(UUID tenantId, String status) {
+        return repository.findByTenantIdAndStatusOrderByRecordedAtDesc(tenantId, status).stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public java.util.Optional<EmissionRecord> findById(UUID id) {
+        return repository.findById(id).map(mapper::toDomain);
     }
 }

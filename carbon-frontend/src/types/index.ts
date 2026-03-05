@@ -7,9 +7,11 @@ export interface ApiResponse<T> {
 
 export interface User {
     email: string;
-    role: 'ADMIN' | 'INDUSTRY' | 'AUDITOR';
+    role: 'ADMIN' | 'INDUSTRY' | 'AUDITOR' | 'OWNER' | 'DATA_ENTRY' | 'VIEWER';
     industryId: string;
     industryTypeId: string;
+    userName?: string;
+    industryName?: string;
 }
 
 export interface LoginResponse {
@@ -17,14 +19,18 @@ export interface LoginResponse {
     role: string;
     industryId: string;
     industryTypeId: string;
+    userName: string;
+    industryName: string;
 }
 
 export interface EmissionRecord {
     id: string;
+    emissionId?: string;
     plantId: string;
     scope1: number;
     scope2: number;
     scope3: number;
+    calculatedEmission?: number;
     recordedAt: string;
 }
 
@@ -63,6 +69,9 @@ export interface EmissionCategory {
 export interface EmissionRecordDetail {
     id: string;
     category: string;
+    activityType: string;
+    activityQuantity: number;
+    activityUnit: string;
     value: number;
     recordedAt: string;
 }

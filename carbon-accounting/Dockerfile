@@ -6,7 +6,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Run stage
-FROM openjdk:17-jdk-slim
+FROM openjdk:17-jdk-alpine
 WORKDIR /app
 COPY --from=build /app/target/carbon-accounting-*.jar app.jar
 EXPOSE 8080

@@ -1,16 +1,16 @@
 package com.carbon.accounting.interfaces.rest;
 
-import com.carbon.accounting.core.domain.model.Role;
-import com.carbon.accounting.infrastructure.persistence.entity.UserEntity;
-import com.carbon.accounting.infrastructure.persistence.repository.SpringDataUserRepository;
-import com.carbon.accounting.infrastructure.security.JwtTokenProvider;
-import com.carbon.accounting.common.response.ApiResponse;
-import com.carbon.accounting.infrastructure.persistence.entity.IndustryEntity;
-import com.carbon.accounting.infrastructure.persistence.entity.PlantEntity;
-import com.carbon.accounting.infrastructure.persistence.entity.TenantEntity;
-import com.carbon.accounting.infrastructure.persistence.repository.SpringDataIndustryRepository;
-import com.carbon.accounting.infrastructure.persistence.repository.SpringDataPlantRepository;
-import com.carbon.accounting.infrastructure.persistence.repository.SpringDataTenantRepository;
+import com.carbacount.organization.entity.Organization;
+import com.carbacount.organization.entity.OrganizationUser;
+import com.carbacount.organization.repository.OrganizationRepository;
+import com.carbacount.organization.repository.OrganizationUserRepository;
+import com.carbacount.user.entity.Role;
+import com.carbacount.user.entity.User;
+import com.carbacount.user.repository.RoleRepository;
+import com.carbacount.user.repository.UserRepository;
+import com.carbacount.security.JwtUtils;
+import com.carbacount.common.enums.UserStatus;
+import com.carbacount.common.response.ApiResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -24,12 +24,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -38,74 +36,120 @@ import java.util.UUID;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-    private final SpringDataUserRepository userRepository;
-    private final SpringDataIndustryRepository industryRepository;
-    private final SpringDataTenantRepository tenantRepository;
-    private final SpringDataPlantRepository plantRepository;
+    private final UserRepository userRepository;
+    private final OrganizationRepository organizationRepository;
+    private final OrganizationUserRepository organizationUserRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtTokenProvider tokenProvider;
+    private final JwtUtils jwtUtils;
+    private final com.carbon.accounting.infrastructure.persistence.repository.SpringDataIndustryTypeRepository industryTypeRepository;
+    private final com.carbon.accounting.infrastructure.persistence.repository.SpringDataCountryRepository countryRepository;
+    private final com.carbon.accounting.infrastructure.persistence.repository.SpringDataStateRepository stateRepository;
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<JwtAuthenticationResponse>> authenticateUser(
             @Valid @RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()));
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getEmail(),
+                            loginRequest.getPassword()));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = tokenProvider.generateToken(authentication);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtUtils.generateToken(authentication);
 
-        UserEntity user = userRepository.findByEmail(loginRequest.getEmail()).get();
+            User user = userRepository.findByEmail(loginRequest.getEmail())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
 
-        JwtAuthenticationResponse responseData = new JwtAuthenticationResponse(jwt, user.getRole().name(),
-                user.getIndustryId(), user.getIndustryTypeId());
-        return ResponseEntity.ok(new ApiResponse<>(true, "Login successful", responseData));
+            List<OrganizationUser> orgMappings = organizationUserRepository.findByUser(user);
+            String roleName = "VIEWER";
+            String orgName = "Unknown Organization";
+
+            String orgId = null;
+            if (!orgMappings.isEmpty()) {
+                OrganizationUser primaryMapping = orgMappings.get(0);
+                roleName = primaryMapping.getRole().getName();
+                orgName = primaryMapping.getOrganization().getName();
+                orgId = primaryMapping.getOrganization().getId() != null
+                        ? primaryMapping.getOrganization().getId().toString()
+                        : null;
+            }
+
+            JwtAuthenticationResponse responseData = new JwtAuthenticationResponse(jwt,
+                    roleName, user.getFullName(), orgName, orgId);
+            return ResponseEntity.ok(new ApiResponse<>(true, "Login successful", responseData));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, "Auth failure: " + e.getMessage(), null));
+        }
     }
 
     @PostMapping("/register")
+    @Transactional
     public ResponseEntity<ApiResponse<String>> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-        if (userRepository.findByEmail(signUpRequest.getEmail()).isPresent()) {
-            return ResponseEntity.badRequest().body(new ApiResponse<>(false, "Email address already in use!", null));
+        try {
+            if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+                return ResponseEntity.badRequest()
+                        .body(new ApiResponse<>(false, "Email address already in use!", null));
+            }
+
+            // 1. Create User
+            User user = User.builder()
+                    .fullName(signUpRequest.getName())
+                    .email(signUpRequest.getEmail())
+                    .passwordHash(passwordEncoder.encode(signUpRequest.getPassword()))
+                    .status(UserStatus.ACTIVE)
+                    .build();
+            user = userRepository.saveAndFlush(user);
+
+            // Lookup names from UUIDs
+            String industryTypeName = industryTypeRepository.findById(signUpRequest.getIndustryTypeId())
+                    .orElseThrow(() -> new RuntimeException("Invalid Industry Type"))
+                    .getName();
+
+            String countryName = countryRepository.findById(signUpRequest.getCountryId())
+                    .orElseThrow(() -> new RuntimeException("Invalid Country"))
+                    .getName();
+
+            String stateName = null;
+            if (signUpRequest.getStateId() != null) {
+                stateName = stateRepository.findById(signUpRequest.getStateId())
+                        .orElseThrow(() -> new RuntimeException("Invalid State"))
+                        .getName();
+            }
+
+            // 2. Create Organization
+            Organization organization = Organization.builder()
+                    .name(signUpRequest.getIndustryName())
+                    .industryType(industryTypeName)
+                    .country(countryName)
+                    .state(stateName)
+                    .city(signUpRequest.getCity())
+                    .gstNumber(signUpRequest.getGstNumber())
+                    .createdBy(user)
+                    .build();
+            organization = organizationRepository.save(organization);
+
+            // 3. Map User as OWNER
+            Role ownerRole = roleRepository.findByName("OWNER")
+                    .orElseThrow(() -> new RuntimeException("OWNER role not found"));
+
+            // Check if owner already exists for org (strictly enforced by index too)
+            if (organizationUserRepository.existsByOrganizationIdAndRoleName(organization.getId(), "OWNER")) {
+                throw new RuntimeException("An OWNER already exists for this organization");
+            }
+
+            OrganizationUser orgUser = OrganizationUser.builder()
+                    .organization(organization)
+                    .user(user)
+                    .role(ownerRole)
+                    .build();
+            organizationUserRepository.save(orgUser);
+
+            return ResponseEntity.ok(new ApiResponse<>(true, "Registration successful", "OK"));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body(new ApiResponse<>(false, "Registration failed: " + e.getMessage(), null));
         }
-
-        TenantEntity tenant = TenantEntity.builder()
-                .id(UUID.randomUUID())
-                .name(signUpRequest.getIndustryName())
-                .industryType("General")
-                .createdAt(Instant.now())
-                .active(true)
-                .build();
-        tenant = tenantRepository.save(tenant);
-
-        IndustryEntity industry = IndustryEntity.builder()
-                .name(signUpRequest.getIndustryName())
-                .tenantId(tenant.getId())
-                .industryTypeId(signUpRequest.getIndustryTypeId())
-                .build();
-        industry = industryRepository.save(industry);
-
-        PlantEntity defaultPlant = PlantEntity.builder()
-                .name("Main Plant")
-                .location("HQ")
-                .industry(industry)
-                .tenantId(tenant.getId())
-                .build();
-        plantRepository.save(defaultPlant);
-
-        UserEntity user = UserEntity.builder()
-                .id(UUID.randomUUID())
-                .name(signUpRequest.getName())
-                .email(signUpRequest.getEmail())
-                .password(passwordEncoder.encode(signUpRequest.getPassword()))
-                .role(Role.INDUSTRY)
-                .industryId(industry.getId())
-                .industryTypeId(signUpRequest.getIndustryTypeId())
-                .tenantId(tenant.getId())
-                .build();
-        userRepository.save(user);
-
-        return ResponseEntity.ok(new ApiResponse<>(true, "User registered successfully", null));
     }
 
     @Data
@@ -130,6 +174,11 @@ public class AuthController {
         private String industryName;
         @jakarta.validation.constraints.NotNull
         private UUID industryTypeId;
+        @jakarta.validation.constraints.NotNull
+        private UUID countryId;
+        private UUID stateId;
+        private String city;
+        private String gstNumber;
     }
 
     @Data
@@ -138,7 +187,8 @@ public class AuthController {
     public static class JwtAuthenticationResponse {
         private String token;
         private String role;
-        private UUID industryId;
-        private UUID industryTypeId;
+        private String userName;
+        private String industryName;
+        private String industryId; // Organization ID
     }
 }

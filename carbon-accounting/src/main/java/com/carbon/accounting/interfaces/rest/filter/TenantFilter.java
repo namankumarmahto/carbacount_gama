@@ -1,7 +1,7 @@
 package com.carbon.accounting.interfaces.rest.filter;
 
 import com.carbon.accounting.common.util.TenantContext;
-import com.carbon.accounting.infrastructure.security.UserPrincipal;
+import com.carbacount.security.UserPrincipal;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

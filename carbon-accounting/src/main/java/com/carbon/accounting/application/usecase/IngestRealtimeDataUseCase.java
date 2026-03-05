@@ -23,7 +23,9 @@ public class IngestRealtimeDataUseCase {
                 .scope(request.getScope())
                 .categoryId(request.getCategoryId())
                 .customCategoryName(request.getCustomCategoryName())
-                .totalEmission(request.getEmissionValue())
+                .activityType("IoT_INGESTION")
+                .activityQuantity(request.getEmissionValue())
+                .calculatedEmission(request.getEmissionValue())
                 .recordedAt(Instant.now())
                 .createdAt(Instant.now())
                 .build();

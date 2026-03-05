@@ -19,7 +19,8 @@ public class EmissionApplicationMapper {
                 .scope(request.getScope())
                 .categoryId(request.getCategoryId())
                 .customCategoryName(request.getCustomCategoryName())
-                .totalEmission(request.getTotalEmission())
+                .activityType(request.getActivityType())
+                .activityQuantity(request.getQuantity())
                 .recordedAt(request.getRecordedAt())
                 .createdAt(Instant.now())
                 .build();
@@ -30,10 +31,24 @@ public class EmissionApplicationMapper {
             return null;
         return EmissionResponseDTO.builder()
                 .emissionId(record.getId())
-                .totalEmission(record.getTotalEmission())
+                .activityType(record.getActivityType())
+                .activityQuantity(record.getActivityQuantity())
+                .activityUnit(record.getActivityUnit())
+                .emissionFactor(record.getEmissionFactor())
+                .calculatedEmission(record.getCalculatedEmission())
                 .recordedAt(record.getRecordedAt())
                 .plantId(record.getPlantId())
                 .tenantId(record.getTenantId())
+                .department(record.getDepartment())
+                .reportingFrequency(record.getReportingFrequency())
+                .dataSource(record.getDataSource())
+                .evidenceUrl(record.getEvidenceUrl())
+                .status(record.getStatus())
+                .responsiblePerson(record.getResponsiblePerson())
+                .reportingPeriodStart(record.getReportingPeriodStart())
+                .reportingPeriodEnd(record.getReportingPeriodEnd())
+                .fuelType(record.getFuelType())
+                .calorificValue(record.getCalorificValue())
                 .build();
     }
 }

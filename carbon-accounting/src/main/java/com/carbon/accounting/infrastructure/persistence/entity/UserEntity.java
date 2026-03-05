@@ -16,20 +16,22 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(name = "full_name", nullable = false)
     private String name;
 
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "password_hash")
     private String password;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Role role;
+    @Builder.Default
+    private Role role = Role.OWNER;
 
     @Column(name = "industry_id")
     private UUID industryId;
@@ -39,4 +41,15 @@ public class UserEntity {
 
     @Column(name = "tenant_id")
     private UUID tenantId;
+
+    @Column(name = "country_id")
+    private UUID countryId;
+
+    @Column(name = "state_id")
+    private UUID stateId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private com.carbacount.common.enums.UserStatus status = com.carbacount.common.enums.UserStatus.ACTIVE;
 }

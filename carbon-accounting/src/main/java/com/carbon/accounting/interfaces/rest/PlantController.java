@@ -4,7 +4,7 @@ import com.carbon.accounting.application.dto.PlantResponseDTO;
 import com.carbon.accounting.common.response.ApiResponse;
 import com.carbon.accounting.infrastructure.persistence.entity.PlantEntity;
 import com.carbon.accounting.infrastructure.persistence.repository.SpringDataPlantRepository;
-import com.carbon.accounting.infrastructure.security.UserPrincipal;
+import com.carbacount.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,22 +21,22 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PlantController {
 
-    private final SpringDataPlantRepository plantRepository;
+        private final SpringDataPlantRepository plantRepository;
 
-    @GetMapping
-    @PreAuthorize("hasRole('INDUSTRY')")
-    public ResponseEntity<ApiResponse<List<PlantResponseDTO>>> getPlants() {
-        UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                .getPrincipal();
+        @GetMapping
+        @PreAuthorize("hasRole('INDUSTRY') or hasRole('OWNER')")
+        public ResponseEntity<ApiResponse<List<PlantResponseDTO>>> getPlants() {
+                UserPrincipal userPrincipal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
+                                .getPrincipal();
 
-        List<PlantEntity> plants = plantRepository.findByTenantIdAndIndustryId(
-                userPrincipal.getTenantId(),
-                userPrincipal.getIndustryId());
+                List<PlantEntity> plants = plantRepository.findByTenantIdAndIndustryId(
+                                userPrincipal.getTenantId(),
+                                userPrincipal.getIndustryId());
 
-        List<PlantResponseDTO> response = plants.stream()
-                .map(p -> new PlantResponseDTO(p.getId(), p.getName(), p.getLocation()))
-                .collect(Collectors.toList());
+                List<PlantResponseDTO> response = plants.stream()
+                                .map(p -> new PlantResponseDTO(p.getId(), p.getName(), p.getLocation()))
+                                .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new ApiResponse<>(true, "Plants fetched successfully", response));
-    }
+                return ResponseEntity.ok(new ApiResponse<>(true, "Plants fetched successfully", response));
+        }
 }

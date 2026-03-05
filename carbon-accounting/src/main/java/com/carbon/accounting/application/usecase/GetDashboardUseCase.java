@@ -7,7 +7,7 @@ import com.carbon.accounting.core.domain.model.EmissionRecord;
 import com.carbon.accounting.core.domain.model.Plant;
 import com.carbon.accounting.core.repository.EmissionRepository;
 import com.carbon.accounting.core.repository.PlantRepository;
-import com.carbon.accounting.infrastructure.security.UserPrincipal;
+import com.carbacount.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,24 +40,25 @@ public class GetDashboardUseCase {
                 // Find all plants for industry
                 List<Plant> plants = plantRepository.findByTenantAndIndustry(tenantId, industryId);
 
-                // Get all emissions for these plants
+                // Get all emissions for these plants (COMMITTED only)
                 List<EmissionRecord> allEmissions = plants.stream()
-                                .flatMap(plant -> emissionRepository.findByTenantAndPlant(tenantId, plant.getId())
+                                .flatMap(plant -> emissionRepository
+                                                .findByTenantAndPlantAndStatus(tenantId, plant.getId(), "COMMITTED")
                                                 .stream())
                                 .collect(Collectors.toList());
 
                 // Calculate totals
                 double totalScope1 = allEmissions.stream()
                                 .filter(e -> "SCOPE1".equals(e.getScope()))
-                                .mapToDouble(EmissionRecord::getTotalEmission)
+                                .mapToDouble(EmissionRecord::getCalculatedEmission)
                                 .sum();
                 double totalScope2 = allEmissions.stream()
                                 .filter(e -> "SCOPE2".equals(e.getScope()))
-                                .mapToDouble(EmissionRecord::getTotalEmission)
+                                .mapToDouble(EmissionRecord::getCalculatedEmission)
                                 .sum();
                 double totalScope3 = allEmissions.stream()
                                 .filter(e -> "SCOPE3".equals(e.getScope()))
-                                .mapToDouble(EmissionRecord::getTotalEmission)
+                                .mapToDouble(EmissionRecord::getCalculatedEmission)
                                 .sum();
                 double totalEmission = totalScope1 + totalScope2 + totalScope3;
 
@@ -67,7 +68,7 @@ public class GetDashboardUseCase {
                                                 e -> e.getRecordedAt().atZone(ZoneId.of("UTC")).getMonth()
                                                                 .getDisplayName(TextStyle.SHORT, Locale.ENGLISH),
                                                 TreeMap::new,
-                                                Collectors.summingDouble(EmissionRecord::getTotalEmission)));
+                                                Collectors.summingDouble(EmissionRecord::getCalculatedEmission)));
 
                 List<MonthlyTrendDTO> trends = trendsMap.entrySet().stream()
                                 .map(entry -> MonthlyTrendDTO.builder()
@@ -83,7 +84,7 @@ public class GetDashboardUseCase {
                                                                 : (e.getCategoryId() != null
                                                                                 ? e.getCategoryId().toString()
                                                                                 : "Uncategorized"),
-                                                Collectors.summingDouble(EmissionRecord::getTotalEmission)));
+                                                Collectors.summingDouble(EmissionRecord::getCalculatedEmission)));
 
                 List<CategoryEmissionDTO> categoryBreakdown = categoryTotals.entrySet().stream()
                                 .map(entry -> CategoryEmissionDTO.builder()

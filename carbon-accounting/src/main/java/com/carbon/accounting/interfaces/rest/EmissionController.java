@@ -21,7 +21,7 @@ public class EmissionController {
     private final AddEmissionUseCase addEmissionUseCase;
 
     @PostMapping
-    @PreAuthorize("hasRole('INDUSTRY')")
+    @PreAuthorize("hasRole('INDUSTRY') or hasRole('OWNER')")
     public ResponseEntity<ApiResponse<EmissionResponseDTO>> addEmission(
             @Valid @RequestBody AddEmissionRequestDTO request) {
         EmissionResponseDTO response = addEmissionUseCase.execute(request);

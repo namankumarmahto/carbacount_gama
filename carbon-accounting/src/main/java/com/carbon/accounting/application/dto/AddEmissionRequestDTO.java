@@ -16,10 +16,25 @@ public class AddEmissionRequestDTO {
     private UUID categoryId;
     private String customCategoryName;
 
-    @NotNull(message = "Total emission is required")
-    @PositiveOrZero(message = "Total emission must be positive or zero")
-    private Double totalEmission;
+    @NotNull(message = "Activity type is required")
+    private String activityType;
+
+    @NotNull(message = "Quantity is required")
+    @PositiveOrZero(message = "Quantity must be positive or zero")
+    private Double quantity;
 
     @NotNull(message = "Recorded at timestamp is required")
     private Instant recordedAt;
+
+    private String department;
+    private String reportingFrequency;
+    private String dataSource;
+    private String evidenceUrl;
+    private String status;
+    private String responsiblePerson;
+    private Instant reportingPeriodStart;
+    private Instant reportingPeriodEnd;
+    private String fuelType;
+    private UUID fuelTypeId;
+    private Double calorificValue;
 }

@@ -17,16 +17,17 @@ public class DashboardController {
 
     private final GetDashboardUseCase getDashboardUseCase;
     private final com.carbon.accounting.application.usecase.GetScopeDashboardUseCase getScopeDashboardUseCase;
+    private final com.carbon.accounting.application.usecase.GetAllEmissionsUseCase getAllEmissionsUseCase;
 
     @GetMapping
-    @PreAuthorize("hasRole('INDUSTRY') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('INDUSTRY') or hasRole('OWNER') or hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<DashboardResponseDTO>> getDashboard() {
         DashboardResponseDTO response = getDashboardUseCase.execute();
         return ResponseEntity.ok(new ApiResponse<>(true, "Dashboard data fetched successfully", response));
     }
 
     @GetMapping("/scope/{scope}")
-    @PreAuthorize("hasRole('INDUSTRY') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('INDUSTRY') or hasRole('OWNER') or hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<com.carbon.accounting.application.dto.ScopeDashboardResponseDTO>> getScopeDashboard(
             @org.springframework.web.bind.annotation.PathVariable String scope,
             @org.springframework.web.bind.annotation.RequestParam(required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) java.time.Instant startDate,
@@ -35,5 +36,16 @@ public class DashboardController {
         com.carbon.accounting.application.dto.ScopeDashboardResponseDTO response = getScopeDashboardUseCase
                 .execute(scope, startDate, endDate);
         return ResponseEntity.ok(new ApiResponse<>(true, "Scope Dashboard data fetched successfully", response));
+    }
+
+    @GetMapping("/all-emissions")
+    @PreAuthorize("hasRole('INDUSTRY') or hasRole('OWNER') or hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<com.carbon.accounting.application.dto.AllEmissionsResponseDTO>> getAllEmissions(
+            @org.springframework.web.bind.annotation.RequestParam(required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) java.time.Instant startDate,
+            @org.springframework.web.bind.annotation.RequestParam(required = false) @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME) java.time.Instant endDate) {
+
+        com.carbon.accounting.application.dto.AllEmissionsResponseDTO response = getAllEmissionsUseCase
+                .execute(startDate, endDate);
+        return ResponseEntity.ok(new ApiResponse<>(true, "All emissions data fetched successfully", response));
     }
 }

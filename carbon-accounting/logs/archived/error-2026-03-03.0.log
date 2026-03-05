@@ -1,0 +1,66 @@
+2026-03-03 00:25:52 [http-nio-8081-exec-8] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (8a93a673-36e9-4bcc-8d5f-5d74545f131f, 83894e0f-76eb-486f-baa5-32d252308313, aasdfg, India, Andhra Pradesh, daSAFG, 4, AFSDS, INACTIVE, 2026-03-02 22:57:25.896996+05:30, 2026-03-03 00:25:52.630422+05:30).
+2026-03-03 00:26:00 [http-nio-8081-exec-8] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (0d87b67e-fd6f-4cd5-92ad-45078f1332c4, 83894e0f-76eb-486f-baa5-32d252308313, DSFGH, India, Arunachal Pradesh, DFG, 3, DGFH, INACTIVE, 2026-03-02 22:57:53.525594+05:30, 2026-03-03 00:26:00.247683+05:30).
+2026-03-03 00:26:05 [http-nio-8081-exec-2] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (562cbe19-748e-4dd2-9012-f1ed4c320c80, 83894e0f-76eb-486f-baa5-32d252308313, tata steel, India, Jharkhand, Jamshedpur, 1500, steel, INACTIVE, 2026-03-02 22:56:52.012433+05:30, 2026-03-03 00:26:05.921087+05:30).
+2026-03-03 00:29:41 [http-nio-8081-exec-6] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (562cbe19-748e-4dd2-9012-f1ed4c320c80, 83894e0f-76eb-486f-baa5-32d252308313, tata steel, India, Jharkhand, Jamshedpur, 1500, steel, INACTIVE, 2026-03-02 22:56:52.012433+05:30, 2026-03-03 00:29:41.710412+05:30).
+2026-03-03 00:29:44 [http-nio-8081-exec-7] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (562cbe19-748e-4dd2-9012-f1ed4c320c80, 83894e0f-76eb-486f-baa5-32d252308313, tata steel, India, Jharkhand, Jamshedpur, 1500, steel, INACTIVE, 2026-03-02 22:56:52.012433+05:30, 2026-03-03 00:29:44.266248+05:30).
+2026-03-03 00:29:44 [http-nio-8081-exec-8] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (562cbe19-748e-4dd2-9012-f1ed4c320c80, 83894e0f-76eb-486f-baa5-32d252308313, tata steel, India, Jharkhand, Jamshedpur, 1500, steel, INACTIVE, 2026-03-02 22:56:52.012433+05:30, 2026-03-03 00:29:44.838831+05:30).
+2026-03-03 00:29:45 [http-nio-8081-exec-10] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (562cbe19-748e-4dd2-9012-f1ed4c320c80, 83894e0f-76eb-486f-baa5-32d252308313, tata steel, India, Jharkhand, Jamshedpur, 1500, steel, INACTIVE, 2026-03-02 22:56:52.012433+05:30, 2026-03-03 00:29:45.228697+05:30).
+2026-03-03 00:29:45 [http-nio-8081-exec-2] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (562cbe19-748e-4dd2-9012-f1ed4c320c80, 83894e0f-76eb-486f-baa5-32d252308313, tata steel, India, Jharkhand, Jamshedpur, 1500, steel, INACTIVE, 2026-03-02 22:56:52.012433+05:30, 2026-03-03 00:29:45.673921+05:30).
+2026-03-03 00:29:48 [http-nio-8081-exec-4] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (562cbe19-748e-4dd2-9012-f1ed4c320c80, 83894e0f-76eb-486f-baa5-32d252308313, tata steel, India, Jharkhand, Jamshedpur, 1500, steel, INACTIVE, 2026-03-02 22:56:52.012433+05:30, 2026-03-03 00:29:48.990565+05:30).
+2026-03-03 00:29:50 [http-nio-8081-exec-5] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (562cbe19-748e-4dd2-9012-f1ed4c320c80, 83894e0f-76eb-486f-baa5-32d252308313, tata steel, India, Jharkhand, Jamshedpur, 1500, steel, INACTIVE, 2026-03-02 22:56:52.012433+05:30, 2026-03-03 00:29:50.013726+05:30).
+2026-03-03 00:29:51 [http-nio-8081-exec-6] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (562cbe19-748e-4dd2-9012-f1ed4c320c80, 83894e0f-76eb-486f-baa5-32d252308313, tata steel, India, Jharkhand, Jamshedpur, 1500, steel, INACTIVE, 2026-03-02 22:56:52.012433+05:30, 2026-03-03 00:29:51.043417+05:30).
+2026-03-03 00:30:30 [http-nio-8081-exec-1] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (0d87b67e-fd6f-4cd5-92ad-45078f1332c4, 83894e0f-76eb-486f-baa5-32d252308313, DSFGH, India, Arunachal Pradesh, DFG, 3, DGFH, INACTIVE, 2026-03-02 22:57:53.525594+05:30, 2026-03-03 00:30:30.045432+05:30).
+2026-03-03 00:36:55 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8081 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8081 or configure this application to listen on another port.
+
+2026-03-03 01:32:58 [http-nio-8081-exec-2] ERROR c.c.security.JwtAuthenticationFilter - Cannot set user authentication: User not found with email : naman@gmail.com
+2026-03-03 01:33:07 [http-nio-8081-exec-4] ERROR c.c.security.JwtAuthenticationFilter - Cannot set user authentication: User not found with email : naman@gmail.com
+2026-03-03 01:33:46 [http-nio-8081-exec-6] ERROR c.c.security.JwtAuthenticationFilter - Cannot set user authentication: User not found with email : naman@gmail.com
+2026-03-03 01:33:47 [http-nio-8081-exec-7] ERROR c.c.security.JwtAuthenticationFilter - Cannot set user authentication: User not found with email : naman@gmail.com
+2026-03-03 23:11:39 [http-nio-8081-exec-8] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T17:41:39Z, a difference of 5229376 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:11:39 [http-nio-8081-exec-7] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T17:41:39Z, a difference of 5229376 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:11:39 [http-nio-8081-exec-1] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T17:41:39Z, a difference of 5229376 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:11:39 [http-nio-8081-exec-5] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T17:41:39Z, a difference of 5229376 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:33:57 [http-nio-8081-exec-1] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:03:57Z, a difference of 6567184 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:33:57 [http-nio-8081-exec-3] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:03:57Z, a difference of 6567184 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:33:57 [http-nio-8081-exec-9] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:03:57Z, a difference of 6567184 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:33:57 [http-nio-8081-exec-8] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:03:57Z, a difference of 6567184 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:35:25 [http-nio-8081-exec-5] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:05:25Z, a difference of 6655500 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:35:25 [http-nio-8081-exec-9] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:05:25Z, a difference of 6655500 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:35:25 [http-nio-8081-exec-1] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:05:25Z, a difference of 6655500 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:35:25 [http-nio-8081-exec-6] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:05:25Z, a difference of 6655500 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:35:28 [http-nio-8081-exec-4] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:05:28Z, a difference of 6658524 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:35:28 [http-nio-8081-exec-2] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:05:28Z, a difference of 6658524 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:35:28 [http-nio-8081-exec-7] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:05:28Z, a difference of 6658533 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:35:28 [http-nio-8081-exec-3] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:05:28Z, a difference of 6658533 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:35:30 [http-nio-8081-exec-1] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:05:30Z, a difference of 6660258 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:35:30 [http-nio-8081-exec-6] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:05:30Z, a difference of 6660258 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:35:30 [http-nio-8081-exec-5] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:05:30Z, a difference of 6660258 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:35:30 [http-nio-8081-exec-9] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:05:30Z, a difference of 6660258 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:35:33 [http-nio-8081-exec-1] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:05:33Z, a difference of 6663230 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:35:33 [http-nio-8081-exec-7] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:05:33Z, a difference of 6663230 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:35:33 [http-nio-8081-exec-3] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:05:33Z, a difference of 6663230 milliseconds.  Allowed clock skew: 0 milliseconds.
+2026-03-03 23:35:33 [http-nio-8081-exec-5] ERROR com.carbacount.security.JwtUtils - JWT token is expired: JWT expired at 2026-03-03T16:14:30Z. Current time: 2026-03-03T18:05:33Z, a difference of 6663237 milliseconds.  Allowed clock skew: 0 milliseconds.

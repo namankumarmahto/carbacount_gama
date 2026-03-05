@@ -1,0 +1,3233 @@
+nohup: ignoring input
+00:23:59,015 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 1.4.14
+00:23:59,018 |-INFO in ch.qos.logback.classic.util.ContextInitializer@60975100 - Here is a list of configurators discovered as a service, by rank: 
+00:23:59,019 |-INFO in ch.qos.logback.classic.util.ContextInitializer@60975100 -   org.springframework.boot.logging.logback.RootLogLevelConfigurator
+00:23:59,019 |-INFO in ch.qos.logback.classic.util.ContextInitializer@60975100 - They will be invoked in order until ExecutionStatus.DO_NOT_INVOKE_NEXT_IF_ANY is returned.
+00:23:59,019 |-INFO in ch.qos.logback.classic.util.ContextInitializer@60975100 - Constructed configurator of type class org.springframework.boot.logging.logback.RootLogLevelConfigurator
+00:23:59,023 |-INFO in ch.qos.logback.classic.util.ContextInitializer@60975100 - org.springframework.boot.logging.logback.RootLogLevelConfigurator.configure() call lasted 0 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+00:23:59,023 |-INFO in ch.qos.logback.classic.util.ContextInitializer@60975100 - Trying to configure with ch.qos.logback.classic.joran.SerializedModelConfigurator
+00:23:59,024 |-INFO in ch.qos.logback.classic.util.ContextInitializer@60975100 - Constructed configurator of type class ch.qos.logback.classic.joran.SerializedModelConfigurator
+00:23:59,026 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.scmo]
+00:23:59,027 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.scmo]
+00:23:59,027 |-INFO in ch.qos.logback.classic.util.ContextInitializer@60975100 - ch.qos.logback.classic.joran.SerializedModelConfigurator.configure() call lasted 3 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+00:23:59,027 |-INFO in ch.qos.logback.classic.util.ContextInitializer@60975100 - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+00:23:59,028 |-INFO in ch.qos.logback.classic.util.ContextInitializer@60975100 - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+00:23:59,028 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+00:23:59,029 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.xml]
+00:23:59,029 |-INFO in ch.qos.logback.classic.util.ContextInitializer@60975100 - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 1 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+00:23:59,029 |-INFO in ch.qos.logback.classic.util.ContextInitializer@60975100 - Trying to configure with ch.qos.logback.classic.BasicConfigurator
+00:23:59,030 |-INFO in ch.qos.logback.classic.util.ContextInitializer@60975100 - Constructed configurator of type class ch.qos.logback.classic.BasicConfigurator
+00:23:59,030 |-INFO in ch.qos.logback.classic.BasicConfigurator@1253e7cb - Setting up default configuration.
+00:23:59,044 |-INFO in ch.qos.logback.classic.util.ContextInitializer@60975100 - ch.qos.logback.classic.BasicConfigurator.configure() call lasted 14 milliseconds. ExecutionStatus=NEUTRAL
+00:23:59,441 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@2d36e77e - URL [jar:nested:/home/naman/Desktop/carbacount_gama/carbon-accounting/target/carbon-accounting-0.0.1-SNAPSHOT.jar/!BOOT-INF/classes/!/logback-spring.xml] is not of type file
+00:23:59,505 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [Console]
+00:23:59,505 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+00:23:59,523 |-WARN in ch.qos.logback.core.ConsoleAppender[Console] - This appender no longer admits a layout as a sub-component, set an encoder instead.
+00:23:59,523 |-WARN in ch.qos.logback.core.ConsoleAppender[Console] - To ensure compatibility, wrapping your layout in LayoutWrappingEncoder.
+00:23:59,523 |-WARN in ch.qos.logback.core.ConsoleAppender[Console] - See also http://logback.qos.ch/codes.html#layoutInsteadOfEncoder for details
+00:23:59,523 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [RollingFile]
+00:23:59,523 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.rolling.RollingFileAppender]
+00:23:59,533 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1640612861 - No compression will be used
+00:23:59,534 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@1640612861 - Will use the pattern ./logs/archived/application-%d{yyyy-MM-dd}.%i.log for the active file
+00:23:59,549 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@3b0c9195 - The date pattern is 'yyyy-MM-dd' from file name pattern './logs/archived/application-%d{yyyy-MM-dd}.%i.log'.
+00:23:59,549 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@3b0c9195 - Roll-over at midnight.
+00:23:59,553 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@3b0c9195 - Setting initial period to 2026-03-02T18:53:57.743Z
+00:23:59,553 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@3b0c9195 - SizeAndTimeBasedFNATP is deprecated. Use SizeAndTimeBasedRollingPolicy instead
+00:23:59,553 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@3b0c9195 - For more information see http://logback.qos.ch/manual/appenders.html#SizeAndTimeBasedRollingPolicy
+00:23:59,561 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[RollingFile] - Active log file name: ./logs/application.log
+00:23:59,561 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[RollingFile] - File property is set to [./logs/application.log]
+00:23:59,562 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [ErrorFile]
+00:23:59,562 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.rolling.RollingFileAppender]
+00:23:59,565 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@913065088 - No compression will be used
+00:23:59,565 |-INFO in c.q.l.core.rolling.TimeBasedRollingPolicy@913065088 - Will use the pattern ./logs/archived/error-%d{yyyy-MM-dd}.%i.log for the active file
+00:23:59,565 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@2c7b5824 - The date pattern is 'yyyy-MM-dd' from file name pattern './logs/archived/error-%d{yyyy-MM-dd}.%i.log'.
+00:23:59,565 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@2c7b5824 - Roll-over at midnight.
+00:23:59,566 |-INFO in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@2c7b5824 - Setting initial period to 2026-03-02T16:10:58.695Z
+00:23:59,566 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@2c7b5824 - SizeAndTimeBasedFNATP is deprecated. Use SizeAndTimeBasedRollingPolicy instead
+00:23:59,566 |-WARN in ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP@2c7b5824 - For more information see http://logback.qos.ch/manual/appenders.html#SizeAndTimeBasedRollingPolicy
+00:23:59,566 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[ErrorFile] - Active log file name: ./logs/error.log
+00:23:59,566 |-INFO in ch.qos.logback.core.rolling.RollingFileAppender[ErrorFile] - File property is set to [./logs/error.log]
+00:23:59,567 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+00:23:59,567 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@302a07d - Propagating INFO level on Logger[ROOT] onto the JUL framework
+00:23:59,568 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [RollingFile] to Logger[ROOT]
+00:23:59,568 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [Console] to Logger[ROOT]
+00:23:59,568 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [ErrorFile] to Logger[ROOT]
+00:23:59,568 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting level of logger [com.carbon.accounting] to INFO
+00:23:59,568 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@302a07d - Propagating INFO level on Logger[com.carbon.accounting] onto the JUL framework
+00:23:59,570 |-INFO in ch.qos.logback.classic.model.processor.LoggerModelHandler - Setting additivity of logger [com.carbon.accounting] to false
+00:23:59,570 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [RollingFile] to Logger[com.carbon.accounting]
+00:23:59,570 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [Console] to Logger[com.carbon.accounting]
+00:23:59,570 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [ErrorFile] to Logger[com.carbon.accounting]
+00:23:59,571 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@5cdd09b1 - End of configuration.
+00:23:59,571 |-INFO in org.springframework.boot.logging.logback.SpringBootJoranConfigurator@8c11eee - Registering current configuration as safe fallback point
+
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.3)
+
+2026-03-03 00:23:59 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2026-03-03 00:23:59 [main] INFO  c.carbacount.CarbaCountApplication - Starting CarbaCountApplication v0.0.1-SNAPSHOT using Java 17.0.17 with PID 607948 (/home/naman/Desktop/carbacount_gama/carbon-accounting/target/carbon-accounting-0.0.1-SNAPSHOT.jar started by naman in /home/naman/Desktop/carbacount_gama/carbon-accounting)
+2026-03-03 00:23:59 [main] INFO  c.carbacount.CarbaCountApplication - No active profile set, falling back to 1 default profile: "default"
+2026-03-03 00:24:00 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-03-03 00:24:00 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-03 00:24:00 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 151 ms. Found 28 JPA repository interfaces.
+2026-03-03 00:24:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2026-03-03 00:24:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-03-03 00:24:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbacount.reporting.repository.ReportingYearRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-03 00:24:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbacount.facility.repository.FacilityRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-03 00:24:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbacount.facility.repository.FacilityUserMappingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-03 00:24:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbacount.audit.repository.AuditLogRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-03 00:24:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbacount.user.repository.RoleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-03 00:24:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbacount.user.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-03 00:24:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbacount.emissions.repository.Scope3ActivityRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-03 00:24:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbacount.emissions.repository.FuelConsumptionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-03 00:24:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbacount.emissions.repository.EmissionResultRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-03 00:24:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbacount.emissions.repository.EmissionFactorRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-03 00:24:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbacount.emissions.repository.ElectricityConsumptionRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-03 00:24:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbacount.organization.repository.OrganizationUserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-03 00:24:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbacount.organization.repository.OrganizationRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-03 00:24:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationExtensionSupport - Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.carbacount.auth.repository.InvitationTokenRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-03-03 00:24:01 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 14 ms. Found 0 Redis repository interfaces.
+2026-03-03 00:24:02 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8081 (http)
+2026-03-03 00:24:02 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8081"]
+2026-03-03 00:24:02 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-03-03 00:24:02 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2026-03-03 00:24:02 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-03-03 00:24:02 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2293 ms
+2026-03-03 00:24:02 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-03-03 00:24:02 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@56da8847
+2026-03-03 00:24:02 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-03-03 00:24:02 [main] INFO  o.f.c.i.license.VersionPrinter - Flyway Community Edition 9.22.3 by Redgate
+2026-03-03 00:24:02 [main] INFO  o.f.c.i.license.VersionPrinter - See release notes here: https://rd.gt/416ObMi
+2026-03-03 00:24:02 [main] INFO  o.f.c.i.license.VersionPrinter - 
+2026-03-03 00:24:02 [main] INFO  org.flywaydb.core.FlywayExecutor - Database: jdbc:postgresql://localhost:5433/carbon_db (PostgreSQL 18.3)
+2026-03-03 00:24:02 [main] WARN  o.f.c.i.database.base.Database - Flyway upgrade recommended: PostgreSQL 18.3 is newer than this version of Flyway and support has not been tested. The latest supported version of PostgreSQL is 15.
+2026-03-03 00:24:02 [main] INFO  o.f.c.i.s.JdbcTableSchemaHistory - Repair of failed migration in Schema History table "public"."flyway_schema_history" not necessary. No failed migration detected.
+2026-03-03 00:24:02 [main] INFO  o.f.core.internal.command.DbRepair - Successfully repaired schema history table "public"."flyway_schema_history" (execution time 00:00.029s).
+2026-03-03 00:24:02 [main] WARN  o.f.c.i.database.base.Database - Flyway upgrade recommended: PostgreSQL 18.3 is newer than this version of Flyway and support has not been tested. The latest supported version of PostgreSQL is 15.
+2026-03-03 00:24:02 [main] INFO  o.f.core.internal.command.DbValidate - Successfully validated 2 migrations (execution time 00:00.005s)
+2026-03-03 00:24:02 [main] INFO  o.f.core.internal.command.DbMigrate - Current version of schema "public": 2
+2026-03-03 00:24:02 [main] INFO  o.f.core.internal.command.DbMigrate - Schema "public" is up to date. No migration necessary.
+2026-03-03 00:24:02 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-03 00:24:02 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2026-03-03 00:24:02 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-03-03 00:24:03 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-03 00:24:03 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-03 00:24:04 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-03 00:24:04 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-03 00:24:05 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-03 00:24:06 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator'
+2026-03-03 00:24:06 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4970b93d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2c43da32, org.springframework.security.web.context.SecurityContextHolderFilter@40957c86, org.springframework.security.web.header.HeaderWriterFilter@2c7178ed, org.springframework.web.filter.CorsFilter@39e16443, org.springframework.security.web.authentication.logout.LogoutFilter@10939bc1, com.carbacount.security.JwtAuthenticationFilter@5698a866, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@54898111, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@39dbea69, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5c97d5d, org.springframework.security.web.session.SessionManagementFilter@1933e1dc, org.springframework.security.web.access.ExceptionTranslationFilter@9acee30, org.springframework.security.web.access.intercept.AuthorizationFilter@5a30ab46]
+2026-03-03 00:24:07 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8081"]
+2026-03-03 00:24:07 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8081 (http) with context path ''
+2026-03-03 00:24:07 [main] INFO  c.carbacount.CarbaCountApplication - Started CarbaCountApplication in 7.956 seconds (process running for 8.374)
+2026-03-03 00:25:30 [http-nio-8081-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-03 00:25:30 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-03-03 00:25:30 [http-nio-8081-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    where
+        f1_0.id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, created_at, details, module, organization_id, reference_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        facilities 
+    set
+        city=?,
+        country=?,
+        name=?,
+        organization_id=?,
+        product_type=?,
+        production_capacity=?,
+        state=?,
+        status=?,
+        updated_at=? 
+    where
+        id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    where
+        f1_0.id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, created_at, details, module, organization_id, reference_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        facilities 
+    set
+        city=?,
+        country=?,
+        name=?,
+        organization_id=?,
+        product_type=?,
+        production_capacity=?,
+        state=?,
+        status=?,
+        updated_at=? 
+    where
+        id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    where
+        f1_0.id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, created_at, details, module, organization_id, reference_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        facilities 
+    set
+        city=?,
+        country=?,
+        name=?,
+        organization_id=?,
+        product_type=?,
+        production_capacity=?,
+        state=?,
+        status=?,
+        updated_at=? 
+    where
+        id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    where
+        f1_0.id=?
+Hibernate: 
+    select
+        fum1_0.id,
+        fum1_0.created_at,
+        fum1_0.facility_id,
+        fum1_0.user_id 
+    from
+        facility_user_mapping fum1_0 
+    where
+        fum1_0.facility_id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, created_at, details, module, organization_id, reference_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    delete 
+    from
+        facilities 
+    where
+        id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ce1_0.id,
+        ce1_0.name 
+    from
+        country ce1_0
+Hibernate: 
+    select
+        ce1_0.id,
+        ce1_0.name 
+    from
+        country ce1_0
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    left join
+        organizations o1_0 
+            on o1_0.id=f1_0.organization_id 
+    where
+        o1_0.id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    left join
+        organizations o1_0 
+            on o1_0.id=f1_0.organization_id 
+    where
+        o1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    where
+        f1_0.id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, created_at, details, module, organization_id, reference_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        facilities 
+    set
+        city=?,
+        country=?,
+        name=?,
+        organization_id=?,
+        product_type=?,
+        production_capacity=?,
+        state=?,
+        status=?,
+        updated_at=? 
+    where
+        id=?
+2026-03-03 00:25:52 [http-nio-8081-exec-8] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 23514
+2026-03-03 00:25:52 [http-nio-8081-exec-8] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (8a93a673-36e9-4bcc-8d5f-5d74545f131f, 83894e0f-76eb-486f-baa5-32d252308313, aasdfg, India, Andhra Pradesh, daSAFG, 4, AFSDS, INACTIVE, 2026-03-02 22:57:25.896996+05:30, 2026-03-03 00:25:52.630422+05:30).
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ce1_0.id,
+        ce1_0.name 
+    from
+        country ce1_0
+Hibernate: 
+    select
+        ce1_0.id,
+        ce1_0.name 
+    from
+        country ce1_0
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    left join
+        organizations o1_0 
+            on o1_0.id=f1_0.organization_id 
+    where
+        o1_0.id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    left join
+        organizations o1_0 
+            on o1_0.id=f1_0.organization_id 
+    where
+        o1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    where
+        f1_0.id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, created_at, details, module, organization_id, reference_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        facilities 
+    set
+        city=?,
+        country=?,
+        name=?,
+        organization_id=?,
+        product_type=?,
+        production_capacity=?,
+        state=?,
+        status=?,
+        updated_at=? 
+    where
+        id=?
+2026-03-03 00:26:00 [http-nio-8081-exec-8] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 23514
+2026-03-03 00:26:00 [http-nio-8081-exec-8] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (0d87b67e-fd6f-4cd5-92ad-45078f1332c4, 83894e0f-76eb-486f-baa5-32d252308313, DSFGH, India, Arunachal Pradesh, DFG, 3, DGFH, INACTIVE, 2026-03-02 22:57:53.525594+05:30, 2026-03-03 00:26:00.247683+05:30).
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    where
+        f1_0.id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, created_at, details, module, organization_id, reference_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        facilities 
+    set
+        city=?,
+        country=?,
+        name=?,
+        organization_id=?,
+        product_type=?,
+        production_capacity=?,
+        state=?,
+        status=?,
+        updated_at=? 
+    where
+        id=?
+2026-03-03 00:26:05 [http-nio-8081-exec-2] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 23514
+2026-03-03 00:26:05 [http-nio-8081-exec-2] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (562cbe19-748e-4dd2-9012-f1ed4c320c80, 83894e0f-76eb-486f-baa5-32d252308313, tata steel, India, Jharkhand, Jamshedpur, 1500, steel, INACTIVE, 2026-03-02 22:56:52.012433+05:30, 2026-03-03 00:26:05.921087+05:30).
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    where
+        f1_0.id=?
+Hibernate: 
+    select
+        fum1_0.id,
+        fum1_0.created_at,
+        fum1_0.facility_id,
+        fum1_0.user_id 
+    from
+        facility_user_mapping fum1_0 
+    where
+        fum1_0.facility_id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, created_at, details, module, organization_id, reference_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    delete 
+    from
+        facilities 
+    where
+        id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    where
+        f1_0.id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, created_at, details, module, organization_id, reference_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        facilities 
+    set
+        city=?,
+        country=?,
+        name=?,
+        organization_id=?,
+        product_type=?,
+        production_capacity=?,
+        state=?,
+        status=?,
+        updated_at=? 
+    where
+        id=?
+2026-03-03 00:29:41 [http-nio-8081-exec-6] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 23514
+2026-03-03 00:29:41 [http-nio-8081-exec-6] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (562cbe19-748e-4dd2-9012-f1ed4c320c80, 83894e0f-76eb-486f-baa5-32d252308313, tata steel, India, Jharkhand, Jamshedpur, 1500, steel, INACTIVE, 2026-03-02 22:56:52.012433+05:30, 2026-03-03 00:29:41.710412+05:30).
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    where
+        f1_0.id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, created_at, details, module, organization_id, reference_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        facilities 
+    set
+        city=?,
+        country=?,
+        name=?,
+        organization_id=?,
+        product_type=?,
+        production_capacity=?,
+        state=?,
+        status=?,
+        updated_at=? 
+    where
+        id=?
+2026-03-03 00:29:44 [http-nio-8081-exec-7] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 23514
+2026-03-03 00:29:44 [http-nio-8081-exec-7] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (562cbe19-748e-4dd2-9012-f1ed4c320c80, 83894e0f-76eb-486f-baa5-32d252308313, tata steel, India, Jharkhand, Jamshedpur, 1500, steel, INACTIVE, 2026-03-02 22:56:52.012433+05:30, 2026-03-03 00:29:44.266248+05:30).
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    where
+        f1_0.id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, created_at, details, module, organization_id, reference_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        facilities 
+    set
+        city=?,
+        country=?,
+        name=?,
+        organization_id=?,
+        product_type=?,
+        production_capacity=?,
+        state=?,
+        status=?,
+        updated_at=? 
+    where
+        id=?
+2026-03-03 00:29:44 [http-nio-8081-exec-8] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 23514
+2026-03-03 00:29:44 [http-nio-8081-exec-8] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (562cbe19-748e-4dd2-9012-f1ed4c320c80, 83894e0f-76eb-486f-baa5-32d252308313, tata steel, India, Jharkhand, Jamshedpur, 1500, steel, INACTIVE, 2026-03-02 22:56:52.012433+05:30, 2026-03-03 00:29:44.838831+05:30).
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    where
+        f1_0.id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, created_at, details, module, organization_id, reference_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        facilities 
+    set
+        city=?,
+        country=?,
+        name=?,
+        organization_id=?,
+        product_type=?,
+        production_capacity=?,
+        state=?,
+        status=?,
+        updated_at=? 
+    where
+        id=?
+2026-03-03 00:29:45 [http-nio-8081-exec-10] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 23514
+2026-03-03 00:29:45 [http-nio-8081-exec-10] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (562cbe19-748e-4dd2-9012-f1ed4c320c80, 83894e0f-76eb-486f-baa5-32d252308313, tata steel, India, Jharkhand, Jamshedpur, 1500, steel, INACTIVE, 2026-03-02 22:56:52.012433+05:30, 2026-03-03 00:29:45.228697+05:30).
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    where
+        f1_0.id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, created_at, details, module, organization_id, reference_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        facilities 
+    set
+        city=?,
+        country=?,
+        name=?,
+        organization_id=?,
+        product_type=?,
+        production_capacity=?,
+        state=?,
+        status=?,
+        updated_at=? 
+    where
+        id=?
+2026-03-03 00:29:45 [http-nio-8081-exec-2] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 23514
+2026-03-03 00:29:45 [http-nio-8081-exec-2] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (562cbe19-748e-4dd2-9012-f1ed4c320c80, 83894e0f-76eb-486f-baa5-32d252308313, tata steel, India, Jharkhand, Jamshedpur, 1500, steel, INACTIVE, 2026-03-02 22:56:52.012433+05:30, 2026-03-03 00:29:45.673921+05:30).
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        se1_0.id,
+        se1_0.country_id,
+        se1_0.name 
+    from
+        state se1_0 
+    left join
+        country c1_0 
+            on c1_0.id=se1_0.country_id 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    where
+        f1_0.id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, created_at, details, module, organization_id, reference_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        facilities 
+    set
+        city=?,
+        country=?,
+        name=?,
+        organization_id=?,
+        product_type=?,
+        production_capacity=?,
+        state=?,
+        status=?,
+        updated_at=? 
+    where
+        id=?
+2026-03-03 00:29:48 [http-nio-8081-exec-4] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 23514
+2026-03-03 00:29:48 [http-nio-8081-exec-4] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (562cbe19-748e-4dd2-9012-f1ed4c320c80, 83894e0f-76eb-486f-baa5-32d252308313, tata steel, India, Jharkhand, Jamshedpur, 1500, steel, INACTIVE, 2026-03-02 22:56:52.012433+05:30, 2026-03-03 00:29:48.990565+05:30).
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    where
+        f1_0.id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, created_at, details, module, organization_id, reference_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        facilities 
+    set
+        city=?,
+        country=?,
+        name=?,
+        organization_id=?,
+        product_type=?,
+        production_capacity=?,
+        state=?,
+        status=?,
+        updated_at=? 
+    where
+        id=?
+2026-03-03 00:29:50 [http-nio-8081-exec-5] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 23514
+2026-03-03 00:29:50 [http-nio-8081-exec-5] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (562cbe19-748e-4dd2-9012-f1ed4c320c80, 83894e0f-76eb-486f-baa5-32d252308313, tata steel, India, Jharkhand, Jamshedpur, 1500, steel, INACTIVE, 2026-03-02 22:56:52.012433+05:30, 2026-03-03 00:29:50.013726+05:30).
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    where
+        f1_0.id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, created_at, details, module, organization_id, reference_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        facilities 
+    set
+        city=?,
+        country=?,
+        name=?,
+        organization_id=?,
+        product_type=?,
+        production_capacity=?,
+        state=?,
+        status=?,
+        updated_at=? 
+    where
+        id=?
+2026-03-03 00:29:51 [http-nio-8081-exec-6] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 23514
+2026-03-03 00:29:51 [http-nio-8081-exec-6] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (562cbe19-748e-4dd2-9012-f1ed4c320c80, 83894e0f-76eb-486f-baa5-32d252308313, tata steel, India, Jharkhand, Jamshedpur, 1500, steel, INACTIVE, 2026-03-02 22:56:52.012433+05:30, 2026-03-03 00:29:51.043417+05:30).
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        se1_0.id,
+        se1_0.country_id,
+        se1_0.name 
+    from
+        state se1_0 
+    left join
+        country c1_0 
+            on c1_0.id=se1_0.country_id 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    where
+        f1_0.id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, created_at, details, module, organization_id, reference_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        facilities 
+    set
+        city=?,
+        country=?,
+        name=?,
+        organization_id=?,
+        product_type=?,
+        production_capacity=?,
+        state=?,
+        status=?,
+        updated_at=? 
+    where
+        id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ce1_0.id,
+        ce1_0.name 
+    from
+        country ce1_0
+Hibernate: 
+    select
+        ce1_0.id,
+        ce1_0.name 
+    from
+        country ce1_0
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    left join
+        organizations o1_0 
+            on o1_0.id=f1_0.organization_id 
+    where
+        o1_0.id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    left join
+        organizations o1_0 
+            on o1_0.id=f1_0.organization_id 
+    where
+        o1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        se1_0.id,
+        se1_0.country_id,
+        se1_0.name 
+    from
+        state se1_0 
+    left join
+        country c1_0 
+            on c1_0.id=se1_0.country_id 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        se1_0.id,
+        se1_0.country_id,
+        se1_0.name 
+    from
+        state se1_0 
+    left join
+        country c1_0 
+            on c1_0.id=se1_0.country_id 
+    where
+        c1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    where
+        f1_0.id=?
+Hibernate: 
+    insert 
+    into
+        audit_logs
+        (action, created_at, details, module, organization_id, reference_id, user_id, id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+Hibernate: 
+    update
+        facilities 
+    set
+        city=?,
+        country=?,
+        name=?,
+        organization_id=?,
+        product_type=?,
+        production_capacity=?,
+        state=?,
+        status=?,
+        updated_at=? 
+    where
+        id=?
+2026-03-03 00:30:30 [http-nio-8081-exec-1] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 23514
+2026-03-03 00:30:30 [http-nio-8081-exec-1] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - ERROR: new row for relation "facilities" violates check constraint "facilities_status_check"
+  Detail: Failing row contains (0d87b67e-fd6f-4cd5-92ad-45078f1332c4, 83894e0f-76eb-486f-baa5-32d252308313, DSFGH, India, Arunachal Pradesh, DFG, 3, DGFH, INACTIVE, 2026-03-02 22:57:53.525594+05:30, 2026-03-03 00:30:30.045432+05:30).
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    left join
+        organizations o1_0 
+            on o1_0.id=f1_0.organization_id 
+    where
+        o1_0.id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    left join
+        organizations o1_0 
+            on o1_0.id=f1_0.organization_id 
+    where
+        o1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    left join
+        organizations o1_0 
+            on o1_0.id=f1_0.organization_id 
+    where
+        o1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    left join
+        organizations o1_0 
+            on o1_0.id=f1_0.organization_id 
+    where
+        o1_0.id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        ce1_0.id,
+        ce1_0.name 
+    from
+        country ce1_0
+Hibernate: 
+    select
+        ce1_0.id,
+        ce1_0.name 
+    from
+        country ce1_0
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        r1_0.id,
+        r1_0.name 
+    from
+        roles r1_0 
+    where
+        r1_0.id=?
+Hibernate: 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.full_name,
+        u1_0.password_hash,
+        u1_0.status,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+Hibernate: 
+    select
+        ce1_0.id,
+        ce1_0.name 
+    from
+        country ce1_0
+Hibernate: 
+    select
+        ou1_0.id,
+        ou1_0.created_at,
+        ou1_0.organization_id,
+        ou1_0.role_id,
+        ou1_0.user_id 
+    from
+        organization_users ou1_0 
+    where
+        ou1_0.user_id=?
+Hibernate: 
+    select
+        f1_0.id,
+        f1_0.city,
+        f1_0.country,
+        f1_0.created_at,
+        f1_0.name,
+        f1_0.organization_id,
+        f1_0.product_type,
+        f1_0.production_capacity,
+        f1_0.state,
+        f1_0.status,
+        f1_0.updated_at 
+    from
+        facilities f1_0 
+    left join
+        organizations o1_0 
+            on o1_0.id=f1_0.organization_id 
+    where
+        o1_0.id=?

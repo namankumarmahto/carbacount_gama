@@ -33,4 +33,10 @@ public class TenantEntity {
 
     @Column(nullable = false)
     private boolean active;
+
+    @Column(name = "country_id")
+    private UUID countryId;
+
+    @Column(name = "state_id")
+    private UUID stateId;
 }
