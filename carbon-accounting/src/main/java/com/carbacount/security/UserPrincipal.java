@@ -24,14 +24,24 @@ public class UserPrincipal implements UserDetails {
 
     @JsonIgnore
     private String password;
+
+    // Legacy fields kept for compatibility
     private UUID industryId;
     private UUID industryTypeId;
     private UUID tenantId;
     private UUID countryId;
     private UUID stateId;
 
+    // Org-scoped session fields (set when ADMIN has entered an org)
+    @Builder.Default
+    private boolean orgScoped = false;
+    private UUID organizationId;
+
     private Collection<? extends GrantedAuthority> authorities;
 
+    /**
+     * Standard factory — creates principal from user + their org roles.
+     */
     public static UserPrincipal create(User user, List<String> roles) {
         List<GrantedAuthority> authorities = roles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
@@ -43,6 +53,7 @@ public class UserPrincipal implements UserDetails {
                 .email(user.getEmail())
                 .password(user.getPasswordHash())
                 .authorities(authorities)
+                .orgScoped(false)
                 .build();
     }
 
@@ -68,6 +79,6 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true; // Use status checks in service layer or during load
+        return true;
     }
 }

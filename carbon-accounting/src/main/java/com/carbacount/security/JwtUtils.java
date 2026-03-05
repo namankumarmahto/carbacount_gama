@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class JwtUtils {
@@ -22,6 +23,9 @@ public class JwtUtils {
     @Value("${app.jwtExpirationMs:86400000}") // 24 hours
     private int jwtExpirationMs;
 
+    /**
+     * Standard JWT generated at login time (used for normal user sessions).
+     */
     public String generateJwtToken(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
@@ -40,6 +44,31 @@ public class JwtUtils {
                 .compact();
     }
 
+    /**
+     * Org-scoped JWT for when the platform ADMIN enters an organization.
+     * Contains the organizationId claim so the OWNER-scoped services can
+     * derive the correct tenant context from the token.
+     *
+     * @param adminEmail     platform ADMIN email (subject)
+     * @param adminUserId    platform ADMIN user id
+     * @param organizationId the org being entered
+     * @param ownerUserId    the actual OWNER user id (used as the acting user)
+     */
+    public String generateOrgScopedJwt(String adminEmail, UUID adminUserId,
+            UUID organizationId, UUID ownerUserId) {
+        return Jwts.builder()
+                .setSubject(adminEmail)
+                .claim("userId", adminUserId.toString())
+                .claim("role", "ROLE_OWNER") // acts as OWNER inside org
+                .claim("organizationId", organizationId.toString())
+                .claim("ownerUserId", ownerUserId.toString())
+                .claim("orgScoped", true)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .signWith(getSecretKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
     private SecretKey getSecretKey() {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
     }
@@ -47,6 +76,11 @@ public class JwtUtils {
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parserBuilder().setSigningKey(getSecretKey()).build()
                 .parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public Claims getClaimsFromToken(String token) {
+        return Jwts.parserBuilder().setSigningKey(getSecretKey()).build()
+                .parseClaimsJws(token).getBody();
     }
 
     public boolean validateJwtToken(String authToken) {
@@ -64,7 +98,6 @@ public class JwtUtils {
         } catch (IllegalArgumentException e) {
             logger.error("JWT claims string is empty: {}", e.getMessage());
         }
-
         return false;
     }
 

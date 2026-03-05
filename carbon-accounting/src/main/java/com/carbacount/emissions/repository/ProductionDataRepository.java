@@ -13,4 +13,9 @@ public interface ProductionDataRepository extends JpaRepository<ProductionData, 
     List<ProductionData> findByFacilityOrganizationId(UUID organizationId);
 
     List<ProductionData> findByFacilityOrganizationIdAndStatus(UUID organizationId, String status);
+
+    // DATA_ENTRY: filter by assigned facility IDs only
+    List<ProductionData> findByFacilityIdIn(List<UUID> facilityIds);
+
+    List<ProductionData> findByFacilityIdInAndStatus(List<UUID> facilityIds, String status);
 }

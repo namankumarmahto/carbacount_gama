@@ -28,6 +28,9 @@ import DataEntryPage from '../pages/data_entry/DataEntryPage';
 import DataEntryEmissionsPage from '../pages/data_entry/DataEntryEmissionsPage';
 import DataEntryAuditLogsPage from '../pages/data_entry/AuditLogsPage';
 
+// Auditor pages
+import AuditorVerifyPage from '../pages/auditor/AuditorVerifyPage';
+
 // Viewer pages (dedicated folder)
 import ViewerVerifyPage from '../pages/viewer/ViewerVerifyPage';
 import ViewerEmissionsPage from '../pages/viewer/ViewerEmissionsPage';
@@ -41,7 +44,8 @@ export const getHomePath = (role: User['role'] | undefined): string => {
     switch (role) {
         case 'OWNER': return '/';
         case 'ADMIN': return '/admin';
-        case 'DATA_ENTRY': return '/data-entry';
+        case 'DATA_ENTRY': return '/data-entry/submit';
+        case 'AUDITOR': return '/auditor/verify';
         case 'VIEWER': return '/viewer/verify';
         default: return '/login';
     }
@@ -92,8 +96,12 @@ const AppRoutes: React.FC = () => {
 
             {/* ── DATA_ENTRY ── */}
             <Route path="/data-entry/submit" element={<RoleRoute allowedRoles={['DATA_ENTRY']}><DataEntryPage /></RoleRoute>} />
+            <Route path="/data-entry" element={<RoleRoute allowedRoles={['DATA_ENTRY']}><DataEntryPage /></RoleRoute>} />
             <Route path="/data-entry/emissions" element={<RoleRoute allowedRoles={['DATA_ENTRY']}><DataEntryEmissionsPage /></RoleRoute>} />
             <Route path="/data-entry/audit-logs" element={<RoleRoute allowedRoles={['DATA_ENTRY']}><DataEntryAuditLogsPage /></RoleRoute>} />
+
+            {/* ── AUDITOR ── */}
+            <Route path="/auditor/verify" element={<RoleRoute allowedRoles={['AUDITOR']}><AuditorVerifyPage /></RoleRoute>} />
 
             {/* ── VIEWER ── */}
             <Route path="/viewer/verify" element={<RoleRoute allowedRoles={['VIEWER']}><ViewerVerifyPage /></RoleRoute>} />

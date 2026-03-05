@@ -8,13 +8,13 @@ import { getHomePath } from '../routes/AppRoutes';
 import type { User } from '../types';
 import { LogIn, Mail, Lock, ShieldAlert, Users } from 'lucide-react';
 
-const ROLES = ['OWNER', 'ADMIN', 'DATA ENTRY', 'VIEWER'];
+const ROLES = ['ADMIN', 'DATA ENTRY', 'AUDITOR', 'VIEWER'];
 
 // Map display role names → backend JWT role strings
 const ROLE_MAP: Record<string, string> = {
-    'OWNER': 'OWNER',
     'ADMIN': 'ADMIN',
     'DATA ENTRY': 'DATA_ENTRY',
+    'AUDITOR': 'AUDITOR',
     'VIEWER': 'VIEWER',
 };
 
@@ -47,16 +47,20 @@ const LoginPage: React.FC = () => {
                 const decoded: any = jwtDecode(token);
                 const actualRole = decoded.role?.replace('ROLE_', '') as User['role'];
 
-                // Enforce role mismatch: the selected role must match the actual account role
+                // OWNER is an internal role — not shown in login UI dropdown.
+                // OWNER users are allowed to log in regardless of what role was selected.
+                // For all other selectable roles (ADMIN, DATA_ENTRY, AUDITOR, VIEWER),
+                // the selection must match the actual account role.
                 const expectedRole = ROLE_MAP[role];
-                if (expectedRole !== actualRole) {
+                const isHiddenRole = !Object.values(ROLE_MAP).includes(actualRole);
+                if (!isHiddenRole && expectedRole !== actualRole) {
                     setError(
                         `Access denied. Your account is registered as "${actualRole}", not "${role}". Please select the correct role.`
                     );
                     return; // Do NOT store token or redirect
                 }
 
-                // Role matches — proceed with login
+                // Role check passed — proceed with login
                 const industryId = data.industryId || '';
                 const industryTypeId = data.industryTypeId || '';
                 login(token, industryId, industryTypeId, userName, industryName);

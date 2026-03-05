@@ -139,6 +139,8 @@ export const dataEntryApi = {
         axiosInstance.get<ApiResponse<any[]>>('/api/data-entry/emission/approved'),
     getAll: () =>
         axiosInstance.get<ApiResponse<any[]>>('/api/data-entry/emission/all'),
+    getMyFacilities: () =>
+        axiosInstance.get<ApiResponse<any[]>>('/api/data-entry/facilities'),
 };
 
 export const viewerApi = {
@@ -155,3 +157,16 @@ export const auditApi = {
         axiosInstance.get<ApiResponse<any[]>>('/api/audit/logs'),
 };
 
+export const platformApi = {
+    getOrganizations: () =>
+        axiosInstance.get<ApiResponse<any[]>>('/api/platform/organizations'),
+    enterOrganization: (orgId: string, data: { ownerEmail: string; ownerPassword: string }) =>
+        axiosInstance.post<ApiResponse<any>>(`/api/platform/organizations/${orgId}/enter`, data),
+};
+
+export const auditorApi = {
+    getPending: () =>
+        axiosInstance.get<ApiResponse<any[]>>('/api/auditor/pending'),
+    verify: (recordId: string, data: { type: string; action: string; reason?: string }) =>
+        axiosInstance.put<ApiResponse<string>>(`/api/auditor/verify/${recordId}`, data),
+};

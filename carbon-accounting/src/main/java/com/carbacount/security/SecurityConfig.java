@@ -51,15 +51,42 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/api/industry-types", "/api/categories", "/api/countries",
-                                "/api/states", "/api/activities", "/api/fuels/**")
+                        // ── Public endpoints ──────────────────────────────────────────────
+                        .requestMatchers(
+                                "/api/auth/**",
+                                "/api/industry-types",
+                                "/api/categories",
+                                "/api/countries",
+                                "/api/states",
+                                "/api/activities",
+                                "/api/fuels/**",
+                                "/actuator/**")
                         .permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+
+                        // ── Platform ADMIN only (platform-level) ─────────────────────────
+                        .requestMatchers("/api/platform/**").hasRole("ADMIN")
+
+                        // ── Organization OWNER endpoints ──────────────────────────────────
+                        // Also accessible by ADMIN with an org-scoped token (resolved as OWNER)
                         .requestMatchers("/api/owner/**").hasRole("OWNER")
+
+                        // ── Shared admin/owner management ────────────────────────────────
                         .requestMatchers("/api/admin/**").hasAnyRole("OWNER", "ADMIN")
+
+                        // ── DATA_ENTRY ────────────────────────────────────────────────────
                         .requestMatchers("/api/data-entry/**").hasAnyRole("OWNER", "ADMIN", "DATA_ENTRY")
+
+                        // ── AUDITOR ───────────────────────────────────────────────────────
+                        .requestMatchers("/api/auditor/**").hasAnyRole("OWNER", "ADMIN", "AUDITOR")
+
+                        // ── VIEWER (read-only) ────────────────────────────────────────────
                         .requestMatchers("/api/viewer/**").hasAnyRole("OWNER", "ADMIN", "VIEWER")
-                        .requestMatchers("/api/audit/**").hasAnyRole("OWNER", "ADMIN", "DATA_ENTRY", "VIEWER")
+
+                        // ── Audit logs (all org roles) ────────────────────────────────────
+                        .requestMatchers("/api/audit/**")
+                        .hasAnyRole("OWNER", "ADMIN", "DATA_ENTRY", "AUDITOR", "VIEWER")
+
                         .anyRequest().authenticated());
 
         http.authenticationProvider(authenticationProvider());

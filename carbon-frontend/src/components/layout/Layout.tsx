@@ -1,19 +1,39 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Building2, Database, Factory, FileText, Users, Settings, ScrollText, LogOut, Menu, Bell, User as UserIcon, ChevronDown } from 'lucide-react';
+import {
+    LayoutDashboard, Building2, Database, Factory, FileText, Users,
+    Settings, ScrollText, LogOut, Menu, Bell, User as UserIcon,
+    ChevronDown, CheckSquare, ArrowLeftCircle
+} from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const { logout, user } = useAuth();
     const location = useLocation();
 
-    // Force light theme for this exact match
+    // Force light theme
     const { setTheme } = useTheme();
     React.useEffect(() => {
         setTheme('light');
     }, [setTheme]);
 
+    // ── Org-scoped ADMIN state ────────────────────────────────────────────────
+    const isOrgScoped = !!localStorage.getItem('adminOriginalToken');
+    const orgName = localStorage.getItem('orgName') || '';
+
+    const handleExitOrg = () => {
+        const originalToken = localStorage.getItem('adminOriginalToken');
+        if (originalToken) {
+            localStorage.setItem('token', originalToken);
+            localStorage.removeItem('adminOriginalToken');
+            localStorage.removeItem('orgName');
+            window.location.href = '/admin';
+        }
+    };
+
+    // ── Navigation definitions ────────────────────────────────────────────────
     const ownerNav = [
         { label: 'Dashboard', path: '/', icon: <LayoutDashboard className="w-5 h-5" /> },
         { label: 'Facilities', path: '/facilities', icon: <Building2 className="w-5 h-5" />, hasSub: true },
@@ -25,18 +45,30 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         { label: 'Audit Logs', path: '/audit-logs', icon: <ScrollText className="w-5 h-5" /> },
     ];
 
-    const adminNav = [
-        { label: 'Dashboard', path: '/admin', icon: <LayoutDashboard className="w-5 h-5" /> },
-        { label: 'Facilities', path: '/admin/facilities', icon: <Building2 className="w-5 h-5" />, hasSub: true },
+    // Platform admin: sees only the org list. When org-scoped → full OWNER-like nav.
+    const platformAdminNav = [
+        { label: 'Organizations', path: '/admin', icon: <LayoutDashboard className="w-5 h-5" /> },
+    ];
+
+    // When ADMIN has entered an org (org-scoped token active), show full org nav
+    const adminOrgScopedNav = [
+        { label: 'Dashboard', path: '/', icon: <LayoutDashboard className="w-5 h-5" /> },
+        { label: 'Facilities', path: '/facilities', icon: <Building2 className="w-5 h-5" />, hasSub: true },
         { label: 'Data Entry', path: '/data-entry', icon: <Database className="w-5 h-5" />, hasSub: true },
         { label: 'Emissions', path: '/emissions', icon: <Factory className="w-5 h-5" />, hasSub: true },
-        { label: 'Reports', path: '/admin/reports', icon: <FileText className="w-5 h-5" />, hasSub: true },
+        { label: 'Reports', path: '/reports', icon: <FileText className="w-5 h-5" />, hasSub: true },
+        { label: 'Users', path: '/users', icon: <Users className="w-5 h-5" />, hasSub: true },
+        { label: 'Audit Logs', path: '/audit-logs', icon: <ScrollText className="w-5 h-5" /> },
     ];
 
     const dataEntryNav = [
         { label: 'Data Entry', path: '/data-entry/submit', icon: <Database className="w-5 h-5" /> },
         { label: 'Emissions', path: '/data-entry/emissions', icon: <Factory className="w-5 h-5" /> },
         { label: 'Audit Logs', path: '/data-entry/audit-logs', icon: <ScrollText className="w-5 h-5" /> },
+    ];
+
+    const auditorNav = [
+        { label: 'Verify Records', path: '/auditor/verify', icon: <CheckSquare className="w-5 h-5" /> },
     ];
 
     const viewerNav = [
@@ -46,11 +78,11 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     ];
 
     const navItems =
-        user?.role === 'ADMIN' ? adminNav :
+        user?.role === 'ADMIN' ? (isOrgScoped ? adminOrgScopedNav : platformAdminNav) :
             user?.role === 'DATA_ENTRY' ? dataEntryNav :
-                user?.role === 'VIEWER' ? viewerNav :
-                    ownerNav; // OWNER (default)
-
+                user?.role === 'AUDITOR' ? auditorNav :
+                    user?.role === 'VIEWER' ? viewerNav :
+                        ownerNav; // OWNER (default)
 
     return (
         <div className="min-h-screen bg-[#f8f9fa] text-slate-900 flex transition-colors duration-500 overflow-hidden relative font-sans">
@@ -68,12 +100,20 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     </div>
                 </div>
 
+                {/* Org-scoped banner */}
+                {isOrgScoped && (
+                    <div className="mx-3 mb-2 bg-amber-500/20 border border-amber-500/40 rounded-lg px-3 py-2">
+                        <p className="text-amber-300 text-[11px] font-semibold">Viewing as ADMIN</p>
+                        <p className="text-amber-200 text-xs truncate">{orgName}</p>
+                    </div>
+                )}
+
                 <nav className="flex-1 px-4 space-y-1 mt-2">
                     {navItems.map((item) => (
                         <Link
                             key={item.label}
                             to={item.path}
-                            className={`flex items-center justify-between px-4 py-3 rounded-lg text-sm font-semibold transition-all duration-200 ${location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path))
+                            className={`flex items-center justify-between px-4 py-3 rounded-lg text-sm font-semibold transition-all duration-200 ${location.pathname === item.path || (item.path !== '/' && item.path !== '/admin' && location.pathname.startsWith(item.path))
                                 ? 'bg-[#1a4030] text-emerald-400'
                                 : 'text-slate-300 hover:bg-white/5 hover:text-white'
                                 }`}
@@ -87,7 +127,17 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     ))}
                 </nav>
 
-                <div className="p-4 mt-auto">
+                <div className="p-4 mt-auto space-y-1">
+                    {/* Exit organization button for org-scoped ADMIN */}
+                    {isOrgScoped && (
+                        <button
+                            onClick={handleExitOrg}
+                            className="w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-amber-300 hover:text-amber-100 hover:bg-amber-500/10 rounded-lg transition-all duration-200"
+                        >
+                            <ArrowLeftCircle className="w-5 h-5" />
+                            Exit Organization
+                        </button>
+                    )}
                     <button
                         onClick={logout}
                         className="w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-200"
@@ -106,7 +156,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                             <Menu className="w-6 h-6" />
                         </button>
                         <h2 className="text-xl font-bold text-slate-800 tracking-tight">
-                            {navItems.find(item => location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path)))?.label || 'Dashboard'}
+                            {navItems.find(item => location.pathname === item.path || (item.path !== '/' && item.path !== '/admin' && location.pathname.startsWith(item.path)))?.label || 'Dashboard'}
                         </h2>
                     </div>
 
@@ -132,8 +182,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                                     <UserIcon className="w-5 h-5" />
                                 </div>
                                 <div className="text-left hidden sm:block">
-                                    <p className="text-sm font-bold text-slate-800 leading-none mb-1">{user?.userName || 'A. Kumar'}</p>
-                                    <p className="text-xs text-slate-500 leading-none">{user?.role === 'OWNER' ? 'Owner' : user?.role}</p>
+                                    <p className="text-sm font-bold text-slate-800 leading-none mb-1">{user?.userName || 'User'}</p>
+                                    <p className="text-xs text-slate-500 leading-none capitalize">
+                                        {isOrgScoped ? 'Admin (Org Access)' : user?.role === 'OWNER' ? 'Owner' : user?.role?.replace('_', ' ') || ''}
+                                    </p>
                                 </div>
                                 <ChevronDown className="w-4 h-4 text-slate-400 group-hover:text-slate-600" />
                             </div>
@@ -148,6 +200,5 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         </div>
     );
 };
-
 
 export default Layout;

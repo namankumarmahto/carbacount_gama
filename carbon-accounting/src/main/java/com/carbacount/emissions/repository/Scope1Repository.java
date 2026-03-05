@@ -14,4 +14,9 @@ public interface Scope1Repository extends JpaRepository<Scope1, UUID> {
     List<Scope1> findByFacilityOrganizationIdAndStatus(UUID organizationId, String status);
 
     List<Scope1> findByFacilityOrganizationId(UUID organizationId);
+
+    // DATA_ENTRY: filter by assigned facility IDs only
+    List<Scope1> findByFacilityIdIn(List<UUID> facilityIds);
+
+    List<Scope1> findByFacilityIdInAndStatus(List<UUID> facilityIds, String status);
 }

@@ -14,4 +14,9 @@ public interface Scope2Repository extends JpaRepository<Scope2, UUID> {
     List<Scope2> findByFacilityOrganizationIdAndStatus(UUID organizationId, String status);
 
     List<Scope2> findByFacilityOrganizationId(UUID organizationId);
+
+    // DATA_ENTRY: filter by assigned facility IDs only
+    List<Scope2> findByFacilityIdIn(List<UUID> facilityIds);
+
+    List<Scope2> findByFacilityIdInAndStatus(List<UUID> facilityIds, String status);
 }

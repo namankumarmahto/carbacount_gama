@@ -42,11 +42,14 @@ public class ProductionData {
 
     @Column(nullable = false)
     @Builder.Default
-    private String status = "PENDING"; // PENDING | APPROVED | REJECTED
+    private String status = "DRAFT"; // DRAFT | SUBMITTED | VERIFIED | REJECTED
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "verified_by")
     private User verifiedBy;
+
+    @Column(name = "submitted_at")
+    private LocalDateTime submittedAt;
 
     @Column(name = "verified_at")
     private LocalDateTime verifiedAt;

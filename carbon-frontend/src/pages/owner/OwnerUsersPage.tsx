@@ -19,8 +19,8 @@ interface OrgUser {
 
 /* ─── Helpers ─────────────────────────────────────────────────────── */
 const ROLE_OPTIONS = [
-    { value: 'ADMIN', label: 'Admin' },
     { value: 'DATA_ENTRY', label: 'Data Entry' },
+    { value: 'AUDITOR', label: 'Auditor' },
     { value: 'VIEWER', label: 'Viewer' },
 ];
 
@@ -54,7 +54,7 @@ const OwnerUsersPage: React.FC = () => {
     /* ── Edit modal state ── */
     const [editUser, setEditUser] = useState<OrgUser | null>(null);
     const [editMode, setEditMode] = useState<'pending' | 'active'>('pending');
-    const [editForm, setEditForm] = useState({ fullName: '', email: '', role: 'ADMIN', facilityIds: [] as string[] });
+    const [editForm, setEditForm] = useState({ fullName: '', email: '', role: 'DATA_ENTRY', facilityIds: [] as string[] });
     const [editError, setEditError] = useState('');
     const [editSubmitting, setEditSubmitting] = useState(false);
 
@@ -66,7 +66,7 @@ const OwnerUsersPage: React.FC = () => {
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
-        role: 'ADMIN',
+        role: 'DATA_ENTRY',
         facilityIds: [] as string[],
     });
 
@@ -107,7 +107,7 @@ const OwnerUsersPage: React.FC = () => {
             const res = await ownerApi.inviteUser({ ...formData, role: formData.role });
             if (res.data.success) {
                 setIsInviteModalOpen(false);
-                setFormData({ fullName: '', email: '', role: 'ADMIN', facilityIds: [] });
+                setFormData({ fullName: '', email: '', role: 'DATA_ENTRY', facilityIds: [] });
                 await fetchUsers();
                 showSuccess('Invitation sent! The user will receive an email to set their password.');
             }
@@ -160,7 +160,7 @@ const OwnerUsersPage: React.FC = () => {
         setEditForm({
             fullName: user.fullName,
             email: user.email,
-            role: user.roles[0] ?? 'ADMIN',
+            role: user.roles[0] ?? 'DATA_ENTRY',
             facilityIds: [],
         });
     };
@@ -561,8 +561,8 @@ const OwnerUsersPage: React.FC = () => {
                                     </div>
                                 </div>
                                 <p className="text-[11px] text-slate-400 mt-1">
-                                    {formData.role === 'ADMIN' && 'Full access to reports, emissions, and team management.'}
                                     {formData.role === 'DATA_ENTRY' && 'Can enter emissions data for assigned facilities only.'}
+                                    {formData.role === 'AUDITOR' && 'Can review and verify submitted emission records.'}
                                     {formData.role === 'VIEWER' && 'Read-only access to emissions and reports.'}
                                 </p>
                             </div>

@@ -4,6 +4,7 @@ import {
     X, Zap, Truck, Factory, Calendar, PlusCircle
 } from 'lucide-react';
 import { dataEntryApi, ownerApi, reportingYearApi } from '../api/services';
+import { useAuth } from '../context/AuthContext';
 
 /* ── Types ── */
 interface FacilityOption { id: string; name: string; }
@@ -42,6 +43,8 @@ const sel = 'appearance-none w-full bg-white border border-slate-200 text-slate-
 const inp = 'w-full bg-white border border-slate-200 text-slate-700 text-sm rounded-md py-2.5 px-3 focus:outline-none focus:ring-1 focus:ring-[#0F766E] focus:border-[#0F766E]';
 
 const DataEntryTabContent: React.FC = () => {
+    const { user } = useAuth();
+    const isDataEntry = user?.role === 'DATA_ENTRY';
     const [activeTab, setActiveTab] = useState<ActiveTab>('scope1');
 
     // ── Facilities ──
@@ -72,14 +75,14 @@ const DataEntryTabContent: React.FC = () => {
     /* ── Fetch facilities (ACTIVE only) ── */
     const fetchFacilities = useCallback(async () => {
         try {
-            const res = await ownerApi.getFacilities();
+            const res = isDataEntry ? await dataEntryApi.getMyFacilities() : await ownerApi.getFacilities();
             if (res.data.success) {
                 const active = res.data.data.filter((f: any) => f.status === 'ACTIVE');
                 setFacilities(active);
                 if (active.length > 0) setFacilityId(active[0].id);
             }
         } catch (e) { console.error(e); }
-    }, []);
+    }, [isDataEntry]);
 
     /* ── Fetch reporting years ── */
     const fetchReportingYears = useCallback(async () => {
@@ -265,12 +268,14 @@ const DataEntryTabContent: React.FC = () => {
                         </div>
 
                         {/* Add Period button */}
-                        <button
-                            onClick={() => { setShowAddPeriod(true); setPeriodError(''); }}
-                            className="flex items-center gap-1.5 px-3 py-2.5 text-xs font-semibold text-[#0F766E] border border-[#0F766E]/30 bg-teal-50 rounded-lg hover:bg-teal-100 transition-colors"
-                        >
-                            <PlusCircle className="w-3.5 h-3.5" /> Add Period
-                        </button>
+                        {!isDataEntry && (
+                            <button
+                                onClick={() => { setShowAddPeriod(true); setPeriodError(''); }}
+                                className="flex items-center gap-1.5 px-3 py-2.5 text-xs font-semibold text-[#0F766E] border border-[#0F766E]/30 bg-teal-50 rounded-lg hover:bg-teal-100 transition-colors"
+                            >
+                                <PlusCircle className="w-3.5 h-3.5" /> Add Period
+                            </button>
+                        )}
 
                         {/* Selected period badge */}
                         {selectedYear && (

@@ -14,4 +14,9 @@ public interface Scope3ActivityRepository extends JpaRepository<Scope3Activity, 
     List<Scope3Activity> findByFacilityOrganizationIdAndStatus(UUID organizationId, String status);
 
     List<Scope3Activity> findByFacilityOrganizationId(UUID organizationId);
+
+    // DATA_ENTRY: filter by assigned facility IDs only
+    List<Scope3Activity> findByFacilityIdIn(List<UUID> facilityIds);
+
+    List<Scope3Activity> findByFacilityIdInAndStatus(List<UUID> facilityIds, String status);
 }

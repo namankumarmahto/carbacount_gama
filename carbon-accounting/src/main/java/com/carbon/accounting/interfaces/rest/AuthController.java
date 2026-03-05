@@ -62,13 +62,15 @@ public class AuthController {
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
             List<OrganizationUser> orgMappings = organizationUserRepository.findByUser(user);
-            String roleName = "VIEWER";
+            String roleName = authentication.getAuthorities().stream()
+                    .map(ga -> ga.getAuthority().replace("ROLE_", ""))
+                    .findFirst()
+                    .orElse("VIEWER");
             String orgName = "Unknown Organization";
 
             String orgId = null;
             if (!orgMappings.isEmpty()) {
                 OrganizationUser primaryMapping = orgMappings.get(0);
-                roleName = primaryMapping.getRole().getName();
                 orgName = primaryMapping.getOrganization().getName();
                 orgId = primaryMapping.getOrganization().getId() != null
                         ? primaryMapping.getOrganization().getId().toString()

@@ -36,3 +36,7 @@ jwt:
 
 app:
   frontend-url: http://192.168.1.17:5173
+  jwtSecret: aVeryLongSecretKeyThatIsAtLeast32BytesLongForHS256AlgorithmToWorkProperlyReplaceInProd
+  jwtExpirationMs: 86400000
+  platformAdminEmail: admin@carbacount.com
+  platformAdminDefaultPassword: Admin@12345

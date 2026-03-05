@@ -22,6 +22,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.removeItem('industryTypeId');
         localStorage.removeItem('userName');
         localStorage.removeItem('industryName');
+        localStorage.removeItem('adminOriginalToken'); // org-scoped admin session cleanup
+        localStorage.removeItem('orgName');
         setToken(null);
         setUser(null);
     };
