@@ -6,6 +6,7 @@ const BASE_URL = 'http://localhost:8081';
 
 interface VerificationRecord {
     id: string;
+    submissionId?: string;
     type: string;
     facilityName: string;
     reportingYear: string;
@@ -34,7 +35,7 @@ const AuditorVerifyPage: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [expanded, setExpanded] = useState<string | null>(null);
-    const [rejectModal, setRejectModal] = useState<{ recordId: string; type: string } | null>(null);
+    const [rejectModal, setRejectModal] = useState<{ submissionId: string; type: string } | null>(null);
     const [rejectReason, setRejectReason] = useState('');
     const [actionLoading, setActionLoading] = useState(false);
     const [toast, setToast] = useState<{ msg: string; ok: boolean } | null>(null);
@@ -67,22 +68,22 @@ const AuditorVerifyPage: React.FC = () => {
         setTimeout(() => setToast(null), 4000);
     };
 
-    const handleVerify = async (recordId: string, type: string, action: 'VERIFIED' | 'REJECTED', reason?: string) => {
+    const handleVerifySubmission = async (submissionId: string, type: string, action: 'VERIFIED' | 'REJECTED', reason?: string) => {
         setActionLoading(true);
         try {
-            const res = await fetch(`${BASE_URL}/api/auditor/verify/${recordId}`, {
+            const res = await fetch(`${BASE_URL}/api/auditor/verify/${submissionId}`, {
                 method: 'PUT',
                 headers: { Authorization: `Bearer ${getToken()}`, 'Content-Type': 'application/json' },
                 body: JSON.stringify({ type, action, reason })
             });
             const data = await res.json();
             if (data.success) {
-                showToast(`Record ${action === 'VERIFIED' ? 'verified' : 'rejected'} successfully`, true);
+                showToast(`Submission ${action === 'VERIFIED' ? 'verified' : 'rejected'} successfully`, true);
                 setRejectModal(null);
                 setRejectReason('');
                 await fetchRecords();
             } else {
-                showToast(data.message || 'Action failed', false);
+                showToast(data.message || 'Failed to update submission', false);
             }
         } catch {
             showToast('Network error', false);
@@ -91,7 +92,33 @@ const AuditorVerifyPage: React.FC = () => {
         }
     };
 
-    const getDescription = (r: VerificationRecord) => {
+    const groupedRecords = React.useMemo(() => {
+        const grouped: any[] = [];
+        const submissionMap = new Map<string, any>();
+
+        records.forEach(r => {
+            if (!r.submissionId) {
+                grouped.push({ ...r, ids: [r.id], originalRecords: [r] });
+                return;
+            }
+            if (submissionMap.has(r.submissionId)) {
+                const existing = submissionMap.get(r.submissionId)!;
+                existing.ids.push(r.id);
+                existing.originalRecords.push(r);
+            } else {
+                const copy = { ...r, ids: [r.id], originalRecords: [r] };
+                submissionMap.set(r.submissionId, copy);
+                grouped.push(copy);
+            }
+        });
+        return grouped;
+    }, [records]);
+
+    const getDescription = (group: any) => {
+        if (group.originalRecords.length > 1) {
+            return `${group.originalRecords.length} items in submission`;
+        }
+        const r = group.originalRecords[0];
         if (r.type === 'SCOPE1') return `Fuel: ${r.fuelType} — ${r.quantity} ${r.unit}`;
         if (r.type === 'SCOPE2') return `Electricity: ${r.electricitySource} — ${r.quantity} ${r.unit}`;
         if (r.type === 'SCOPE3') return `Category: ${r.category} — ${r.quantity} ${r.unit}`;
@@ -148,81 +175,90 @@ const AuditorVerifyPage: React.FC = () => {
 
             {/* Records List */}
             <div className="space-y-3">
-                {records.map(record => (
-                    <div key={record.id} className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-                        {/* Row Header */}
-                        <div
-                            className="flex items-center justify-between px-5 py-4 cursor-pointer hover:bg-slate-50 transition-colors"
-                            onClick={() => setExpanded(expanded === record.id ? null : record.id)}
-                        >
-                            <div className="flex items-center gap-4">
-                                <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${SCOPE_COLORS[record.type] || 'bg-slate-100 text-slate-600'}`}>
-                                    {record.type}
-                                </span>
-                                <div>
-                                    <p className="font-semibold text-slate-800 text-sm">{record.facilityName}</p>
-                                    <p className="text-slate-500 text-xs">{getDescription(record)}</p>
+                {groupedRecords.map(group => {
+                    const record = group; // First record of the group for common details
+                    const key = record.submissionId || record.id;
+                    return (
+                        <div key={key} className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                            {/* Row Header */}
+                            <div
+                                className="flex items-center justify-between px-5 py-4 cursor-pointer hover:bg-slate-50 transition-colors"
+                                onClick={() => setExpanded(expanded === key ? null : key)}
+                            >
+                                <div className="flex items-center gap-4">
+                                    <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${SCOPE_COLORS[record.type] || 'bg-slate-100 text-slate-600'}`}>
+                                        {record.type}
+                                    </span>
+                                    <div>
+                                        <p className="font-semibold text-slate-800 text-sm">{record.facilityName}</p>
+                                        <p className="text-slate-500 text-xs">{getDescription(group)}</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                    <div className="text-right hidden sm:block">
+                                        <p className="text-xs text-slate-500">Submitted by</p>
+                                        <p className="text-sm font-medium text-slate-700">{record.submittedByEmail}</p>
+                                    </div>
+                                    <div className="text-right hidden md:block">
+                                        <p className="text-xs text-slate-500">Period</p>
+                                        <p className="text-sm font-medium text-slate-700">{record.reportingYear}</p>
+                                    </div>
+                                    {expanded === key ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
                                 </div>
                             </div>
-                            <div className="flex items-center gap-4">
-                                <div className="text-right hidden sm:block">
-                                    <p className="text-xs text-slate-500">Submitted by</p>
-                                    <p className="text-sm font-medium text-slate-700">{record.submittedByEmail}</p>
+
+                            {/* Expanded Details */}
+                            {expanded === key && (
+                                <div className="border-t border-slate-100 px-5 py-4 bg-slate-50">
+                                    <div className="space-y-4 mb-4">
+                                        {group.originalRecords.map((r: any, idx: number) => (
+                                            <div key={r.id} className={`grid grid-cols-2 md:grid-cols-4 gap-4 ${idx > 0 ? 'pt-4 border-t border-slate-200/50' : ''}`}>
+                                                <div>
+                                                    <p className="text-[10px] text-slate-400 uppercase font-bold mb-1">Row {idx + 1}</p>
+                                                    <p className="text-sm font-medium text-slate-800">
+                                                        {r.fuelType || r.electricitySource || r.category || 'Record'}
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p className="text-[10px] text-slate-400 uppercase font-bold mb-1">Quantity</p>
+                                                    <p className="text-sm font-medium text-emerald-700 font-mono">
+                                                        {r.type === 'PRODUCTION' ? r.totalProduction : r.quantity} {r.unit}
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p className="text-[10px] text-slate-400 uppercase font-bold mb-1">Submitted At</p>
+                                                    <p className="text-xs font-medium text-slate-800">
+                                                        {r.submittedAt ? new Date(r.submittedAt).toLocaleString() : '—'}
+                                                    </p>
+                                                </div>
+                                                <div className="flex items-end justify-end">
+                                                    <span className="text-[10px] bg-amber-100 text-amber-700 font-bold px-2 py-0.5 rounded">STATUS: PENDING</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <div className="flex items-center gap-3 justify-end pt-4 border-t border-slate-200">
+                                        <button
+                                            onClick={() => setRejectModal({ submissionId: record.submissionId || record.id, type: record.type })}
+                                            disabled={actionLoading}
+                                            className="flex items-center gap-2 px-4 py-2 border border-red-300 text-red-600 rounded-lg text-sm font-bold hover:bg-red-50 transition-colors disabled:opacity-50"
+                                        >
+                                            <XCircle className="w-4 h-4" /> Reject Submission
+                                        </button>
+                                        <button
+                                            onClick={() => handleVerifySubmission(record.submissionId || record.id, record.type, 'VERIFIED')}
+                                            disabled={actionLoading}
+                                            className="flex items-center gap-2 px-6 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-bold shadow-md transition-colors disabled:opacity-50"
+                                        >
+                                            <CheckCircle2 className="w-4 h-4" /> Approve Entire Submission
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="text-right hidden md:block">
-                                    <p className="text-xs text-slate-500">Period</p>
-                                    <p className="text-sm font-medium text-slate-700">{record.reportingYear}</p>
-                                </div>
-                                {expanded === record.id ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
-                            </div>
+                            )}
                         </div>
-
-                        {/* Expanded Details */}
-                        {expanded === record.id && (
-                            <div className="border-t border-slate-100 px-5 py-4 bg-slate-50">
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                                    <div>
-                                        <p className="text-xs text-slate-500 mb-1">Type</p>
-                                        <p className="text-sm font-medium text-slate-800">{record.type}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-xs text-slate-500 mb-1">Quantity / Value</p>
-                                        <p className="text-sm font-medium text-slate-800">
-                                            {record.type === 'PRODUCTION' ? record.totalProduction : record.quantity} {record.unit}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p className="text-xs text-slate-500 mb-1">Reporting Year</p>
-                                        <p className="text-sm font-medium text-slate-800">{record.reportingYear}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-xs text-slate-500 mb-1">Submitted At</p>
-                                        <p className="text-sm font-medium text-slate-800">
-                                            {record.submittedAt ? new Date(record.submittedAt).toLocaleDateString() : '—'}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div className="flex items-center gap-3 justify-end">
-                                    <button
-                                        onClick={() => setRejectModal({ recordId: record.id, type: record.type })}
-                                        disabled={actionLoading}
-                                        className="flex items-center gap-2 px-4 py-2 border border-red-300 text-red-600 rounded-lg text-sm font-semibold hover:bg-red-50 transition-colors disabled:opacity-50"
-                                    >
-                                        <XCircle className="w-4 h-4" /> Reject
-                                    </button>
-                                    <button
-                                        onClick={() => handleVerify(record.id, record.type, 'VERIFIED')}
-                                        disabled={actionLoading}
-                                        className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-sm font-semibold transition-colors disabled:opacity-50"
-                                    >
-                                        <CheckCircle2 className="w-4 h-4" /> Verify & Approve
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                ))}
+                    );
+                })}
             </div>
 
             {/* Reject Modal */}
@@ -247,7 +283,7 @@ const AuditorVerifyPage: React.FC = () => {
                                 Cancel
                             </button>
                             <button
-                                onClick={() => handleVerify(rejectModal.recordId, rejectModal.type, 'REJECTED', rejectReason)}
+                                onClick={() => handleVerifySubmission(rejectModal.submissionId, rejectModal.type, 'REJECTED', rejectReason)}
                                 disabled={!rejectReason.trim() || actionLoading}
                                 className="flex-1 py-2.5 bg-red-600 hover:bg-red-500 disabled:bg-slate-300 text-white rounded-xl text-sm font-semibold transition-colors"
                             >

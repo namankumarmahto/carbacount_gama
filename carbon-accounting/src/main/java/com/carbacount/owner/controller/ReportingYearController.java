@@ -102,7 +102,7 @@ public class ReportingYearController {
      * "2026-03-31" }
      */
     @PostMapping
-    @PreAuthorize("hasAnyRole('OWNER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('OWNER', 'DATA_ENTRY')")
     public ResponseEntity<ApiResponse<Map<String, Object>>> create(@RequestBody Map<String, String> body) {
         try {
             Organization org = currentOrg();

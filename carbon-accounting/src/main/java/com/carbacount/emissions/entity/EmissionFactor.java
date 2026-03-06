@@ -31,6 +31,15 @@ public class EmissionFactor {
     @Column(name = "electricity_source")
     private String electricitySource;
 
+    @Column(name = "scope_type")
+    private String scopeType;
+
+    @Column(name = "activity_type")
+    private String activityType;
+
+    @Column(name = "source_name")
+    private String sourceName;
+
     @Column(nullable = false)
     private String unit;
 
@@ -39,6 +48,9 @@ public class EmissionFactor {
 
     @Column(name = "factor_year")
     private Integer factorYear;
+
+    @Column(name = "unit_of_factor")
+    private String unitOfFactor;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

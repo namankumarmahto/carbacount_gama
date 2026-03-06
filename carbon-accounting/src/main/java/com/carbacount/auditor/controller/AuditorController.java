@@ -44,14 +44,14 @@ public class AuditorController {
      * Body: { type: "SCOPE1"|"SCOPE2"|"SCOPE3"|"PRODUCTION", action:
      * "VERIFIED"|"REJECTED", reason?: string }
      */
-    @PutMapping("/verify/{recordId}")
+    @PutMapping("/verify/{submissionId}")
     public ResponseEntity<ApiResponse<String>> verifyRecord(
-            @PathVariable UUID recordId,
+            @PathVariable UUID submissionId,
             @Valid @RequestBody VerifyActionRequest request) {
         try {
-            auditorService.verifyRecord(recordId, request);
+            auditorService.verifySubmission(submissionId, request);
             return ResponseEntity.ok(new ApiResponse<>(true,
-                    "Record " + request.getAction() + " successfully", null));
+                    "Submission " + request.getAction() + " successfully", null));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
                     .body(new ApiResponse<>(false, e.getMessage(), null));

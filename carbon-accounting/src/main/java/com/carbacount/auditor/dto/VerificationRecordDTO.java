@@ -10,6 +10,7 @@ import java.util.UUID;
 @Builder
 public class VerificationRecordDTO {
     private UUID id;
+    private UUID submissionId;
     private String type; // "SCOPE1", "SCOPE2", "SCOPE3", "PRODUCTION"
     private String facilityName;
     private UUID facilityId;

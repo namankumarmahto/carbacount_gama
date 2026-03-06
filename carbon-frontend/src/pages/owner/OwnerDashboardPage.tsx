@@ -32,14 +32,23 @@ const OwnerDashboardPage: React.FC = () => {
     useEffect(() => {
         const fetchDashboard = async () => {
             try {
-                const response = await dashboardApi.getDashboard();
+                const response = await dashboardApi.getOwnerDashboard();
                 if (response.data.success) {
-                    setData(response.data.data);
+                    const d = response.data.data;
+                    setData({
+                        totalEmission: Number(d?.total_emissions ?? 0),
+                        scope1Total: Number(d?.scope1_emissions ?? 0),
+                        scope2Total: Number(d?.scope2_emissions ?? 0),
+                        scope3Total: Number(d?.scope3_emissions ?? 0),
+                        carbonIntensity: Number(d?.carbon_intensity ?? 0),
+                        monthlyTrends: [],
+                        categoryBreakdown: []
+                    });
                 } else {
                     setError(response.data.message);
                 }
             } catch (err: any) {
-                setError('Failed to load dashboard data. Please try again later.');
+                setError(err?.response?.data?.message || 'Failed to load dashboard data. Please try again later.');
             } finally {
                 setLoading(false);
             }

@@ -4,7 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { Link, useLocation } from 'react-router-dom';
 import {
     LayoutDashboard, Building2, Database, Factory, FileText, Users,
-    Settings, ScrollText, LogOut, Menu, Bell, User as UserIcon,
+    Settings, ScrollText, LogOut, Menu, Bell, User as UserIcon, FlaskConical,
     ChevronDown, CheckSquare, ArrowLeftCircle
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
@@ -37,12 +37,14 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const ownerNav = [
         { label: 'Dashboard', path: '/', icon: <LayoutDashboard className="w-5 h-5" /> },
         { label: 'Facilities', path: '/facilities', icon: <Building2 className="w-5 h-5" />, hasSub: true },
-        { label: 'Data Entry', path: '/data-entry', icon: <Database className="w-5 h-5" />, hasSub: true },
+
         { label: 'Emissions', path: '/emissions', icon: <Factory className="w-5 h-5" />, hasSub: true },
         { label: 'Reports', path: '/reports', icon: <FileText className="w-5 h-5" />, hasSub: true },
         { label: 'Users', path: '/users', icon: <Users className="w-5 h-5" />, hasSub: true },
         { label: 'Organization Settings', path: '/org-settings', icon: <Settings className="w-5 h-5" /> },
+        { label: 'Emission Factors', path: '/emission-factors', icon: <FlaskConical className="w-5 h-5" /> },
         { label: 'Audit Logs', path: '/audit-logs', icon: <ScrollText className="w-5 h-5" /> },
+        { label: 'Data Entry Records', path: '/data-entry-records', icon: <Database className="w-5 h-5" /> },
     ];
 
     // Platform admin: sees only the org list. When org-scoped → full OWNER-like nav.
@@ -54,16 +56,17 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const adminOrgScopedNav = [
         { label: 'Dashboard', path: '/', icon: <LayoutDashboard className="w-5 h-5" /> },
         { label: 'Facilities', path: '/facilities', icon: <Building2 className="w-5 h-5" />, hasSub: true },
-        { label: 'Data Entry', path: '/data-entry', icon: <Database className="w-5 h-5" />, hasSub: true },
+
         { label: 'Emissions', path: '/emissions', icon: <Factory className="w-5 h-5" />, hasSub: true },
         { label: 'Reports', path: '/reports', icon: <FileText className="w-5 h-5" />, hasSub: true },
         { label: 'Users', path: '/users', icon: <Users className="w-5 h-5" />, hasSub: true },
         { label: 'Audit Logs', path: '/audit-logs', icon: <ScrollText className="w-5 h-5" /> },
+        { label: 'Data Entry Records', path: '/data-entry-records', icon: <Database className="w-5 h-5" /> },
     ];
 
     const dataEntryNav = [
         { label: 'Data Entry', path: '/data-entry/submit', icon: <Database className="w-5 h-5" /> },
-        { label: 'Emissions', path: '/data-entry/emissions', icon: <Factory className="w-5 h-5" /> },
+        { label: 'Submissions', path: '/data-entry/submissions', icon: <Factory className="w-5 h-5" /> },
         { label: 'Audit Logs', path: '/data-entry/audit-logs', icon: <ScrollText className="w-5 h-5" /> },
     ];
 

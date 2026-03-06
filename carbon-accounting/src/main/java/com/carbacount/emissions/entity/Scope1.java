@@ -24,6 +24,9 @@ public class Scope1 {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Column(name = "submission_id")
+    private UUID submissionId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "facility_id", nullable = false)
     private Facility facility;
@@ -40,6 +43,12 @@ public class Scope1 {
 
     @Column(nullable = false)
     private BigDecimal quantity;
+
+    @Column(name = "emission_factor")
+    private BigDecimal emissionFactor;
+
+    @Column(name = "calculated_emission")
+    private BigDecimal calculatedEmission;
 
     @Column(nullable = false)
     @Builder.Default

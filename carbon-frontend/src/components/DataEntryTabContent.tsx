@@ -9,9 +9,9 @@ import { useAuth } from '../context/AuthContext';
 /* ── Types ── */
 interface FacilityOption { id: string; name: string; }
 interface ReportingYearOption { id: string; yearLabel: string; startDate: string; endDate: string; isLocked: boolean; }
-interface FuelRow { fuelType: string; unit: string; quantity: string; }
-interface ElecRow { electricitySource: string; unit: string; quantity: string; }
-interface Scope3Row { activityCategory: string; subCategory: string; unit: string; quantity: string; }
+interface FuelRow { fuelType: string; unit: string; quantity: string; emissionFactor?: number; calculatedEmission?: number; loading?: boolean; }
+interface ElecRow { electricitySource: string; unit: string; quantity: string; emissionFactor?: number; calculatedEmission?: number; loading?: boolean; }
+interface Scope3Row { activityCategory: string; subCategory: string; unit: string; quantity: string; emissionFactor?: number; calculatedEmission?: number; loading?: boolean; }
 interface ProductionRow { totalProduction: string; unit: string; }
 
 type ActiveTab = 'scope1' | 'scope2' | 'scope3' | 'production';
@@ -41,6 +41,7 @@ const TAB_CONFIG: { key: ActiveTab; label: string }[] = [
 
 const sel = 'appearance-none w-full bg-white border border-slate-200 text-slate-700 text-sm rounded-md py-2.5 pl-3 pr-8 focus:outline-none focus:ring-1 focus:ring-[#0F766E] focus:border-[#0F766E]';
 const inp = 'w-full bg-white border border-slate-200 text-slate-700 text-sm rounded-md py-2.5 px-3 focus:outline-none focus:ring-1 focus:ring-[#0F766E] focus:border-[#0F766E]';
+const formatEmission = (v?: number) => (v ?? 0).toLocaleString('en-IN', { maximumFractionDigits: 6 });
 
 const DataEntryTabContent: React.FC = () => {
     const { user } = useAuth();
@@ -98,6 +99,12 @@ const DataEntryTabContent: React.FC = () => {
     }, []);
 
     useEffect(() => { fetchFacilities(); fetchReportingYears(); }, [fetchFacilities, fetchReportingYears]);
+    useEffect(() => {
+        fuelRows.forEach((_, i) => { void calculateFuelRow(i, fuelRows); });
+        elecRows.forEach((_, i) => { void calculateElecRow(i, elecRows); });
+        scope3Rows.forEach((_, i) => { void calculateScope3Row(i, scope3Rows); });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [facilityId]);
 
     /* ── Add new reporting period ── */
     const handleAddPeriod = async (e: React.FormEvent) => {
@@ -126,23 +133,105 @@ const DataEntryTabContent: React.FC = () => {
     /* ── row helpers ── */
     const addFuelRow = () => setFuelRows(r => [...r, { fuelType: 'Diesel', unit: 'Litres', quantity: '' }]);
     const removeFuelRow = (i: number) => setFuelRows(r => r.filter((_, idx) => idx !== i));
+    const calculateFuelRow = async (index: number, rows: FuelRow[]) => {
+        const row = rows[index];
+        const quantity = parseFloat(row.quantity);
+        if (!facilityId || Number.isNaN(quantity) || quantity <= 0 || !row.fuelType) {
+            setFuelRows(prev => prev.map((r, i) => i === index ? { ...r, emissionFactor: undefined, calculatedEmission: undefined, loading: false } : r));
+            return;
+        }
+        setFuelRows(prev => prev.map((r, i) => i === index ? { ...r, loading: true } : r));
+        try {
+            const res = await dataEntryApi.calculate({
+                facilityId,
+                scope: 'SCOPE1',
+                fuelType: row.fuelType,
+                unit: row.unit,
+                quantity
+            });
+            const data = res.data.data;
+            setFuelRows(prev => prev.map((r, i) => i === index ? { ...r, emissionFactor: data?.emissionFactor, calculatedEmission: data?.calculatedEmission, loading: false } : r));
+        } catch {
+            setFuelRows(prev => prev.map((r, i) => i === index ? { ...r, emissionFactor: undefined, calculatedEmission: undefined, loading: false } : r));
+            setErrorMsg('Emission factor not found for selected Fuel/Unit/Facility.');
+        }
+    };
     const updateFuel = (i: number, field: keyof FuelRow, val: string) =>
-        setFuelRows(r => r.map((row, idx) => idx === i ? { ...row, [field]: val } : row));
+        setFuelRows(r => {
+            const next = r.map((row, idx) => idx === i ? { ...row, [field]: val } : row);
+            void calculateFuelRow(i, next);
+            return next;
+        });
 
     const addElecRow = () => setElecRows(r => [...r, { electricitySource: 'Grid Electricity', unit: 'kWh', quantity: '' }]);
     const removeElecRow = (i: number) => setElecRows(r => r.filter((_, idx) => idx !== i));
+    const calculateElecRow = async (index: number, rows: ElecRow[]) => {
+        const row = rows[index];
+        const quantity = parseFloat(row.quantity);
+        if (!facilityId || Number.isNaN(quantity) || quantity <= 0 || !row.electricitySource) {
+            setElecRows(prev => prev.map((r, i) => i === index ? { ...r, emissionFactor: undefined, calculatedEmission: undefined, loading: false } : r));
+            return;
+        }
+        setElecRows(prev => prev.map((r, i) => i === index ? { ...r, loading: true } : r));
+        try {
+            const res = await dataEntryApi.calculate({
+                facilityId,
+                scope: 'SCOPE2',
+                electricitySource: row.electricitySource,
+                unit: row.unit,
+                quantity
+            });
+            const data = res.data.data;
+            setElecRows(prev => prev.map((r, i) => i === index ? { ...r, emissionFactor: data?.emissionFactor, calculatedEmission: data?.calculatedEmission, loading: false } : r));
+        } catch {
+            setElecRows(prev => prev.map((r, i) => i === index ? { ...r, emissionFactor: undefined, calculatedEmission: undefined, loading: false } : r));
+            setErrorMsg('Emission factor not found for selected Electricity Source/Unit/Facility.');
+        }
+    };
     const updateElec = (i: number, field: keyof ElecRow, val: string) =>
-        setElecRows(r => r.map((row, idx) => idx === i ? { ...row, [field]: val } : row));
+        setElecRows(r => {
+            const next = r.map((row, idx) => idx === i ? { ...row, [field]: val } : row);
+            void calculateElecRow(i, next);
+            return next;
+        });
 
     const addScope3Row = () => setScope3Rows(r => [...r, { activityCategory: 'Transportation', subCategory: 'Business Travel', unit: 'km', quantity: '' }]);
     const removeScope3Row = (i: number) => setScope3Rows(r => r.filter((_, idx) => idx !== i));
+    const calculateScope3Row = async (index: number, rows: Scope3Row[]) => {
+        const row = rows[index];
+        const quantity = parseFloat(row.quantity);
+        if (!facilityId || Number.isNaN(quantity) || quantity <= 0 || !row.activityCategory) {
+            setScope3Rows(prev => prev.map((r, i) => i === index ? { ...r, emissionFactor: undefined, calculatedEmission: undefined, loading: false } : r));
+            return;
+        }
+        setScope3Rows(prev => prev.map((r, i) => i === index ? { ...r, loading: true } : r));
+        try {
+            const res = await dataEntryApi.calculate({
+                facilityId,
+                scope: 'SCOPE3',
+                category: row.activityCategory,
+                subCategory: row.subCategory,
+                unit: row.unit,
+                quantity
+            });
+            const data = res.data.data;
+            setScope3Rows(prev => prev.map((r, i) => i === index ? { ...r, emissionFactor: data?.emissionFactor, calculatedEmission: data?.calculatedEmission, loading: false } : r));
+        } catch {
+            setScope3Rows(prev => prev.map((r, i) => i === index ? { ...r, emissionFactor: undefined, calculatedEmission: undefined, loading: false } : r));
+            setErrorMsg('Emission factor not found for selected Scope 3 activity/unit/facility.');
+        }
+    };
     const updateScope3 = (i: number, field: keyof Scope3Row, val: string) => {
-        setScope3Rows(r => r.map((row, idx) => {
+        setScope3Rows(r => {
+            const next = r.map((row, idx) => {
             if (idx !== i) return row;
             const updated = { ...row, [field]: val };
             if (field === 'activityCategory') updated.subCategory = SCOPE3_SUB_CATS[val]?.[0] ?? '';
             return updated;
-        }));
+        });
+            void calculateScope3Row(i, next);
+            return next;
+        });
     };
 
     const showSuccess = (msg: string) => { setSuccessMsg(msg); setTimeout(() => setSuccessMsg(''), 5000); };
@@ -188,6 +277,9 @@ const DataEntryTabContent: React.FC = () => {
     };
 
     const selectedYear = reportingYears.find(y => y.id === reportingYearId);
+    const scope1Total = fuelRows.reduce((sum, row) => sum + (row.calculatedEmission ?? 0), 0);
+    const scope2Total = elecRows.reduce((sum, row) => sum + (row.calculatedEmission ?? 0), 0);
+    const scope3Total = scope3Rows.reduce((sum, row) => sum + (row.calculatedEmission ?? 0), 0);
 
     return (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-500 text-slate-900 font-sans">
@@ -268,14 +360,12 @@ const DataEntryTabContent: React.FC = () => {
                         </div>
 
                         {/* Add Period button */}
-                        {!isDataEntry && (
-                            <button
-                                onClick={() => { setShowAddPeriod(true); setPeriodError(''); }}
-                                className="flex items-center gap-1.5 px-3 py-2.5 text-xs font-semibold text-[#0F766E] border border-[#0F766E]/30 bg-teal-50 rounded-lg hover:bg-teal-100 transition-colors"
-                            >
-                                <PlusCircle className="w-3.5 h-3.5" /> Add Period
-                            </button>
-                        )}
+                        <button
+                            onClick={() => { setShowAddPeriod(true); setPeriodError(''); }}
+                            className="flex items-center gap-1.5 px-3 py-2.5 text-xs font-semibold text-[#0F766E] border border-[#0F766E]/30 bg-teal-50 rounded-lg hover:bg-teal-100 transition-colors"
+                        >
+                            <PlusCircle className="w-3.5 h-3.5" /> Add Period
+                        </button>
 
                         {/* Selected period badge */}
                         {selectedYear && (
@@ -300,30 +390,34 @@ const DataEntryTabContent: React.FC = () => {
                                 <Factory className="w-5 h-5 text-orange-500" /> Scope 1 Data
                             </h2>
                             <div className="grid grid-cols-12 gap-4 mb-2 px-1">
-                                <div className="col-span-4 text-sm font-semibold text-slate-700">Fuel Type</div>
-                                <div className="col-span-3 text-sm font-semibold text-slate-700">Unit</div>
-                                <div className="col-span-4 text-sm font-semibold text-slate-700">Quantity</div>
+                                <div className="col-span-3 text-sm font-semibold text-slate-700">Fuel Type</div>
+                                <div className="col-span-2 text-sm font-semibold text-slate-700">Unit</div>
+                                <div className="col-span-2 text-sm font-semibold text-slate-700">Quantity</div>
+                                <div className="col-span-2 text-sm font-semibold text-slate-700">Factor</div>
+                                <div className="col-span-2 text-sm font-semibold text-slate-700">Emission</div>
                                 <div className="col-span-1" />
                             </div>
                             <div className="space-y-3">
                                 {fuelRows.map((row, i) => (
                                     <div key={i} className="grid grid-cols-12 gap-4 items-center bg-white p-2 rounded-lg border border-slate-100 hover:border-slate-200 transition-colors">
-                                        <div className="col-span-4 relative">
+                                        <div className="col-span-3 relative">
                                             <select value={row.fuelType} onChange={e => updateFuel(i, 'fuelType', e.target.value)} className={sel}>
                                                 {FUEL_TYPES.map(f => <option key={f}>{f}</option>)}
                                             </select>
                                             <ChevronDown className="w-4 h-4 absolute right-3 top-3 text-slate-400 pointer-events-none" />
                                         </div>
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-2 relative">
                                             <select value={row.unit} onChange={e => updateFuel(i, 'unit', e.target.value)} className={sel}>
                                                 {UNITS_FUEL.map(u => <option key={u}>{u}</option>)}
                                             </select>
                                             <ChevronDown className="w-4 h-4 absolute right-3 top-3 text-slate-400 pointer-events-none" />
                                         </div>
-                                        <div className="col-span-4">
+                                        <div className="col-span-2">
                                             <input type="number" min="0" value={row.quantity} onChange={e => updateFuel(i, 'quantity', e.target.value)}
                                                 placeholder="e.g. 145,000" className={inp} />
                                         </div>
+                                        <div className="col-span-2 text-sm text-slate-600">{row.loading ? 'Calculating...' : (row.emissionFactor ?? '—')}</div>
+                                        <div className="col-span-2 text-sm font-semibold text-slate-700">{row.loading ? '...' : `${formatEmission(row.calculatedEmission)} kg CO2e`}</div>
                                         <div className="col-span-1">
                                             <button onClick={() => removeFuelRow(i)} disabled={fuelRows.length === 1}
                                                 className="p-2 text-slate-400 bg-white border border-slate-200 rounded-md hover:text-rose-500 hover:border-rose-200 hover:bg-rose-50 transition-colors disabled:opacity-30">
@@ -333,6 +427,7 @@ const DataEntryTabContent: React.FC = () => {
                                     </div>
                                 ))}
                             </div>
+                            <div className="mt-4 text-right text-sm font-bold text-slate-800">Total Scope 1 Emission: {formatEmission(scope1Total)} kg CO2e</div>
                             <div className="mt-4">
                                 <button onClick={addFuelRow}
                                     className="flex items-center gap-2 px-4 py-2 bg-[#23705C] text-white rounded-md text-sm font-semibold hover:bg-[#1b5e4c] transition-colors shadow-sm">
@@ -349,30 +444,34 @@ const DataEntryTabContent: React.FC = () => {
                                 <Zap className="w-5 h-5 text-yellow-500" /> Scope 2 Data
                             </h2>
                             <div className="grid grid-cols-12 gap-4 mb-2 px-1">
-                                <div className="col-span-5 text-sm font-semibold text-slate-700">Electricity Source</div>
-                                <div className="col-span-3 text-sm font-semibold text-slate-700">Unit</div>
-                                <div className="col-span-3 text-sm font-semibold text-slate-700">Quantity</div>
+                                <div className="col-span-3 text-sm font-semibold text-slate-700">Electricity Source</div>
+                                <div className="col-span-2 text-sm font-semibold text-slate-700">Unit</div>
+                                <div className="col-span-2 text-sm font-semibold text-slate-700">Quantity</div>
+                                <div className="col-span-2 text-sm font-semibold text-slate-700">Factor</div>
+                                <div className="col-span-2 text-sm font-semibold text-slate-700">Emission</div>
                                 <div className="col-span-1" />
                             </div>
                             <div className="space-y-3">
                                 {elecRows.map((row, i) => (
                                     <div key={i} className="grid grid-cols-12 gap-4 items-center bg-white p-2 rounded-lg border border-slate-100 hover:border-slate-200 transition-colors">
-                                        <div className="col-span-5 relative">
+                                        <div className="col-span-3 relative">
                                             <select value={row.electricitySource} onChange={e => updateElec(i, 'electricitySource', e.target.value)} className={sel}>
                                                 {ELEC_SOURCES.map(s => <option key={s}>{s}</option>)}
                                             </select>
                                             <ChevronDown className="w-4 h-4 absolute right-3 top-3 text-slate-400 pointer-events-none" />
                                         </div>
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-2 relative">
                                             <select value={row.unit} onChange={e => updateElec(i, 'unit', e.target.value)} className={sel}>
                                                 {UNITS_ELEC.map(u => <option key={u}>{u}</option>)}
                                             </select>
                                             <ChevronDown className="w-4 h-4 absolute right-3 top-3 text-slate-400 pointer-events-none" />
                                         </div>
-                                        <div className="col-span-3">
+                                        <div className="col-span-2">
                                             <input type="number" min="0" value={row.quantity} onChange={e => updateElec(i, 'quantity', e.target.value)}
                                                 placeholder="e.g. 500,000" className={inp} />
                                         </div>
+                                        <div className="col-span-2 text-sm text-slate-600">{row.loading ? 'Calculating...' : (row.emissionFactor ?? '—')}</div>
+                                        <div className="col-span-2 text-sm font-semibold text-slate-700">{row.loading ? '...' : `${formatEmission(row.calculatedEmission)} kg CO2e`}</div>
                                         <div className="col-span-1">
                                             <button onClick={() => removeElecRow(i)} disabled={elecRows.length === 1}
                                                 className="p-2 text-slate-400 bg-white border border-slate-200 rounded-md hover:text-rose-500 hover:border-rose-200 hover:bg-rose-50 transition-colors disabled:opacity-30">
@@ -382,6 +481,7 @@ const DataEntryTabContent: React.FC = () => {
                                     </div>
                                 ))}
                             </div>
+                            <div className="mt-4 text-right text-sm font-bold text-slate-800">Total Scope 2 Emission: {formatEmission(scope2Total)} kg CO2e</div>
                             <div className="mt-4">
                                 <button onClick={addElecRow}
                                     className="flex items-center gap-2 px-4 py-2 bg-[#23705C] text-white rounded-md text-sm font-semibold hover:bg-[#1b5e4c] transition-colors shadow-sm">
@@ -398,28 +498,30 @@ const DataEntryTabContent: React.FC = () => {
                                 <Truck className="w-5 h-5 text-blue-500" /> Scope 3 Data
                             </h2>
                             <div className="grid grid-cols-12 gap-4 mb-2 px-1">
-                                <div className="col-span-3 text-sm font-semibold text-slate-700">Activity Category</div>
-                                <div className="col-span-4 text-sm font-semibold text-slate-700">Sub-Category</div>
-                                <div className="col-span-2 text-sm font-semibold text-slate-700">Unit</div>
+                                <div className="col-span-2 text-sm font-semibold text-slate-700">Activity Category</div>
+                                <div className="col-span-3 text-sm font-semibold text-slate-700">Sub-Category</div>
+                                <div className="col-span-1 text-sm font-semibold text-slate-700">Unit</div>
                                 <div className="col-span-2 text-sm font-semibold text-slate-700">Quantity</div>
+                                <div className="col-span-2 text-sm font-semibold text-slate-700">Factor</div>
+                                <div className="col-span-1 text-sm font-semibold text-slate-700">Emission</div>
                                 <div className="col-span-1" />
                             </div>
                             <div className="space-y-3">
                                 {scope3Rows.map((row, i) => (
                                     <div key={i} className="grid grid-cols-12 gap-4 items-center bg-white p-2 rounded-lg border border-slate-100 hover:border-slate-200 transition-colors">
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-2 relative">
                                             <select value={row.activityCategory} onChange={e => updateScope3(i, 'activityCategory', e.target.value)} className={sel}>
                                                 {SCOPE3_ACTIVITY_CATS.map(c => <option key={c}>{c}</option>)}
                                             </select>
                                             <ChevronDown className="w-4 h-4 absolute right-3 top-3 text-slate-400 pointer-events-none" />
                                         </div>
-                                        <div className="col-span-4 relative">
+                                        <div className="col-span-3 relative">
                                             <select value={row.subCategory} onChange={e => updateScope3(i, 'subCategory', e.target.value)} className={sel}>
                                                 {(SCOPE3_SUB_CATS[row.activityCategory] ?? []).map(s => <option key={s}>{s}</option>)}
                                             </select>
                                             <ChevronDown className="w-4 h-4 absolute right-3 top-3 text-slate-400 pointer-events-none" />
                                         </div>
-                                        <div className="col-span-2 relative">
+                                        <div className="col-span-1 relative">
                                             <select value={row.unit} onChange={e => updateScope3(i, 'unit', e.target.value)} className={sel}>
                                                 {UNITS_SCOPE3.map(u => <option key={u}>{u}</option>)}
                                             </select>
@@ -429,6 +531,8 @@ const DataEntryTabContent: React.FC = () => {
                                             <input type="number" min="0" value={row.quantity} onChange={e => updateScope3(i, 'quantity', e.target.value)}
                                                 placeholder="e.g. 25,000" className={inp} />
                                         </div>
+                                        <div className="col-span-2 text-sm text-slate-600">{row.loading ? 'Calculating...' : (row.emissionFactor ?? '—')}</div>
+                                        <div className="col-span-1 text-sm font-semibold text-slate-700">{row.loading ? '...' : formatEmission(row.calculatedEmission)}</div>
                                         <div className="col-span-1">
                                             <button onClick={() => removeScope3Row(i)} disabled={scope3Rows.length === 1}
                                                 className="p-2 text-slate-400 bg-white border border-slate-200 rounded-md hover:text-rose-500 hover:border-rose-200 hover:bg-rose-50 transition-colors disabled:opacity-30">
@@ -438,6 +542,7 @@ const DataEntryTabContent: React.FC = () => {
                                     </div>
                                 ))}
                             </div>
+                            <div className="mt-4 text-right text-sm font-bold text-slate-800">Total Scope 3 Emission: {formatEmission(scope3Total)} kg CO2e</div>
                             <div className="mt-4">
                                 <button onClick={addScope3Row}
                                     className="flex items-center gap-2 px-4 py-2 bg-[#23705C] text-white rounded-md text-sm font-semibold hover:bg-[#1b5e4c] transition-colors shadow-sm">

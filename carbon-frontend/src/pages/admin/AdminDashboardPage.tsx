@@ -102,11 +102,12 @@ const AdminDashboardPage: React.FC = () => {
                 // Store the org-scoped token and redirect to the org dashboard
                 const orgToken = data.data.orgScopedToken;
                 const orgName = data.data.organizationName;
+                const originalToken = getToken() || '';
 
                 // Save org-scoped token (replaces the current token temporarily)
                 localStorage.setItem('token', orgToken);
                 localStorage.setItem('orgName', orgName);
-                localStorage.setItem('adminOriginalToken', getToken() || '');
+                localStorage.setItem('adminOriginalToken', originalToken);
 
                 showToast(`Entering ${orgName}...`, true);
                 setSelectedOrg(null);

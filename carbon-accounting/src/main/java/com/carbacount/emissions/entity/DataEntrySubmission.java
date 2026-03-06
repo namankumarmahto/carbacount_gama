@@ -1,67 +1,57 @@
 package com.carbacount.emissions.entity;
 
 import com.carbacount.facility.entity.Facility;
+import com.carbacount.organization.entity.Organization;
 import com.carbacount.reporting.entity.ReportingYear;
 import com.carbacount.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "scope3_activities")
+@Table(name = "data_entry_submissions")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Scope3Activity {
+public class DataEntrySubmission {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(name = "submission_id")
-    private UUID submissionId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organization_id", nullable = false)
+    private Organization organization;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "facility_id", nullable = false)
     private Facility facility;
 
+    @Column(name = "scope_type", nullable = false)
+    private String scopeType;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reporting_year_id", nullable = false)
     private ReportingYear reportingYear;
 
-    @Column(nullable = false)
-    private String category;
-
-    @Column(name = "sub_category")
-    private String subCategory;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "submitted_by", nullable = false)
+    private User submittedBy;
 
     @Column(nullable = false)
-    private String unit;
+    private String status;
 
-    @Column(nullable = false)
-    private BigDecimal quantity;
-
-    @Column(name = "emission_factor")
-    private BigDecimal emissionFactor;
-
-    @Column(name = "calculated_emission")
-    private BigDecimal calculatedEmission;
-
-    @Column(nullable = false)
-    @Builder.Default
-    private String status = "DRAFT"; // DRAFT | SUBMITTED | VERIFIED | REJECTED
+    @Column(name = "submitted_at")
+    private LocalDateTime submittedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "verified_by")
     private User verifiedBy;
-
-    @Column(name = "submitted_at")
-    private LocalDateTime submittedAt;
 
     @Column(name = "verified_at")
     private LocalDateTime verifiedAt;
@@ -69,11 +59,14 @@ public class Scope3Activity {
     @Column(name = "rejection_reason")
     private String rejectionReason;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by", nullable = false)
-    private User createdBy;
+    @Column(name = "total_emission")
+    private BigDecimal totalEmission;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 }

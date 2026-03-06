@@ -9,6 +9,7 @@ interface MyRecord {
     totalProduction?: number;
     unit: string; quantity: number; status: string; rejectionReason?: string;
     createdAt: string;
+    totalEmission?: number;
 }
 
 const SCOPE_LABEL: Record<string, string> = {
@@ -69,15 +70,16 @@ const DataEntryPage: React.FC = () => {
                                 <th className="py-3 px-5">Scope</th>
                                 <th className="py-3 px-5">Detail</th>
                                 <th className="py-3 px-5">Qty / Unit</th>
+                                <th className="py-3 px-5">Total Emission</th>
                                 <th className="py-3 px-5">Status</th>
                                 <th className="py-3 px-5">Submitted</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50 text-sm">
                             {loadingRecords ? (
-                                <tr><td colSpan={6} className="py-12 text-center"><Loader2 className="w-6 h-6 animate-spin text-[#1a4030] mx-auto" /></td></tr>
+                                <tr><td colSpan={7} className="py-12 text-center"><Loader2 className="w-6 h-6 animate-spin text-[#1a4030] mx-auto" /></td></tr>
                             ) : myRecords.length === 0 ? (
-                                <tr><td colSpan={6} className="py-12 text-center text-slate-400 text-sm">No submissions yet</td></tr>
+                                <tr><td colSpan={7} className="py-12 text-center text-slate-400 text-sm">No submissions yet</td></tr>
                             ) : myRecords.map(r => (
                                 <tr key={r.id} className="hover:bg-slate-50/60 transition-colors">
                                     <td className="py-3.5 px-5 font-medium text-slate-700">{r.facilityName}</td>
@@ -96,6 +98,7 @@ const DataEntryPage: React.FC = () => {
                                     <td className="py-3.5 px-5 text-slate-700">
                                         {r.type === 'PRODUCTION' ? '—' : `${r.quantity} ${r.unit}`}
                                     </td>
+                                    <td className="py-3.5 px-5 text-slate-700">{r.totalEmission != null ? `${r.totalEmission} kg CO2e` : '—'}</td>
                                     <td className="py-3.5 px-5"><StatusBadge status={r.status} /></td>
                                     <td className="py-3.5 px-5 text-slate-400 text-xs">
                                         {r.createdAt ? new Date(r.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : '—'}

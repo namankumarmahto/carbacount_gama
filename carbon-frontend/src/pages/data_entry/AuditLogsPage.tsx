@@ -27,7 +27,7 @@ const moduleColor = (module: string): string => {
 
 const PAGE_SIZE = 10;
 
-const AuditLogsPage: React.FC = () => {
+const DataEntryAuditLogsPage: React.FC = () => {
     const [logs, setLogs] = useState<AuditLogEntry[]>([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
@@ -163,4 +163,4 @@ const AuditLogsPage: React.FC = () => {
     );
 };
 
-export default AuditLogsPage;
+export default DataEntryAuditLogsPage;

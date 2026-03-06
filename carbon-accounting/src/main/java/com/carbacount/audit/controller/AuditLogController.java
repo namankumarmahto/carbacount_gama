@@ -33,15 +33,23 @@ public class AuditLogController {
         try {
             UserPrincipal principal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication()
                     .getPrincipal();
-            User user = userRepository.findByEmail(principal.getUsername())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+            User user = userRepository.findById(principal.getId())
+                    .orElseGet(() -> userRepository.findByEmail(principal.getUsername())
+                            .orElseThrow(() -> new RuntimeException("User not found")));
 
-            UUID orgId = orgUserRepository.findByUserId(user.getId()).stream()
-                    .findFirst()
+            Set<UUID> orgIds = new LinkedHashSet<>();
+            if (principal.isOrgScoped() && principal.getOrganizationId() != null) {
+                orgIds.add(principal.getOrganizationId());
+            }
+            orgUserRepository.findByUser(user).stream()
                     .map(ou -> ou.getOrganization().getId())
-                    .orElseThrow(() -> new RuntimeException("Org not found"));
+                    .forEach(orgIds::add);
 
-            List<AuditLog> logs = auditLogRepository.findByOrganizationId(orgId);
+            if (orgIds.isEmpty()) {
+                throw new RuntimeException("Org not found");
+            }
+
+            List<AuditLog> logs = auditLogRepository.findByOrganizationIdIn(new ArrayList<>(orgIds));
             // Sort newest first
             logs.sort(Comparator.comparing(AuditLog::getCreatedAt, Comparator.nullsLast(Comparator.reverseOrder())));
 

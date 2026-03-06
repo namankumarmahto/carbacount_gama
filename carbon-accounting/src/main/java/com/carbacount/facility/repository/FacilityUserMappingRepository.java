@@ -31,4 +31,7 @@ public interface FacilityUserMappingRepository extends JpaRepository<FacilityUse
      */
     @Query("SELECT m.facility.id FROM FacilityUserMapping m WHERE m.user.id = :userId")
     List<UUID> findFacilityIdsByUserId(@Param("userId") UUID userId);
+
+    @Query("SELECT m FROM FacilityUserMapping m JOIN FETCH m.user WHERE m.facility.id IN :facilityIds")
+    List<FacilityUserMapping> findByFacilityIdInWithUser(@Param("facilityIds") List<UUID> facilityIds);
 }

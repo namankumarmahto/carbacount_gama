@@ -7,6 +7,8 @@ import com.carbacount.emissions.entity.ProductionData;
 import com.carbacount.emissions.entity.Scope1;
 import com.carbacount.emissions.entity.Scope2;
 import com.carbacount.emissions.entity.Scope3Activity;
+import com.carbacount.emissions.entity.DataEntrySubmission;
+import com.carbacount.emissions.repository.DataEntrySubmissionRepository;
 import com.carbacount.emissions.repository.ProductionDataRepository;
 import com.carbacount.emissions.repository.Scope1Repository;
 import com.carbacount.emissions.repository.Scope2Repository;
@@ -37,6 +39,8 @@ public class AuditorService {
     private Scope3ActivityRepository scope3ActivityRepository;
     @Autowired
     private ProductionDataRepository productionDataRepository;
+    @Autowired
+    private DataEntrySubmissionRepository submissionRepository;
     @Autowired
     private OrganizationUserRepository organizationUserRepository;
     @Autowired
@@ -73,6 +77,7 @@ public class AuditorService {
         scope1Repository.findByFacilityOrganizationIdAndStatus(orgId, "SUBMITTED").forEach(s -> {
             records.add(VerificationRecordDTO.builder()
                     .id(s.getId())
+                    .submissionId(s.getSubmissionId())
                     .type("SCOPE1")
                     .facilityName(s.getFacility().getName())
                     .facilityId(s.getFacility().getId())
@@ -92,6 +97,7 @@ public class AuditorService {
         scope2Repository.findByFacilityOrganizationIdAndStatus(orgId, "SUBMITTED").forEach(s -> {
             records.add(VerificationRecordDTO.builder()
                     .id(s.getId())
+                    .submissionId(s.getSubmissionId())
                     .type("SCOPE2")
                     .facilityName(s.getFacility().getName())
                     .facilityId(s.getFacility().getId())
@@ -111,6 +117,7 @@ public class AuditorService {
         scope3ActivityRepository.findByFacilityOrganizationIdAndStatus(orgId, "SUBMITTED").forEach(s -> {
             records.add(VerificationRecordDTO.builder()
                     .id(s.getId())
+                    .submissionId(s.getSubmissionId())
                     .type("SCOPE3")
                     .facilityName(s.getFacility().getName())
                     .facilityId(s.getFacility().getId())
@@ -130,6 +137,7 @@ public class AuditorService {
         productionDataRepository.findByFacilityOrganizationIdAndStatus(orgId, "SUBMITTED").forEach(p -> {
             records.add(VerificationRecordDTO.builder()
                     .id(p.getId())
+                    .submissionId(p.getSubmissionId())
                     .type("PRODUCTION")
                     .facilityName(p.getFacility().getName())
                     .facilityId(p.getFacility().getId())
@@ -150,10 +158,10 @@ public class AuditorService {
     }
 
     /**
-     * Auditor approves (VERIFIED) or rejects (REJECTED) a specific emission record.
+     * Auditor approves (VERIFIED) or rejects (REJECTED) an entire submission.
      */
     @Transactional
-    public void verifyRecord(UUID recordId, VerifyActionRequest request) {
+    public void verifySubmission(UUID submissionId, VerifyActionRequest request) {
         User auditor = getCurrentUser();
         Organization org = getOrganizationForCurrentUser();
 
@@ -165,59 +173,35 @@ public class AuditorService {
             throw new IllegalArgumentException("Rejection reason is required");
         }
 
-        LocalDateTime now = LocalDateTime.now();
-        String type = request.getType().toUpperCase();
+        DataEntrySubmission submission = submissionRepository.findByIdAndOrganizationId(submissionId, org.getId())
+                .orElseThrow(() -> new RuntimeException("Submission not found"));
+        validateSubmitted(submission.getStatus(), submissionId);
 
-        switch (type) {
-            case "SCOPE1" -> {
-                Scope1 s1 = scope1Repository.findById(recordId)
-                        .orElseThrow(() -> new RuntimeException("Scope1 record not found"));
-                validateSubmitted(s1.getStatus(), recordId);
-                s1.setStatus(action);
-                s1.setVerifiedBy(auditor);
-                s1.setVerifiedAt(now);
-                if ("REJECTED".equals(action))
-                    s1.setRejectionReason(request.getReason());
-                scope1Repository.save(s1);
-            }
-            case "SCOPE2" -> {
-                Scope2 s2 = scope2Repository.findById(recordId)
-                        .orElseThrow(() -> new RuntimeException("Scope2 record not found"));
-                validateSubmitted(s2.getStatus(), recordId);
-                s2.setStatus(action);
-                s2.setVerifiedBy(auditor);
-                s2.setVerifiedAt(now);
-                if ("REJECTED".equals(action))
-                    s2.setRejectionReason(request.getReason());
-                scope2Repository.save(s2);
-            }
-            case "SCOPE3" -> {
-                Scope3Activity s3 = scope3ActivityRepository.findById(recordId)
-                        .orElseThrow(() -> new RuntimeException("Scope3 record not found"));
-                validateSubmitted(s3.getStatus(), recordId);
-                s3.setStatus(action);
-                s3.setVerifiedBy(auditor);
-                s3.setVerifiedAt(now);
-                if ("REJECTED".equals(action))
-                    s3.setRejectionReason(request.getReason());
-                scope3ActivityRepository.save(s3);
-            }
-            case "PRODUCTION" -> {
-                ProductionData pd = productionDataRepository.findById(recordId)
-                        .orElseThrow(() -> new RuntimeException("Production record not found"));
-                validateSubmitted(pd.getStatus(), recordId);
-                pd.setStatus(action);
-                pd.setVerifiedBy(auditor);
-                pd.setVerifiedAt(now);
-                if ("REJECTED".equals(action))
-                    pd.setRejectionReason(request.getReason());
-                productionDataRepository.save(pd);
-            }
-            default -> throw new IllegalArgumentException("Unknown record type: " + type);
+        LocalDateTime now = LocalDateTime.now();
+        submission.setStatus(action);
+        submission.setVerifiedBy(auditor);
+        submission.setVerifiedAt(now);
+        if ("REJECTED".equals(action)) {
+            submission.setRejectionReason(request.getReason());
+        } else {
+            submission.setRejectionReason(null);
+        }
+        submissionRepository.save(submission);
+
+        switch (submission.getScopeType()) {
+            case "SCOPE1" -> scope1Repository.findBySubmissionId(submissionId)
+                    .forEach(s1 -> applyReviewState(s1, action, request.getReason(), auditor, now));
+            case "SCOPE2" -> scope2Repository.findBySubmissionId(submissionId)
+                    .forEach(s2 -> applyReviewState(s2, action, request.getReason(), auditor, now));
+            case "SCOPE3" -> scope3ActivityRepository.findBySubmissionId(submissionId)
+                    .forEach(s3 -> applyReviewState(s3, action, request.getReason(), auditor, now));
+            case "PRODUCTION" -> productionDataRepository.findBySubmissionId(submissionId)
+                    .forEach(pd -> applyReviewState(pd, action, request.getReason(), auditor, now));
+            default -> throw new IllegalArgumentException("Unknown scope type: " + submission.getScopeType());
         }
 
         auditService.log(org, auditor,
-                action + "_RECORD [" + type + "]: " + recordId,
+                action + "_SUBMISSION [" + submission.getScopeType() + "]: " + submissionId,
                 "VERIFICATION");
     }
 
@@ -225,5 +209,33 @@ public class AuditorService {
         if (!"SUBMITTED".equals(status)) {
             throw new RuntimeException("Record " + id + " is not in SUBMITTED status (current: " + status + ")");
         }
+    }
+
+    private void applyReviewState(Scope1 row, String action, String reason, User auditor, LocalDateTime now) {
+        row.setStatus(action);
+        row.setVerifiedBy(auditor);
+        row.setVerifiedAt(now);
+        row.setRejectionReason("REJECTED".equals(action) ? reason : null);
+    }
+
+    private void applyReviewState(Scope2 row, String action, String reason, User auditor, LocalDateTime now) {
+        row.setStatus(action);
+        row.setVerifiedBy(auditor);
+        row.setVerifiedAt(now);
+        row.setRejectionReason("REJECTED".equals(action) ? reason : null);
+    }
+
+    private void applyReviewState(Scope3Activity row, String action, String reason, User auditor, LocalDateTime now) {
+        row.setStatus(action);
+        row.setVerifiedBy(auditor);
+        row.setVerifiedAt(now);
+        row.setRejectionReason("REJECTED".equals(action) ? reason : null);
+    }
+
+    private void applyReviewState(ProductionData row, String action, String reason, User auditor, LocalDateTime now) {
+        row.setStatus(action);
+        row.setVerifiedBy(auditor);
+        row.setVerifiedAt(now);
+        row.setRejectionReason("REJECTED".equals(action) ? reason : null);
     }
 }

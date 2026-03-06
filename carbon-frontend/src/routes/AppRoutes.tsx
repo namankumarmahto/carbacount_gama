@@ -9,23 +9,26 @@ import SetPasswordPage from '../pages/SetPasswordPage';
 // Owner pages
 import OwnerDashboardPage from '../pages/owner/OwnerDashboardPage';
 import OwnerFacilitiesPage from '../pages/owner/OwnerFacilitiesPage';
-import OwnerDataEntryPage from '../pages/owner/OwnerDataEntryPage';
+
 import OwnerEmissionsPage from '../pages/owner/OwnerEmissionsPage';
 import OwnerReportsPage from '../pages/owner/OwnerReportsPage';
 import OwnerUsersPage from '../pages/owner/OwnerUsersPage';
 import OwnerOrgSettingsPage from '../pages/owner/OwnerOrgSettingsPage';
 import OwnerAuditLogsPage from '../pages/owner/OwnerAuditLogsPage';
+import OwnerDataEntryRecordsPage from '../pages/owner/OwnerDataEntryRecordsPage';
+import OwnerEmissionFactorsPage from '../pages/owner/OwnerEmissionFactorsPage';
+
 
 // Admin pages
 import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
 import AdminFacilitiesPage from '../pages/admin/AdminFacilitiesPage';
-import AdminDataEntryPage from '../pages/admin/AdminDataEntryPage';
+
 import AdminEmissionsPage from '../pages/admin/AdminEmissionsPage';
 import AdminReportsPage from '../pages/admin/AdminReportsPage';
 
 // Data Entry pages (dedicated folder)
 import DataEntryPage from '../pages/data_entry/DataEntryPage';
-import DataEntryEmissionsPage from '../pages/data_entry/DataEntryEmissionsPage';
+import DataEntrySubmissionsPage from '../pages/data_entry/DataEntrySubmissionsPage';
 import DataEntryAuditLogsPage from '../pages/data_entry/AuditLogsPage';
 
 // Auditor pages
@@ -83,21 +86,25 @@ const AppRoutes: React.FC = () => {
             <Route path="/users" element={<RoleRoute allowedRoles={['OWNER']}><OwnerUsersPage /></RoleRoute>} />
             <Route path="/org-settings" element={<RoleRoute allowedRoles={['OWNER']}><OwnerOrgSettingsPage /></RoleRoute>} />
             <Route path="/audit-logs" element={<RoleRoute allowedRoles={['OWNER']}><OwnerAuditLogsPage /></RoleRoute>} />
-            <Route path="/data-entry" element={<RoleRoute allowedRoles={['OWNER']}><OwnerDataEntryPage /></RoleRoute>} />
+            <Route path="/data-entry-records" element={<RoleRoute allowedRoles={['OWNER', 'ADMIN']}><OwnerDataEntryRecordsPage /></RoleRoute>} />
+            <Route path="/emission-factors" element={<RoleRoute allowedRoles={['OWNER']}><OwnerEmissionFactorsPage /></RoleRoute>} />
+
+
+
             <Route path="/emissions" element={<RoleRoute allowedRoles={['OWNER']}><OwnerEmissionsPage /></RoleRoute>} />
             <Route path="/reports" element={<RoleRoute allowedRoles={['OWNER']}><OwnerReportsPage /></RoleRoute>} />
 
             {/* ── ADMIN ── */}
             <Route path="/admin" element={<RoleRoute allowedRoles={['ADMIN']}><AdminDashboardPage /></RoleRoute>} />
             <Route path="/admin/facilities" element={<RoleRoute allowedRoles={['ADMIN']}><AdminFacilitiesPage /></RoleRoute>} />
-            <Route path="/admin/data-entry" element={<RoleRoute allowedRoles={['ADMIN']}><AdminDataEntryPage /></RoleRoute>} />
+
             <Route path="/admin/emissions" element={<RoleRoute allowedRoles={['ADMIN']}><AdminEmissionsPage /></RoleRoute>} />
             <Route path="/admin/reports" element={<RoleRoute allowedRoles={['ADMIN']}><AdminReportsPage /></RoleRoute>} />
 
             {/* ── DATA_ENTRY ── */}
             <Route path="/data-entry/submit" element={<RoleRoute allowedRoles={['DATA_ENTRY']}><DataEntryPage /></RoleRoute>} />
             <Route path="/data-entry" element={<RoleRoute allowedRoles={['DATA_ENTRY']}><DataEntryPage /></RoleRoute>} />
-            <Route path="/data-entry/emissions" element={<RoleRoute allowedRoles={['DATA_ENTRY']}><DataEntryEmissionsPage /></RoleRoute>} />
+            <Route path="/data-entry/submissions" element={<RoleRoute allowedRoles={['DATA_ENTRY']}><DataEntrySubmissionsPage /></RoleRoute>} />
             <Route path="/data-entry/audit-logs" element={<RoleRoute allowedRoles={['DATA_ENTRY']}><DataEntryAuditLogsPage /></RoleRoute>} />
 
             {/* ── AUDITOR ── */}

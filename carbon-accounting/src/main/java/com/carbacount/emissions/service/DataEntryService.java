@@ -22,6 +22,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -38,6 +40,8 @@ public class DataEntryService {
     @Autowired
     private ProductionDataRepository productionRepo;
     @Autowired
+    private DataEntrySubmissionRepository submissionRepo;
+    @Autowired
     private FacilityRepository facilityRepo;
     @Autowired
     private ReportingYearRepository reportingYearRepo;
@@ -51,6 +55,8 @@ public class DataEntryService {
     private FacilityService facilityService;
     @Autowired
     private AuditService auditService;
+    @Autowired
+    private EmissionFactorRepository emissionFactorRepo;
 
     // ── Private helpers ────────────────────────────────────────────────────
 
@@ -59,11 +65,17 @@ public class DataEntryService {
     }
 
     private User currentUser() {
-        return userRepo.findByEmail(currentPrincipal().getUsername())
-                .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
+        return userRepo.findById(currentPrincipal().getId())
+                .orElseGet(() -> userRepo.findByEmail(currentPrincipal().getUsername())
+                        .orElseThrow(() -> new RuntimeException("Authenticated user not found")));
     }
 
     private Organization currentOrg() {
+        UserPrincipal principal = currentPrincipal();
+        if (principal.isOrgScoped() && principal.getOrganizationId() != null) {
+            return orgRepo.findById(principal.getOrganizationId())
+                    .orElseThrow(() -> new RuntimeException("Organization not found for org-scoped token"));
+        }
         User user = currentUser();
         return orgUserRepo.findByUserId(user.getId()).stream()
                 .findFirst()
@@ -75,6 +87,107 @@ public class DataEntryService {
     private boolean isDataEntryUser() {
         return currentPrincipal().getAuthorities().stream()
                 .anyMatch(a -> "ROLE_DATA_ENTRY".equals(a.getAuthority()));
+    }
+
+    @Transactional(readOnly = true)
+    public RealtimeEmissionResponse calculateEmission(RealtimeEmissionRequest req) {
+        if (req.getQuantity() == null || req.getQuantity().compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Quantity must be zero or positive");
+        }
+
+        if (req.getFacilityId() == null) {
+            throw new IllegalArgumentException("Facility is required");
+        }
+
+        Facility facility = facilityRepo.findById(req.getFacilityId())
+                .orElseThrow(() -> new RuntimeException("Facility not found"));
+        facilityService.assertCanAccessFacility(req.getFacilityId());
+
+        EmissionFactor factor = resolveEmissionFactor(req, facility);
+        BigDecimal calculated = req.getQuantity()
+                .multiply(factor.getFactorValue())
+                .setScale(6, RoundingMode.HALF_UP);
+
+        return RealtimeEmissionResponse.builder()
+                .emissionFactor(factor.getFactorValue())
+                .calculatedEmission(calculated)
+                .build();
+    }
+
+    private EmissionFactor resolveEmissionFactor(RealtimeEmissionRequest req, Facility facility) {
+        String country = facility.getCountry() != null && !facility.getCountry().isBlank() ? facility.getCountry().trim() : "India";
+        String unit = req.getUnit() == null ? null : req.getUnit().trim();
+        String fuelType = req.getFuelType() == null ? null : req.getFuelType().trim();
+        String electricitySource = req.getElectricitySource() == null ? null : req.getElectricitySource().trim();
+        String category = req.getCategory() == null ? null : req.getCategory().trim();
+        String subCategory = req.getSubCategory() == null ? null : req.getSubCategory().trim();
+        String scope = req.getScope() == null ? null : req.getScope().trim().toUpperCase();
+        String sourceName = null;
+        if ("SCOPE1".equals(scope)) {
+            sourceName = fuelType;
+        } else if ("SCOPE2".equals(scope)) {
+            sourceName = electricitySource;
+        } else if ("SCOPE3".equals(scope)) {
+            sourceName = subCategory != null && !subCategory.isBlank() ? subCategory : category;
+        }
+
+        Optional<EmissionFactor> result = Optional.empty();
+        if (scope != null && sourceName != null) {
+            result = emissionFactorRepo.findTopByCountryAndScopeTypeAndSourceNameIgnoreCaseAndUnitIgnoreCaseOrderByFactorYearDesc(
+                    country, scope, sourceName, unit == null ? "" : unit);
+            if (result.isEmpty()) {
+                result = emissionFactorRepo.findTopByCountryAndScopeTypeAndSourceNameIgnoreCaseOrderByFactorYearDesc(
+                        country, scope, sourceName);
+            }
+            if (result.isEmpty()) {
+                result = emissionFactorRepo.findTopByScopeTypeAndSourceNameIgnoreCaseAndUnitIgnoreCaseOrderByFactorYearDesc(
+                        scope, sourceName, unit == null ? "" : unit);
+            }
+            if (result.isEmpty()) {
+                result = emissionFactorRepo.findTopByScopeTypeAndSourceNameIgnoreCaseOrderByFactorYearDesc(scope, sourceName);
+            }
+        }
+
+        if (result.isEmpty() && "SCOPE1".equals(scope) && fuelType != null) {
+            result = emissionFactorRepo.findTopByCountryAndFuelTypeAndUnitIgnoreCaseOrderByFactorYearDesc(
+                    country, fuelType, unit == null ? "" : unit);
+            if (result.isEmpty()) {
+                result = emissionFactorRepo.findTopByCountryAndFuelTypeIgnoreCaseOrderByFactorYearDesc(country, fuelType);
+            }
+            if (result.isEmpty()) {
+                result = emissionFactorRepo.findTopByFuelTypeIgnoreCaseOrderByFactorYearDesc(fuelType);
+            }
+        } else if (result.isEmpty() && "SCOPE2".equals(scope) && electricitySource != null) {
+            result = emissionFactorRepo.findTopByCountryAndElectricitySourceAndUnitIgnoreCaseOrderByFactorYearDesc(
+                    country, electricitySource, unit == null ? "" : unit);
+            if (result.isEmpty()) {
+                result = emissionFactorRepo.findTopByCountryAndElectricitySourceIgnoreCaseOrderByFactorYearDesc(country, electricitySource);
+            }
+            if (result.isEmpty()) {
+                result = emissionFactorRepo.findTopByElectricitySourceIgnoreCaseOrderByFactorYearDesc(electricitySource);
+            }
+        } else if (result.isEmpty() && "SCOPE3".equals(scope) && category != null) {
+            result = emissionFactorRepo.findTopByCountryAndFuelTypeAndUnitIgnoreCaseOrderByFactorYearDesc(
+                    country, category, unit == null ? "" : unit);
+            if (result.isEmpty()) {
+                result = emissionFactorRepo.findTopByCountryAndFuelTypeIgnoreCaseOrderByFactorYearDesc(country, category);
+            }
+            if (result.isEmpty()) {
+                result = emissionFactorRepo.findTopByFuelTypeIgnoreCaseOrderByFactorYearDesc(category);
+            }
+            if (result.isEmpty() && subCategory != null) {
+                result = emissionFactorRepo.findTopByCountryAndFuelTypeAndUnitIgnoreCaseOrderByFactorYearDesc(
+                        country, subCategory, unit == null ? "" : unit);
+                if (result.isEmpty()) {
+                    result = emissionFactorRepo.findTopByCountryAndFuelTypeIgnoreCaseOrderByFactorYearDesc(country, subCategory);
+                }
+                if (result.isEmpty()) {
+                    result = emissionFactorRepo.findTopByFuelTypeIgnoreCaseOrderByFactorYearDesc(subCategory);
+                }
+            }
+        }
+
+        return result.orElseThrow(() -> new RuntimeException("Emission factor not found for selected activity"));
     }
 
     // ── SUBMIT data (DATA_ENTRY role) ──────────────────────────────────────
@@ -102,55 +215,104 @@ public class DataEntryService {
         ReportingYear reportingYear = reportingYearRepo.findById(req.getReportingYearId())
                 .orElseThrow(() -> new RuntimeException("Reporting year not found"));
 
+        UUID submissionId = UUID.randomUUID();
+        LocalDateTime submittedAt = LocalDateTime.now();
+
+        DataEntrySubmission submission = DataEntrySubmission.builder()
+                .id(submissionId)
+                .organization(org)
+                .facility(facility)
+                .scopeType(req.getScope())
+                .reportingYear(reportingYear)
+                .submittedBy(user)
+                .status("SUBMITTED")
+                .submittedAt(submittedAt)
+                .build();
+        submissionRepo.save(submission);
         int count = 0;
+        BigDecimal totalEmission = BigDecimal.ZERO;
 
         if ("SCOPE1".equals(req.getScope()) && req.getFuelRows() != null) {
             for (FuelRowRequest row : req.getFuelRows()) {
+                RealtimeEmissionResponse calc = calculateEmission(RealtimeEmissionRequest.builder()
+                        .facilityId(req.getFacilityId())
+                        .scope("SCOPE1")
+                        .fuelType(row.getFuelType())
+                        .unit(row.getUnit())
+                        .quantity(row.getQuantity() == null ? BigDecimal.ZERO : row.getQuantity())
+                        .build());
                 scope1Repo.save(Scope1.builder()
                         .facility(facility)
                         .reportingYear(reportingYear)
+                        .submissionId(submissionId)
                         .fuelType(row.getFuelType())
                         .unit(row.getUnit())
-                        .quantity(row.getQuantity())
+                        .quantity(row.getQuantity() == null ? BigDecimal.ZERO : row.getQuantity())
+                        .emissionFactor(calc.getEmissionFactor())
+                        .calculatedEmission(calc.getCalculatedEmission())
                         .status("SUBMITTED")
-                        .submittedAt(LocalDateTime.now())
+                        .submittedAt(submittedAt)
                         .createdBy(user)
                         .updatedBy(user)
                         .build());
+                totalEmission = totalEmission.add(calc.getCalculatedEmission());
                 count++;
             }
         }
 
         if ("SCOPE2".equals(req.getScope()) && req.getElectricityRows() != null) {
             for (ElectricityRowRequest row : req.getElectricityRows()) {
+                RealtimeEmissionResponse calc = calculateEmission(RealtimeEmissionRequest.builder()
+                        .facilityId(req.getFacilityId())
+                        .scope("SCOPE2")
+                        .electricitySource(row.getElectricitySource())
+                        .unit(row.getUnit())
+                        .quantity(row.getQuantity() == null ? BigDecimal.ZERO : row.getQuantity())
+                        .build());
                 scope2Repo.save(Scope2.builder()
                         .facility(facility)
                         .reportingYear(reportingYear)
+                        .submissionId(submissionId)
                         .electricitySource(row.getElectricitySource())
                         .unit(row.getUnit() != null ? row.getUnit() : "kWh")
-                        .quantity(row.getQuantity())
+                        .quantity(row.getQuantity() == null ? BigDecimal.ZERO : row.getQuantity())
+                        .emissionFactor(calc.getEmissionFactor())
+                        .calculatedEmission(calc.getCalculatedEmission())
                         .status("SUBMITTED")
-                        .submittedAt(LocalDateTime.now())
+                        .submittedAt(submittedAt)
                         .createdBy(user)
                         .updatedBy(user)
                         .build());
+                totalEmission = totalEmission.add(calc.getCalculatedEmission());
                 count++;
             }
         }
 
         if ("SCOPE3".equals(req.getScope()) && req.getScope3Rows() != null) {
             for (Scope3RowRequest row : req.getScope3Rows()) {
-                scope3Repo.save(Scope3Activity.builder()
-                        .facility(facility)
-                        .reportingYear(reportingYear)
+                RealtimeEmissionResponse calc = calculateEmission(RealtimeEmissionRequest.builder()
+                        .facilityId(req.getFacilityId())
+                        .scope("SCOPE3")
                         .category(row.getCategory())
                         .subCategory(row.getSubCategory())
                         .unit(row.getUnit())
-                        .quantity(row.getQuantity())
+                        .quantity(row.getQuantity() == null ? BigDecimal.ZERO : row.getQuantity())
+                        .build());
+                scope3Repo.save(Scope3Activity.builder()
+                        .facility(facility)
+                        .reportingYear(reportingYear)
+                        .submissionId(submissionId)
+                        .category(row.getCategory())
+                        .subCategory(row.getSubCategory())
+                        .unit(row.getUnit())
+                        .quantity(row.getQuantity() == null ? BigDecimal.ZERO : row.getQuantity())
+                        .emissionFactor(calc.getEmissionFactor())
+                        .calculatedEmission(calc.getCalculatedEmission())
                         .status("SUBMITTED")
-                        .submittedAt(LocalDateTime.now())
+                        .submittedAt(submittedAt)
                         .createdBy(user)
                         .build());
+                totalEmission = totalEmission.add(calc.getCalculatedEmission());
                 count++;
             }
         }
@@ -163,14 +325,17 @@ public class DataEntryService {
             productionRepo.save(ProductionData.builder()
                     .facility(facility)
                     .reportingYear(reportingYear)
+                    .submissionId(submissionId)
                     .totalProduction(pd.getTotalProduction())
                     .unit(pd.getUnit() != null ? pd.getUnit() : "ton")
                     .status("SUBMITTED")
-                    .submittedAt(LocalDateTime.now())
+                    .submittedAt(submittedAt)
                     .createdBy(user)
                     .build());
             count++;
         }
+        submission.setTotalEmission(totalEmission);
+        submissionRepo.save(submission);
 
         auditService.log(org, user,
                 "SUBMITTED_" + req.getScope() + "_DATA: " + count + " records for facility " + facility.getName(),
@@ -178,169 +343,106 @@ public class DataEntryService {
         return count;
     }
 
-    // ── FETCH records submitted by current user ────────────────────────────
+    // ── FETCH submission summaries ─────────────────────────────────────────
 
-    /**
-     * For DATA_ENTRY users: returns only records for facilities where this user has
-     * an
-     * entry in facility_user_mapping, further scoped to records they personally
-     * created.
-     *
-     * For OWNER / ADMIN: returns all records within the organization, but still
-     * limited
-     * to records they created (owner-based dashboard viewing uses getAllRecords()).
-     */
     @Transactional(readOnly = true)
     public List<EmissionRecordResponse> getMySubmissions() {
         User user = currentUser();
         Organization org = currentOrg();
+        List<DataEntrySubmission> submissions;
 
         if (isDataEntryUser()) {
-            // Strict facility-based scoping for DATA_ENTRY users
             List<UUID> assignedFacilityIds = facilityService.getAssignedFacilityIds(user.getId());
             if (assignedFacilityIds.isEmpty()) {
                 return List.of();
             }
-            return buildResponseForFacilities(assignedFacilityIds, null, user);
+            submissions = submissionRepo.findByFacilityIdInAndSubmittedById(assignedFacilityIds, user.getId());
+        } else {
+            submissions = submissionRepo.findByOrganizationIdAndSubmittedById(org.getId(), user.getId());
         }
-
-        // OWNER / ADMIN see their own submissions across the org
-        return buildResponse(org.getId(), null, user);
+        return buildSubmissionSummaries(submissions);
     }
-
-    // ── FETCH all SUBMITTED records (AUDITOR/VIEWER sees these) ──────────
 
     @Transactional(readOnly = true)
     public List<EmissionRecordResponse> getPendingRecords() {
         Organization org = currentOrg();
-        return buildResponse(org.getId(), "SUBMITTED", null);
+        return buildSubmissionSummaries(submissionRepo.findByOrganizationIdAndStatus(org.getId(), "SUBMITTED"));
     }
-
-    // ── FETCH all records for org (owner/admin dashboard) ─────────────────
 
     @Transactional(readOnly = true)
     public List<EmissionRecordResponse> getAllRecords() {
         Organization org = currentOrg();
-        return buildResponse(org.getId(), null, null);
+        return buildSubmissionSummaries(submissionRepo.findByOrganizationId(org.getId()));
     }
-
-    // ── FETCH approved records (for emissions analytics) ──────────────────
 
     @Transactional(readOnly = true)
     public List<EmissionRecordResponse> getApprovedRecords() {
         Organization org = currentOrg();
-        return buildResponse(org.getId(), "VERIFIED", null);
+        return buildSubmissionSummaries(submissionRepo.findByOrganizationIdAndStatus(org.getId(), "VERIFIED"));
     }
 
-    // ── Internal build helpers ─────────────────────────────────────────────
+    @Transactional(readOnly = true)
+    public List<EmissionRecordResponse> getSubmissionDetails(UUID submissionId) {
+        User user = currentUser();
+        Organization org = currentOrg();
 
-    /**
-     * Builds an emission record response list filtered by organization (for
-     * OWNER/ADMIN).
-     *
-     * @param orgId      organization scope
-     * @param status     optional status filter (null = all statuses)
-     * @param filterUser optional user filter (null = all users)
-     */
-    private List<EmissionRecordResponse> buildResponse(UUID orgId, String status, User filterUser) {
-        List<EmissionRecordResponse> result = new ArrayList<>();
+        DataEntrySubmission submission = submissionRepo.findByIdAndOrganizationId(submissionId, org.getId())
+                .orElseThrow(() -> new RuntimeException("Submission not found"));
 
-        List<Scope1> fuels = status != null
-                ? scope1Repo.findByFacilityOrganizationIdAndStatus(orgId, status)
-                : scope1Repo.findByFacilityOrganizationId(orgId);
-        for (Scope1 f : fuels) {
-            if (filterUser != null && !f.getCreatedBy().getId().equals(filterUser.getId()))
-                continue;
-            result.add(toResponse(f));
+        if (isDataEntryUser()) {
+            List<UUID> assignedFacilityIds = facilityService.getAssignedFacilityIds(user.getId());
+            if (!assignedFacilityIds.contains(submission.getFacility().getId())
+                    || !submission.getSubmittedBy().getId().equals(user.getId())) {
+                throw new FacilityAccessDeniedException(submission.getFacility().getId().toString(),
+                        "Submission does not belong to your assigned facilities");
+            }
         }
 
-        List<Scope2> elecs = status != null
-                ? scope2Repo.findByFacilityOrganizationIdAndStatus(orgId, status)
-                : scope2Repo.findByFacilityOrganizationId(orgId);
-        for (Scope2 e : elecs) {
-            if (filterUser != null && !e.getCreatedBy().getId().equals(filterUser.getId()))
-                continue;
-            result.add(toResponse(e));
-        }
-
-        List<Scope3Activity> s3s = status != null
-                ? scope3Repo.findByFacilityOrganizationIdAndStatus(orgId, status)
-                : scope3Repo.findByFacilityOrganizationId(orgId);
-        for (Scope3Activity s : s3s) {
-            if (filterUser != null && !s.getCreatedBy().getId().equals(filterUser.getId()))
-                continue;
-            result.add(toResponse(s));
-        }
-
-        List<ProductionData> productions = status != null
-                ? productionRepo.findByFacilityOrganizationIdAndStatus(orgId, status)
-                : productionRepo.findByFacilityOrganizationId(orgId);
-        for (ProductionData p : productions) {
-            if (filterUser != null && p.getCreatedBy() != null
-                    && !p.getCreatedBy().getId().equals(filterUser.getId()))
-                continue;
-            result.add(toResponse(p));
-        }
-
-        result.sort(Comparator.comparing(EmissionRecordResponse::getCreatedAt,
-                Comparator.nullsLast(Comparator.reverseOrder())));
-        return result;
+        return buildRowsForSubmission(submission);
     }
 
-    /**
-     * Builds an emission record response list filtered by specific facility IDs
-     * (used for DATA_ENTRY users — only their assigned facilities).
-     *
-     * @param facilityIds list of facility IDs the user is assigned to
-     * @param status      optional status filter (null = all statuses)
-     * @param filterUser  optional user filter (null = all users in those
-     *                    facilities)
-     */
-    private List<EmissionRecordResponse> buildResponseForFacilities(
-            List<UUID> facilityIds, String status, User filterUser) {
+    private List<EmissionRecordResponse> buildSubmissionSummaries(List<DataEntrySubmission> submissions) {
+        return submissions.stream()
+                .sorted(Comparator.comparing(
+                        (DataEntrySubmission s) -> s.getSubmittedAt() != null ? s.getSubmittedAt() : s.getCreatedAt(),
+                        Comparator.nullsLast(Comparator.reverseOrder())))
+                .map(this::toSubmissionSummary)
+                .collect(Collectors.toList());
+    }
 
-        List<EmissionRecordResponse> result = new ArrayList<>();
+    private List<EmissionRecordResponse> buildRowsForSubmission(DataEntrySubmission submission) {
+        List<EmissionRecordResponse> details = switch (submission.getScopeType()) {
+            case "SCOPE1" -> scope1Repo.findBySubmissionId(submission.getId()).stream().map(this::toResponse).toList();
+            case "SCOPE2" -> scope2Repo.findBySubmissionId(submission.getId()).stream().map(this::toResponse).toList();
+            case "SCOPE3" ->
+                scope3Repo.findBySubmissionId(submission.getId()).stream().map(this::toResponse).toList();
+            case "PRODUCTION" ->
+                productionRepo.findBySubmissionId(submission.getId()).stream().map(this::toResponse).toList();
+            default -> throw new RuntimeException("Unsupported scope type: " + submission.getScopeType());
+        };
+        return details.stream()
+                .sorted(Comparator.comparing(EmissionRecordResponse::getCreatedAt,
+                        Comparator.nullsLast(Comparator.reverseOrder())))
+                .collect(Collectors.toList());
+    }
 
-        List<Scope1> fuels = status != null
-                ? scope1Repo.findByFacilityIdInAndStatus(facilityIds, status)
-                : scope1Repo.findByFacilityIdIn(facilityIds);
-        for (Scope1 f : fuels) {
-            if (filterUser != null && !f.getCreatedBy().getId().equals(filterUser.getId()))
-                continue;
-            result.add(toResponse(f));
-        }
-
-        List<Scope2> elecs = status != null
-                ? scope2Repo.findByFacilityIdInAndStatus(facilityIds, status)
-                : scope2Repo.findByFacilityIdIn(facilityIds);
-        for (Scope2 e : elecs) {
-            if (filterUser != null && !e.getCreatedBy().getId().equals(filterUser.getId()))
-                continue;
-            result.add(toResponse(e));
-        }
-
-        List<Scope3Activity> s3s = status != null
-                ? scope3Repo.findByFacilityIdInAndStatus(facilityIds, status)
-                : scope3Repo.findByFacilityIdIn(facilityIds);
-        for (Scope3Activity s : s3s) {
-            if (filterUser != null && !s.getCreatedBy().getId().equals(filterUser.getId()))
-                continue;
-            result.add(toResponse(s));
-        }
-
-        List<ProductionData> productions = status != null
-                ? productionRepo.findByFacilityIdInAndStatus(facilityIds, status)
-                : productionRepo.findByFacilityIdIn(facilityIds);
-        for (ProductionData p : productions) {
-            if (filterUser != null && p.getCreatedBy() != null
-                    && !p.getCreatedBy().getId().equals(filterUser.getId()))
-                continue;
-            result.add(toResponse(p));
-        }
-
-        result.sort(Comparator.comparing(EmissionRecordResponse::getCreatedAt,
-                Comparator.nullsLast(Comparator.reverseOrder())));
-        return result;
+    private EmissionRecordResponse toSubmissionSummary(DataEntrySubmission submission) {
+        return EmissionRecordResponse.builder()
+                .id(submission.getId())
+                .submissionId(submission.getId())
+                .scope(submission.getScopeType())
+                .type(submission.getScopeType())
+                .facilityId(submission.getFacility().getId())
+                .facilityName(submission.getFacility().getName())
+                .reportingYear(submission.getReportingYear().getYearLabel())
+                .status(submission.getStatus())
+                .rejectionReason(submission.getRejectionReason())
+                .totalEmission(submission.getTotalEmission())
+                .submittedBy(submission.getSubmittedBy().getFullName())
+                .submittedAt(submission.getSubmittedAt())
+                .createdAt(submission.getCreatedAt())
+                .verifiedAt(submission.getVerifiedAt())
+                .build();
     }
 
     // ── Entity → DTO converters ────────────────────────────────────────────
@@ -348,16 +450,21 @@ public class DataEntryService {
     private EmissionRecordResponse toResponse(Scope1 f) {
         return EmissionRecordResponse.builder()
                 .id(f.getId())
+                .submissionId(f.getSubmissionId())
                 .type("FUEL")
                 .scope("SCOPE1")
                 .facilityId(f.getFacility().getId())
                 .facilityName(f.getFacility().getName())
+                .reportingYear(f.getReportingYear().getYearLabel())
                 .fuelType(f.getFuelType())
                 .unit(f.getUnit())
                 .quantity(f.getQuantity())
+                .emissionFactor(f.getEmissionFactor())
+                .calculatedEmission(f.getCalculatedEmission())
                 .status(f.getStatus())
                 .rejectionReason(f.getRejectionReason())
                 .submittedBy(f.getCreatedBy().getFullName())
+                .submittedAt(f.getSubmittedAt())
                 .createdAt(f.getCreatedAt())
                 .verifiedAt(f.getVerifiedAt())
                 .build();
@@ -366,16 +473,21 @@ public class DataEntryService {
     private EmissionRecordResponse toResponse(Scope2 e) {
         return EmissionRecordResponse.builder()
                 .id(e.getId())
+                .submissionId(e.getSubmissionId())
                 .type("ELECTRICITY")
                 .scope("SCOPE2")
                 .facilityId(e.getFacility().getId())
                 .facilityName(e.getFacility().getName())
+                .reportingYear(e.getReportingYear().getYearLabel())
                 .electricitySource(e.getElectricitySource())
                 .unit(e.getUnit())
                 .quantity(e.getQuantity())
+                .emissionFactor(e.getEmissionFactor())
+                .calculatedEmission(e.getCalculatedEmission())
                 .status(e.getStatus())
                 .rejectionReason(e.getRejectionReason())
                 .submittedBy(e.getCreatedBy().getFullName())
+                .submittedAt(e.getSubmittedAt())
                 .createdAt(e.getCreatedAt())
                 .verifiedAt(e.getVerifiedAt())
                 .build();
@@ -384,17 +496,22 @@ public class DataEntryService {
     private EmissionRecordResponse toResponse(Scope3Activity s) {
         return EmissionRecordResponse.builder()
                 .id(s.getId())
+                .submissionId(s.getSubmissionId())
                 .type("SCOPE3")
                 .scope("SCOPE3")
                 .facilityId(s.getFacility().getId())
                 .facilityName(s.getFacility().getName())
+                .reportingYear(s.getReportingYear().getYearLabel())
                 .category(s.getCategory())
                 .subCategory(s.getSubCategory())
                 .unit(s.getUnit())
                 .quantity(s.getQuantity())
+                .emissionFactor(s.getEmissionFactor())
+                .calculatedEmission(s.getCalculatedEmission())
                 .status(s.getStatus())
                 .rejectionReason(s.getRejectionReason())
                 .submittedBy(s.getCreatedBy().getFullName())
+                .submittedAt(s.getSubmittedAt())
                 .createdAt(s.getCreatedAt())
                 .verifiedAt(s.getVerifiedAt())
                 .build();
@@ -403,16 +520,19 @@ public class DataEntryService {
     private EmissionRecordResponse toResponse(ProductionData p) {
         return EmissionRecordResponse.builder()
                 .id(p.getId())
+                .submissionId(p.getSubmissionId())
                 .type("PRODUCTION")
                 .scope("PRODUCTION")
                 .facilityId(p.getFacility().getId())
                 .facilityName(p.getFacility().getName())
+                .reportingYear(p.getReportingYear().getYearLabel())
                 .totalProduction(p.getTotalProduction())
                 .unit(p.getUnit())
                 .quantity(p.getTotalProduction())
                 .status(p.getStatus())
                 .rejectionReason(p.getRejectionReason())
                 .submittedBy(p.getCreatedBy() != null ? p.getCreatedBy().getFullName() : "")
+                .submittedAt(p.getSubmittedAt())
                 .createdAt(p.getCreatedAt())
                 .verifiedAt(p.getVerifiedAt())
                 .build();

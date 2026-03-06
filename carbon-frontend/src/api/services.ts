@@ -47,6 +47,8 @@ export const plantApi = {
 export const dashboardApi = {
     getDashboard: () =>
         axiosInstance.get<ApiResponse<DashboardData>>('/api/dashboard'),
+    getOwnerDashboard: (reportingYearId?: string) =>
+        axiosInstance.get<ApiResponse<any>>(`/api/dashboard/owner${reportingYearId ? `?reportingYearId=${reportingYearId}` : ''}`),
     getScopeDashboard: (scope: string, startDate?: string, endDate?: string) => {
         let url = `/api/dashboard/scope/${scope}`;
         const params = new URLSearchParams();
@@ -94,6 +96,14 @@ export const ownerApi = {
         axiosInstance.delete<ApiResponse<string>>(`/api/owner/facilities/${facilityId}/permanent`),
     updateActiveUser: (userId: string, data: any) =>
         axiosInstance.put<ApiResponse<any>>(`/api/owner/users/${userId}/active`, data),
+    getEmissionFactors: (scopeType?: string) =>
+        axiosInstance.get<ApiResponse<any[]>>(`/api/owner/emission-factors${scopeType ? `?scopeType=${scopeType}` : ''}`),
+    createEmissionFactor: (data: any) =>
+        axiosInstance.post<ApiResponse<any>>('/api/owner/emission-factors', data),
+    updateEmissionFactor: (id: string, data: any) =>
+        axiosInstance.put<ApiResponse<any>>(`/api/owner/emission-factors/${id}`, data),
+    deleteEmissionFactor: (id: string) =>
+        axiosInstance.delete<ApiResponse<string>>(`/api/owner/emission-factors/${id}`),
 };
 
 export const reportingYearApi = {
@@ -131,10 +141,14 @@ export const referenceApi = {
         axiosInstance.get<ApiResponse<any>>(`/api/fuels/${id}`)
 };
 export const dataEntryApi = {
+    calculate: (data: any) =>
+        axiosInstance.post<ApiResponse<any>>('/api/data-entry/emission/calculate', data),
     submit: (data: any) =>
         axiosInstance.post<ApiResponse<number>>('/api/data-entry/emission/submit', data),
     getMySubmissions: () =>
         axiosInstance.get<ApiResponse<any[]>>('/api/data-entry/emission/my-submissions'),
+    getSubmissionDetails: (submissionId: string) =>
+        axiosInstance.get<ApiResponse<any[]>>(`/api/data-entry/emission/submission/${submissionId}/details`),
     getApproved: () =>
         axiosInstance.get<ApiResponse<any[]>>('/api/data-entry/emission/approved'),
     getAll: () =>

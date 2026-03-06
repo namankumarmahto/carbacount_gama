@@ -10,4 +10,6 @@ import java.util.UUID;
 @Repository
 public interface AuditLogRepository extends JpaRepository<AuditLog, UUID> {
     List<AuditLog> findByOrganizationId(UUID organizationId);
+
+    List<AuditLog> findByOrganizationIdIn(List<UUID> organizationIds);
 }
