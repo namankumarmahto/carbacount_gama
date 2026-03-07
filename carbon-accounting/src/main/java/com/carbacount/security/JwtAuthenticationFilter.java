@@ -1,5 +1,6 @@
 package com.carbacount.security;
 
+import com.carbacount.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -29,6 +30,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private JwtUtils jwtUtils;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private CustomUserDetailsService userDetailsService;
 
     @Override
@@ -46,16 +50,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     // We need to build a UserPrincipal with ROLE_OWNER and the ownerUserId
                     // so that OwnerService.getCurrentUser() resolves to the actual OWNER user
                     // (which makes all org-scoped DB queries work correctly).
-                    String ownerUserIdStr = claims.get("ownerUserId", String.class);
-                    String organizationId = claims.get("organizationId", String.class);
                     String email = claims.getSubject();
+                    String ownerUserIdStr = claims.get("ownerUserId", String.class);
+                    UUID ownerUserId = UUID.fromString(ownerUserIdStr);
+
+                    // Verify the OWNER user still exists (prevents orphan org-scoped sessions after
+                    // DB reset)
+                    if (!userRepository.existsById(ownerUserId)) {
+                        logger.warn("Org-scoped token for {} references non-existent user ID: {}", email, ownerUserId);
+                        filterChain.doFilter(request, response);
+                        return;
+                    }
+
+                    String organizationId = claims.get("organizationId", String.class);
 
                     UserDetails baseDetails = userDetailsService.loadUserByUsername(email);
                     UserPrincipal adminPrincipal = (UserPrincipal) baseDetails;
 
                     // Create a new principal that looks like the OWNER user in that org
                     UserPrincipal orgScopedPrincipal = UserPrincipal.builder()
-                            .id(UUID.fromString(ownerUserIdStr)) // acts as OWNER user
+                            .id(ownerUserId) // acts as OWNER user
                             .fullName(adminPrincipal.getFullName())
                             .email(email)
                             .password(adminPrincipal.getPassword())

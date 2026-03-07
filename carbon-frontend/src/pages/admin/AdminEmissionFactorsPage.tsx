@@ -22,7 +22,7 @@ const TABS: { key: ScopeType; label: string }[] = [
     { key: 'SCOPE3', label: 'Scope 3 - Indirect Emission Factors' }
 ];
 
-const OwnerEmissionFactorsPage: React.FC = () => {
+const AdminEmissionFactorsPage: React.FC = () => {
     const [activeScope, setActiveScope] = useState<ScopeType>('SCOPE1');
     const [rows, setRows] = useState<EmissionFactorRow[]>([]);
     const [loading, setLoading] = useState(false);
@@ -262,4 +262,4 @@ const OwnerEmissionFactorsPage: React.FC = () => {
     );
 };
 
-export default OwnerEmissionFactorsPage;
+export default AdminEmissionFactorsPage;

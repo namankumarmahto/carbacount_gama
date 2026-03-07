@@ -1,13 +1,19 @@
 package com.carbacount.auditor.dto;
 
+import java.util.List;
+import com.carbacount.emissions.dto.SubmissionDocumentResponse;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class VerificationRecordDTO {
     private UUID id;
     private UUID submissionId;
@@ -16,6 +22,7 @@ public class VerificationRecordDTO {
     private UUID facilityId;
     private String reportingYear;
     private String status;
+    private String reviewStatus;
     private String submittedByEmail;
     private LocalDateTime submittedAt;
     private LocalDateTime createdAt;
@@ -28,5 +35,8 @@ public class VerificationRecordDTO {
 
     private Double quantity;
     private String unit;
+    private Double emissionFactor;
+    private Double calculatedEmission;
     private String rejectionReason;
+    private List<SubmissionDocumentResponse> documents;
 }

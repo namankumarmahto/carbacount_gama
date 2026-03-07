@@ -18,8 +18,9 @@ const SCOPE_LABEL: Record<string, string> = {
 
 const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
     const cfg = {
-        PENDING: { cls: 'bg-amber-50 text-amber-700 border-amber-200', icon: Clock },
-        APPROVED: { cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', icon: CheckCircle2 },
+        DRAFT: { cls: 'bg-slate-100 text-slate-700 border-slate-200', icon: Clock },
+        SUBMITTED: { cls: 'bg-amber-50 text-amber-700 border-amber-200', icon: Clock },
+        VERIFIED: { cls: 'bg-emerald-50 text-emerald-700 border-emerald-200', icon: CheckCircle2 },
         REJECTED: { cls: 'bg-rose-50 text-rose-700 border-rose-200', icon: AlertCircle },
     }[status] ?? { cls: 'bg-slate-50 text-slate-500 border-slate-200', icon: Clock };
     const Icon = cfg.icon;

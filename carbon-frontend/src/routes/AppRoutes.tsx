@@ -16,12 +16,12 @@ import OwnerUsersPage from '../pages/owner/OwnerUsersPage';
 import OwnerOrgSettingsPage from '../pages/owner/OwnerOrgSettingsPage';
 import OwnerAuditLogsPage from '../pages/owner/OwnerAuditLogsPage';
 import OwnerDataEntryRecordsPage from '../pages/owner/OwnerDataEntryRecordsPage';
-import OwnerEmissionFactorsPage from '../pages/owner/OwnerEmissionFactorsPage';
 
 
 // Admin pages
 import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
 import AdminFacilitiesPage from '../pages/admin/AdminFacilitiesPage';
+import AdminEmissionFactorsPage from '../pages/admin/AdminEmissionFactorsPage';
 
 import AdminEmissionsPage from '../pages/admin/AdminEmissionsPage';
 import AdminReportsPage from '../pages/admin/AdminReportsPage';
@@ -29,7 +29,7 @@ import AdminReportsPage from '../pages/admin/AdminReportsPage';
 // Data Entry pages (dedicated folder)
 import DataEntryPage from '../pages/data_entry/DataEntryPage';
 import DataEntrySubmissionsPage from '../pages/data_entry/DataEntrySubmissionsPage';
-import DataEntryAuditLogsPage from '../pages/data_entry/AuditLogsPage';
+
 
 // Auditor pages
 import AuditorVerifyPage from '../pages/auditor/AuditorVerifyPage';
@@ -87,7 +87,6 @@ const AppRoutes: React.FC = () => {
             <Route path="/org-settings" element={<RoleRoute allowedRoles={['OWNER']}><OwnerOrgSettingsPage /></RoleRoute>} />
             <Route path="/audit-logs" element={<RoleRoute allowedRoles={['OWNER']}><OwnerAuditLogsPage /></RoleRoute>} />
             <Route path="/data-entry-records" element={<RoleRoute allowedRoles={['OWNER', 'ADMIN']}><OwnerDataEntryRecordsPage /></RoleRoute>} />
-            <Route path="/emission-factors" element={<RoleRoute allowedRoles={['OWNER']}><OwnerEmissionFactorsPage /></RoleRoute>} />
 
 
 
@@ -97,6 +96,7 @@ const AppRoutes: React.FC = () => {
             {/* ── ADMIN ── */}
             <Route path="/admin" element={<RoleRoute allowedRoles={['ADMIN']}><AdminDashboardPage /></RoleRoute>} />
             <Route path="/admin/facilities" element={<RoleRoute allowedRoles={['ADMIN']}><AdminFacilitiesPage /></RoleRoute>} />
+            <Route path="/admin/emission-factors" element={<RoleRoute allowedRoles={['ADMIN']}><AdminEmissionFactorsPage /></RoleRoute>} />
 
             <Route path="/admin/emissions" element={<RoleRoute allowedRoles={['ADMIN']}><AdminEmissionsPage /></RoleRoute>} />
             <Route path="/admin/reports" element={<RoleRoute allowedRoles={['ADMIN']}><AdminReportsPage /></RoleRoute>} />
@@ -105,7 +105,7 @@ const AppRoutes: React.FC = () => {
             <Route path="/data-entry/submit" element={<RoleRoute allowedRoles={['DATA_ENTRY']}><DataEntryPage /></RoleRoute>} />
             <Route path="/data-entry" element={<RoleRoute allowedRoles={['DATA_ENTRY']}><DataEntryPage /></RoleRoute>} />
             <Route path="/data-entry/submissions" element={<RoleRoute allowedRoles={['DATA_ENTRY']}><DataEntrySubmissionsPage /></RoleRoute>} />
-            <Route path="/data-entry/audit-logs" element={<RoleRoute allowedRoles={['DATA_ENTRY']}><DataEntryAuditLogsPage /></RoleRoute>} />
+
 
             {/* ── AUDITOR ── */}
             <Route path="/auditor/verify" element={<RoleRoute allowedRoles={['AUDITOR']}><AuditorVerifyPage /></RoleRoute>} />

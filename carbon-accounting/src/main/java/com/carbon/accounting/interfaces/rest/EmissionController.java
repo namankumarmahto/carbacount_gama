@@ -3,7 +3,7 @@ package com.carbon.accounting.interfaces.rest;
 import com.carbon.accounting.application.dto.AddEmissionRequestDTO;
 import com.carbon.accounting.application.dto.EmissionResponseDTO;
 import com.carbon.accounting.application.usecase.AddEmissionUseCase;
-import com.carbon.accounting.common.response.ApiResponse;
+import com.carbacount.common.response.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

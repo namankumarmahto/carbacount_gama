@@ -42,7 +42,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         { label: 'Reports', path: '/reports', icon: <FileText className="w-5 h-5" />, hasSub: true },
         { label: 'Users', path: '/users', icon: <Users className="w-5 h-5" />, hasSub: true },
         { label: 'Organization Settings', path: '/org-settings', icon: <Settings className="w-5 h-5" /> },
-        { label: 'Emission Factors', path: '/emission-factors', icon: <FlaskConical className="w-5 h-5" /> },
+
         { label: 'Audit Logs', path: '/audit-logs', icon: <ScrollText className="w-5 h-5" /> },
         { label: 'Data Entry Records', path: '/data-entry-records', icon: <Database className="w-5 h-5" /> },
     ];
@@ -50,6 +50,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     // Platform admin: sees only the org list. When org-scoped → full OWNER-like nav.
     const platformAdminNav = [
         { label: 'Organizations', path: '/admin', icon: <LayoutDashboard className="w-5 h-5" /> },
+        { label: 'Emission Factors', path: '/admin/emission-factors', icon: <FlaskConical className="w-5 h-5" /> },
     ];
 
     // When ADMIN has entered an org (org-scoped token active), show full org nav
@@ -67,7 +68,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const dataEntryNav = [
         { label: 'Data Entry', path: '/data-entry/submit', icon: <Database className="w-5 h-5" /> },
         { label: 'Submissions', path: '/data-entry/submissions', icon: <Factory className="w-5 h-5" /> },
-        { label: 'Audit Logs', path: '/data-entry/audit-logs', icon: <ScrollText className="w-5 h-5" /> },
     ];
 
     const auditorNav = [

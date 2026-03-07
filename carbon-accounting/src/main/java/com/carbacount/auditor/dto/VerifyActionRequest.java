@@ -6,8 +6,11 @@ import lombok.Data;
 public class VerifyActionRequest {
     private String type;
 
-    @jakarta.validation.constraints.NotBlank(message = "Action is required (VERIFIED or REJECTED)")
+    // Backward compatibility field
     private String action;
+
+    // Preferred field for tagging workflow
+    private String reviewStatus;
 
     private String reason; // Required if action = REJECTED
 }

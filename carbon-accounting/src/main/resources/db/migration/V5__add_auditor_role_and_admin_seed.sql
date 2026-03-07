@@ -2,10 +2,10 @@
 -- The AUDITOR role is added between DATA_ENTRY and VIEWER
 -- The platform ADMIN user is seeded directly (never via API)
 
--- 1. Add AUDITOR role (id=4, shifting VIEWER to id=5)
--- NOTE: We use INSERT ... ON CONFLICT to be idempotent
--- Because VIEWER was id=4 before, we must handle carefully.
--- We add AUDITOR with a new id and keep VIEWER where it is.
+-- 1. Add AUDITOR role
+-- Sync sequence first because V1 seeded roles with explicit IDs
+SELECT setval('roles_id_seq', (SELECT MAX(id) FROM roles));
+
 INSERT INTO roles (name) 
 VALUES ('AUDITOR')
 ON CONFLICT (name) DO NOTHING;

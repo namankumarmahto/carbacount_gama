@@ -15,7 +15,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/owner/emission-factors")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('OWNER')")
+@PreAuthorize("hasAnyRole('OWNER', 'ADMIN')")
 public class OwnerEmissionFactorController {
 
     private final OwnerEmissionFactorService ownerEmissionFactorService;
@@ -27,7 +27,8 @@ public class OwnerEmissionFactorController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<EmissionFactorResponse>> createFactor(@RequestBody EmissionFactorRequest request) {
+    public ResponseEntity<ApiResponse<EmissionFactorResponse>> createFactor(
+            @RequestBody EmissionFactorRequest request) {
         return ResponseEntity.ok(new ApiResponse<>(true, "Created", ownerEmissionFactorService.createFactor(request)));
     }
 
@@ -35,7 +36,8 @@ public class OwnerEmissionFactorController {
     public ResponseEntity<ApiResponse<EmissionFactorResponse>> updateFactor(
             @PathVariable UUID id,
             @RequestBody EmissionFactorRequest request) {
-        return ResponseEntity.ok(new ApiResponse<>(true, "Updated", ownerEmissionFactorService.updateFactor(id, request)));
+        return ResponseEntity
+                .ok(new ApiResponse<>(true, "Updated", ownerEmissionFactorService.updateFactor(id, request)));
     }
 
     @DeleteMapping("/{id}")

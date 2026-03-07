@@ -48,7 +48,9 @@ const SetPasswordPage: React.FC = () => {
                 setError(res.data.message || 'Something went wrong.');
             }
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Failed to set password. The link may have expired.');
+            console.error('Set password error:', err);
+            const msg = err.response?.data?.message || err.message || 'Failed to set password. The link may have expired.';
+            setError(msg);
         } finally {
             setLoading(false);
         }

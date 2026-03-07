@@ -2,9 +2,16 @@ package com.carbacount.owner.service;
 
 import com.carbacount.emissions.entity.EmissionFactor;
 import com.carbacount.emissions.repository.EmissionFactorRepository;
+import com.carbacount.organization.entity.Organization;
+import com.carbacount.organization.repository.OrganizationRepository;
+import com.carbacount.organization.repository.OrganizationUserRepository;
 import com.carbacount.owner.dto.EmissionFactorRequest;
 import com.carbacount.owner.dto.EmissionFactorResponse;
+import com.carbacount.security.UserPrincipal;
+import com.carbacount.user.entity.User;
+import com.carbacount.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,12 +23,16 @@ import java.util.UUID;
 public class OwnerEmissionFactorService {
 
     private final EmissionFactorRepository emissionFactorRepository;
+    private final UserRepository userRepository;
+    private final OrganizationRepository organizationRepository;
+    private final OrganizationUserRepository organizationUserRepository;
 
     @Transactional(readOnly = true)
     public List<EmissionFactorResponse> getFactors(String scopeType) {
         List<EmissionFactor> factors = (scopeType == null || scopeType.isBlank())
                 ? emissionFactorRepository.findAllByOrderByFactorYearDescCreatedAtDesc()
-                : emissionFactorRepository.findByScopeTypeOrderByFactorYearDescCreatedAtDesc(scopeType.trim().toUpperCase());
+                : emissionFactorRepository
+                        .findByScopeTypeOrderByFactorYearDescCreatedAtDesc(scopeType.trim().toUpperCase());
         return factors.stream().map(this::toResponse).toList();
     }
 
@@ -31,7 +42,8 @@ public class OwnerEmissionFactorService {
 
         if (emissionFactorRepository.existsDuplicate(
                 request.getScopeType(), request.getSourceName(), request.getUnit(), request.getYear())) {
-            throw new IllegalArgumentException("Duplicate emission factor exists for same scope, source, unit and year");
+            throw new IllegalArgumentException(
+                    "Duplicate emission factor exists for same scope, source, unit and year");
         }
 
         EmissionFactor factor = new EmissionFactor();
@@ -45,7 +57,8 @@ public class OwnerEmissionFactorService {
 
         if (emissionFactorRepository.existsDuplicateExcludingId(
                 id, request.getScopeType(), request.getSourceName(), request.getUnit(), request.getYear())) {
-            throw new IllegalArgumentException("Duplicate emission factor exists for same scope, source, unit and year");
+            throw new IllegalArgumentException(
+                    "Duplicate emission factor exists for same scope, source, unit and year");
         }
 
         EmissionFactor factor = emissionFactorRepository.findById(id)
@@ -83,9 +96,17 @@ public class OwnerEmissionFactorService {
     }
 
     private void applyRequest(EmissionFactor factor, EmissionFactorRequest request) {
+        String orgIndustryType = "General";
+        try {
+            Organization org = currentOrg();
+            orgIndustryType = org.getIndustryType();
+        } catch (Exception e) {
+            // Expected for Platform Admins who don't belong to a specific organization
+        }
         String scope = request.getScopeType().trim().toUpperCase();
         factor.setScopeType(scope);
-        factor.setActivityType(request.getActivityType() == null || request.getActivityType().isBlank() ? "General" : request.getActivityType().trim());
+        factor.setActivityType(request.getActivityType() == null || request.getActivityType().isBlank() ? "General"
+                : request.getActivityType().trim());
         factor.setSourceName(request.getSourceName().trim());
         factor.setUnit(request.getUnit().trim());
         factor.setFactorValue(request.getFactorValue());
@@ -94,6 +115,7 @@ public class OwnerEmissionFactorService {
                 : request.getUnitOfFactor().trim());
         factor.setCountry(request.getCountry().trim());
         factor.setFactorYear(request.getYear());
+        factor.setIndustryType(orgIndustryType);
 
         // Keep backward compatibility for existing lookup fields.
         factor.setFuelType(null);
@@ -118,5 +140,21 @@ public class OwnerEmissionFactorService {
                 .year(factor.getFactorYear())
                 .createdAt(factor.getCreatedAt())
                 .build();
+    }
+
+    private Organization currentOrg() {
+        UserPrincipal principal = (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal.isOrgScoped() && principal.getOrganizationId() != null) {
+            return organizationRepository.findById(principal.getOrganizationId())
+                    .orElseThrow(() -> new RuntimeException("Organization not found for org-scoped token"));
+        }
+
+        User user = userRepository.findById(principal.getId())
+                .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
+
+        return organizationUserRepository.findByUserId(user.getId()).stream()
+                .findFirst()
+                .map(ou -> ou.getOrganization())
+                .orElseThrow(() -> new RuntimeException("Organization not found for user"));
     }
 }

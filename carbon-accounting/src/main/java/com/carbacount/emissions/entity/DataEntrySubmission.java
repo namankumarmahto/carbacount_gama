@@ -46,6 +46,9 @@ public class DataEntrySubmission {
     @Column(nullable = false)
     private String status;
 
+    @Column(name = "review_status", nullable = false)
+    private String reviewStatus;
+
     @Column(name = "submitted_at")
     private LocalDateTime submittedAt;
 

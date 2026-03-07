@@ -1,35 +1,24 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
     ChevronDown, Trash2, Plus, Building2, Loader2, CheckCircle2,
-    X, Zap, Truck, Factory, Calendar, PlusCircle
+    X, Zap, Truck, Factory, Calendar, PlusCircle, Upload, FileText
 } from 'lucide-react';
-import { dataEntryApi, ownerApi, reportingYearApi } from '../api/services';
+import { dataEntryApi, ownerApi, referenceApi, reportingYearApi } from '../api/services';
 import { useAuth } from '../context/AuthContext';
 
 /* ── Types ── */
 interface FacilityOption { id: string; name: string; }
 interface ReportingYearOption { id: string; yearLabel: string; startDate: string; endDate: string; isLocked: boolean; }
-interface FuelRow { fuelType: string; unit: string; quantity: string; emissionFactor?: number; calculatedEmission?: number; loading?: boolean; }
-interface ElecRow { electricitySource: string; unit: string; quantity: string; emissionFactor?: number; calculatedEmission?: number; loading?: boolean; }
-interface Scope3Row { activityCategory: string; subCategory: string; unit: string; quantity: string; emissionFactor?: number; calculatedEmission?: number; loading?: boolean; }
+interface FactorOption { activityType: string; source: string; unit: string; factorValue?: number; factorUnit?: string; year?: number; }
+interface FuelRow { activityType: string; fuelType: string; unit: string; quantity: string; factorUnit?: string; emissionFactor?: number; calculatedEmission?: number; loading?: boolean; }
+interface ElecRow { activityType: string; electricitySource: string; unit: string; quantity: string; factorUnit?: string; emissionFactor?: number; calculatedEmission?: number; loading?: boolean; }
+interface Scope3Row { activityCategory: string; subCategory: string; unit: string; quantity: string; factorUnit?: string; emissionFactor?: number; calculatedEmission?: number; loading?: boolean; }
 interface ProductionRow { totalProduction: string; unit: string; }
 
 type ActiveTab = 'scope1' | 'scope2' | 'scope3' | 'production';
 
 /* ── Constants ── */
-const FUEL_TYPES = ['Diesel', 'Petrol', 'Natural Gas', 'Coal', 'LPG', 'Biomass', 'Furnace Oil'];
-const ELEC_SOURCES = ['Grid Electricity', 'Solar', 'Wind', 'Coal Power', 'DG Set', 'Hydro'];
-const SCOPE3_ACTIVITY_CATS = ['Transportation', 'Procurement', 'Waste', 'Employee Activities', 'Capital Goods'];
-const SCOPE3_SUB_CATS: Record<string, string[]> = {
-    Transportation: ['Business Travel', 'Upstream Transport & Distribution', 'Downstream Transport & Distribution', 'Employee Commute'],
-    Procurement: ['Purchased Goods & Services', 'Capital Goods'],
-    Waste: ['Waste Generated', 'End-of-Life Treatment'],
-    'Employee Activities': ['Employee Commute', 'Business Travel'],
-    'Capital Goods': ['Equipment Purchase', 'Infrastructure Investment'],
-};
-const UNITS_FUEL = ['Litres', 'Gallons', 'Cubic Meters', 'Kg', 'MT'];
-const UNITS_ELEC = ['kWh', 'MWh'];
-const UNITS_SCOPE3 = ['km', 'ton-km', 'kg', 'MT', 'Number', 'kWh'];
 const UNITS_PRODUCTION = ['ton (metric tons)', 'MT', 'Units', 'kg', 'Litres', 'kWh'];
 
 const TAB_CONFIG: { key: ActiveTab; label: string }[] = [
@@ -44,8 +33,10 @@ const inp = 'w-full bg-white border border-slate-200 text-slate-700 text-sm roun
 const formatEmission = (v?: number) => (v ?? 0).toLocaleString('en-IN', { maximumFractionDigits: 6 });
 
 const DataEntryTabContent: React.FC = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
     const { user } = useAuth();
     const isDataEntry = user?.role === 'DATA_ENTRY';
+    const editingSubmissionId = searchParams.get('editSubmissionId');
     const [activeTab, setActiveTab] = useState<ActiveTab>('scope1');
 
     // ── Facilities ──
@@ -64,14 +55,59 @@ const DataEntryTabContent: React.FC = () => {
     const [periodError, setPeriodError] = useState('');
 
     // ── Data rows ──
-    const [fuelRows, setFuelRows] = useState<FuelRow[]>([{ fuelType: 'Diesel', unit: 'Litres', quantity: '' }]);
-    const [elecRows, setElecRows] = useState<ElecRow[]>([{ electricitySource: 'Grid Electricity', unit: 'kWh', quantity: '' }]);
-    const [scope3Rows, setScope3Rows] = useState<Scope3Row[]>([{ activityCategory: 'Transportation', subCategory: 'Business Travel', unit: 'km', quantity: '' }]);
+    const [scope1Options, setScope1Options] = useState<FactorOption[]>([]);
+    const [scope2Options, setScope2Options] = useState<FactorOption[]>([]);
+    const [scope3Options, setScope3Options] = useState<FactorOption[]>([]);
+    const [fuelRows, setFuelRows] = useState<FuelRow[]>([]);
+    const [elecRows, setElecRows] = useState<ElecRow[]>([]);
+    const [scope3Rows, setScope3Rows] = useState<Scope3Row[]>([]);
     const [productionRow, setProductionRow] = useState<ProductionRow>({ totalProduction: '', unit: 'ton (metric tons)' });
+    const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
     const [submitting, setSubmitting] = useState(false);
+    const [loadingEditSubmission, setLoadingEditSubmission] = useState(false);
     const [successMsg, setSuccessMsg] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
+
+    const sourcesByActivity = (options: FactorOption[]) =>
+        options.reduce<Record<string, string[]>>((acc, option) => {
+            if (!acc[option.activityType]) acc[option.activityType] = [];
+            if (!acc[option.activityType].includes(option.source)) acc[option.activityType].push(option.source);
+            return acc;
+        }, {});
+
+    const newFuelRow = (options: FactorOption[]): FuelRow => {
+        const first = options[0];
+        return {
+            activityType: first?.activityType ?? '',
+            fuelType: first?.source ?? '',
+            unit: first?.unit ?? '',
+            quantity: '',
+            factorUnit: first?.factorUnit,
+        };
+    };
+
+    const newElecRow = (options: FactorOption[]): ElecRow => {
+        const first = options[0];
+        return {
+            activityType: first?.activityType ?? '',
+            electricitySource: first?.source ?? '',
+            unit: first?.unit ?? '',
+            quantity: '',
+            factorUnit: first?.factorUnit,
+        };
+    };
+
+    const newScope3Row = (options: FactorOption[]): Scope3Row => {
+        const first = options[0];
+        return {
+            activityCategory: first?.activityType ?? '',
+            subCategory: first?.source ?? '',
+            unit: first?.unit ?? '',
+            quantity: '',
+            factorUnit: first?.factorUnit,
+        };
+    };
 
     /* ── Fetch facilities (ACTIVE only) ── */
     const fetchFacilities = useCallback(async () => {
@@ -98,7 +134,84 @@ const DataEntryTabContent: React.FC = () => {
         finally { setLoadingYears(false); }
     }, []);
 
-    useEffect(() => { fetchFacilities(); fetchReportingYears(); }, [fetchFacilities, fetchReportingYears]);
+    const fetchScopeOptions = useCallback(async () => {
+        try {
+            const [s1, s2, s3] = await Promise.all([
+                referenceApi.getEmissionFactors('SCOPE1'),
+                referenceApi.getEmissionFactors('SCOPE2'),
+                referenceApi.getEmissionFactors('SCOPE3'),
+            ]);
+            const s1Options: FactorOption[] = s1.data.data?.options ?? [];
+            const s2Options: FactorOption[] = s2.data.data?.options ?? [];
+            const s3Options: FactorOption[] = s3.data.data?.options ?? [];
+            setScope1Options(s1Options);
+            setScope2Options(s2Options);
+            setScope3Options(s3Options);
+
+            setFuelRows(prev => prev.length ? prev : [newFuelRow(s1Options)]);
+            setElecRows(prev => prev.length ? prev : [newElecRow(s2Options)]);
+            setScope3Rows(prev => prev.length ? prev : [newScope3Row(s3Options)]);
+        } catch (e) {
+            console.error(e);
+            setErrorMsg('Failed to load dynamic emission factor options.');
+        }
+    }, []);
+
+    useEffect(() => { fetchFacilities(); fetchReportingYears(); void fetchScopeOptions(); }, [fetchFacilities, fetchReportingYears, fetchScopeOptions]);
+    useEffect(() => {
+        const loadEditableSubmission = async () => {
+            if (!editingSubmissionId) return;
+            setLoadingEditSubmission(true);
+            setErrorMsg('');
+            try {
+                const res = await dataEntryApi.getEditableSubmission(editingSubmissionId);
+                const data = res.data.data;
+                setFacilityId(data.facilityId);
+                setReportingYearId(data.reportingYearId);
+                const scopeToTab: Record<string, ActiveTab> = {
+                    SCOPE1: 'scope1',
+                    SCOPE2: 'scope2',
+                    SCOPE3: 'scope3',
+                    PRODUCTION: 'production',
+                };
+                setActiveTab(scopeToTab[data.scope] ?? 'scope1');
+
+                if (data.scope === 'SCOPE1') {
+                    setFuelRows((data.fuelRows || []).map((r: any) => ({
+                        activityType: r.fuelType || '',
+                        fuelType: r.fuelType || '',
+                        unit: r.unit || '',
+                        quantity: String(r.quantity ?? ''),
+                    })));
+                } else if (data.scope === 'SCOPE2') {
+                    setElecRows((data.electricityRows || []).map((r: any) => ({
+                        activityType: r.electricitySource || '',
+                        electricitySource: r.electricitySource || '',
+                        unit: r.unit || '',
+                        quantity: String(r.quantity ?? ''),
+                    })));
+                } else if (data.scope === 'SCOPE3') {
+                    setScope3Rows((data.scope3Rows || []).map((r: any) => ({
+                        activityCategory: r.category || '',
+                        subCategory: r.subCategory || '',
+                        unit: r.unit || '',
+                        quantity: String(r.quantity ?? ''),
+                    })));
+                } else if (data.scope === 'PRODUCTION' && data.productionData) {
+                    setProductionRow({
+                        totalProduction: String(data.productionData.totalProduction ?? ''),
+                        unit: data.productionData.unit || 'ton (metric tons)',
+                    });
+                }
+            } catch (e: any) {
+                setErrorMsg(e.response?.data?.message || 'Failed to load editable submission.');
+            } finally {
+                setLoadingEditSubmission(false);
+            }
+        };
+        void loadEditableSubmission();
+    }, [editingSubmissionId]);
+
     useEffect(() => {
         fuelRows.forEach((_, i) => { void calculateFuelRow(i, fuelRows); });
         elecRows.forEach((_, i) => { void calculateElecRow(i, elecRows); });
@@ -131,13 +244,33 @@ const DataEntryTabContent: React.FC = () => {
     };
 
     /* ── row helpers ── */
-    const addFuelRow = () => setFuelRows(r => [...r, { fuelType: 'Diesel', unit: 'Litres', quantity: '' }]);
+    const addFuelRow = () => setFuelRows(r => [...r, newFuelRow(scope1Options)]);
     const removeFuelRow = (i: number) => setFuelRows(r => r.filter((_, idx) => idx !== i));
+    const syncFuelUnitsAndFactor = async (index: number, rows: FuelRow[]) => {
+        const row = rows[index];
+        if (!row.fuelType) return;
+        try {
+            const unitsRes = await referenceApi.getEmissionFactorUnits('SCOPE1', row.fuelType);
+            const units = unitsRes.data.data ?? [];
+            const unitToUse = units.includes(row.unit) ? row.unit : (units[0] ?? '');
+            const factorRes = unitToUse
+                ? await referenceApi.getEmissionFactorValue({ scope: 'SCOPE1', source: row.fuelType, unit: unitToUse, activityType: row.activityType })
+                : null;
+            setFuelRows(prev => prev.map((r, i) => i === index ? {
+                ...r,
+                unit: unitToUse,
+                emissionFactor: factorRes?.data.data?.factorValue,
+                factorUnit: factorRes?.data.data?.factorUnit
+            } : r));
+        } catch {
+            setFuelRows(prev => prev.map((r, i) => i === index ? { ...r, emissionFactor: undefined, factorUnit: undefined } : r));
+        }
+    };
     const calculateFuelRow = async (index: number, rows: FuelRow[]) => {
         const row = rows[index];
         const quantity = parseFloat(row.quantity);
-        if (!facilityId || Number.isNaN(quantity) || quantity <= 0 || !row.fuelType) {
-            setFuelRows(prev => prev.map((r, i) => i === index ? { ...r, emissionFactor: undefined, calculatedEmission: undefined, loading: false } : r));
+        if (!facilityId || Number.isNaN(quantity) || quantity < 0 || !row.fuelType) {
+            setFuelRows(prev => prev.map((r, i) => i === index ? { ...r, calculatedEmission: undefined, loading: false } : r));
             return;
         }
         setFuelRows(prev => prev.map((r, i) => i === index ? { ...r, loading: true } : r));
@@ -147,7 +280,8 @@ const DataEntryTabContent: React.FC = () => {
                 scope: 'SCOPE1',
                 fuelType: row.fuelType,
                 unit: row.unit,
-                quantity
+                quantity,
+                activityType: row.activityType
             });
             const data = res.data.data;
             setFuelRows(prev => prev.map((r, i) => i === index ? { ...r, emissionFactor: data?.emissionFactor, calculatedEmission: data?.calculatedEmission, loading: false } : r));
@@ -158,18 +292,46 @@ const DataEntryTabContent: React.FC = () => {
     };
     const updateFuel = (i: number, field: keyof FuelRow, val: string) =>
         setFuelRows(r => {
-            const next = r.map((row, idx) => idx === i ? { ...row, [field]: val } : row);
+            const next = r.map((row, idx) => idx === i ? { ...row, [field]: val, calculatedEmission: field === 'quantity' ? row.calculatedEmission : undefined } : row);
+            if (field === 'activityType') {
+                const mapping = sourcesByActivity(scope1Options);
+                const source = mapping[val]?.[0] ?? '';
+                next[i] = { ...next[i], fuelType: source };
+            }
+            if (field === 'activityType' || field === 'fuelType' || field === 'unit') {
+                void syncFuelUnitsAndFactor(i, next);
+            }
             void calculateFuelRow(i, next);
             return next;
         });
 
-    const addElecRow = () => setElecRows(r => [...r, { electricitySource: 'Grid Electricity', unit: 'kWh', quantity: '' }]);
+    const addElecRow = () => setElecRows(r => [...r, newElecRow(scope2Options)]);
     const removeElecRow = (i: number) => setElecRows(r => r.filter((_, idx) => idx !== i));
+    const syncElecUnitsAndFactor = async (index: number, rows: ElecRow[]) => {
+        const row = rows[index];
+        if (!row.electricitySource) return;
+        try {
+            const unitsRes = await referenceApi.getEmissionFactorUnits('SCOPE2', row.electricitySource);
+            const units = unitsRes.data.data ?? [];
+            const unitToUse = units.includes(row.unit) ? row.unit : (units[0] ?? '');
+            const factorRes = unitToUse
+                ? await referenceApi.getEmissionFactorValue({ scope: 'SCOPE2', source: row.electricitySource, unit: unitToUse, activityType: row.activityType })
+                : null;
+            setElecRows(prev => prev.map((r, i) => i === index ? {
+                ...r,
+                unit: unitToUse,
+                emissionFactor: factorRes?.data.data?.factorValue,
+                factorUnit: factorRes?.data.data?.factorUnit
+            } : r));
+        } catch {
+            setElecRows(prev => prev.map((r, i) => i === index ? { ...r, emissionFactor: undefined, factorUnit: undefined } : r));
+        }
+    };
     const calculateElecRow = async (index: number, rows: ElecRow[]) => {
         const row = rows[index];
         const quantity = parseFloat(row.quantity);
-        if (!facilityId || Number.isNaN(quantity) || quantity <= 0 || !row.electricitySource) {
-            setElecRows(prev => prev.map((r, i) => i === index ? { ...r, emissionFactor: undefined, calculatedEmission: undefined, loading: false } : r));
+        if (!facilityId || Number.isNaN(quantity) || quantity < 0 || !row.electricitySource) {
+            setElecRows(prev => prev.map((r, i) => i === index ? { ...r, calculatedEmission: undefined, loading: false } : r));
             return;
         }
         setElecRows(prev => prev.map((r, i) => i === index ? { ...r, loading: true } : r));
@@ -179,7 +341,8 @@ const DataEntryTabContent: React.FC = () => {
                 scope: 'SCOPE2',
                 electricitySource: row.electricitySource,
                 unit: row.unit,
-                quantity
+                quantity,
+                activityType: row.activityType
             });
             const data = res.data.data;
             setElecRows(prev => prev.map((r, i) => i === index ? { ...r, emissionFactor: data?.emissionFactor, calculatedEmission: data?.calculatedEmission, loading: false } : r));
@@ -190,18 +353,46 @@ const DataEntryTabContent: React.FC = () => {
     };
     const updateElec = (i: number, field: keyof ElecRow, val: string) =>
         setElecRows(r => {
-            const next = r.map((row, idx) => idx === i ? { ...row, [field]: val } : row);
+            const next = r.map((row, idx) => idx === i ? { ...row, [field]: val, calculatedEmission: field === 'quantity' ? row.calculatedEmission : undefined } : row);
+            if (field === 'activityType') {
+                const mapping = sourcesByActivity(scope2Options);
+                const source = mapping[val]?.[0] ?? '';
+                next[i] = { ...next[i], electricitySource: source };
+            }
+            if (field === 'activityType' || field === 'electricitySource' || field === 'unit') {
+                void syncElecUnitsAndFactor(i, next);
+            }
             void calculateElecRow(i, next);
             return next;
         });
 
-    const addScope3Row = () => setScope3Rows(r => [...r, { activityCategory: 'Transportation', subCategory: 'Business Travel', unit: 'km', quantity: '' }]);
+    const addScope3Row = () => setScope3Rows(r => [...r, newScope3Row(scope3Options)]);
     const removeScope3Row = (i: number) => setScope3Rows(r => r.filter((_, idx) => idx !== i));
+    const syncScope3UnitsAndFactor = async (index: number, rows: Scope3Row[]) => {
+        const row = rows[index];
+        if (!row.subCategory) return;
+        try {
+            const unitsRes = await referenceApi.getEmissionFactorUnits('SCOPE3', row.subCategory);
+            const units = unitsRes.data.data ?? [];
+            const unitToUse = units.includes(row.unit) ? row.unit : (units[0] ?? '');
+            const factorRes = unitToUse
+                ? await referenceApi.getEmissionFactorValue({ scope: 'SCOPE3', source: row.subCategory, unit: unitToUse, activityType: row.activityCategory })
+                : null;
+            setScope3Rows(prev => prev.map((r, i) => i === index ? {
+                ...r,
+                unit: unitToUse,
+                emissionFactor: factorRes?.data.data?.factorValue,
+                factorUnit: factorRes?.data.data?.factorUnit
+            } : r));
+        } catch {
+            setScope3Rows(prev => prev.map((r, i) => i === index ? { ...r, emissionFactor: undefined, factorUnit: undefined } : r));
+        }
+    };
     const calculateScope3Row = async (index: number, rows: Scope3Row[]) => {
         const row = rows[index];
         const quantity = parseFloat(row.quantity);
-        if (!facilityId || Number.isNaN(quantity) || quantity <= 0 || !row.activityCategory) {
-            setScope3Rows(prev => prev.map((r, i) => i === index ? { ...r, emissionFactor: undefined, calculatedEmission: undefined, loading: false } : r));
+        if (!facilityId || Number.isNaN(quantity) || quantity < 0 || !row.activityCategory) {
+            setScope3Rows(prev => prev.map((r, i) => i === index ? { ...r, calculatedEmission: undefined, loading: false } : r));
             return;
         }
         setScope3Rows(prev => prev.map((r, i) => i === index ? { ...r, loading: true } : r));
@@ -212,7 +403,8 @@ const DataEntryTabContent: React.FC = () => {
                 category: row.activityCategory,
                 subCategory: row.subCategory,
                 unit: row.unit,
-                quantity
+                quantity,
+                activityType: row.activityCategory
             });
             const data = res.data.data;
             setScope3Rows(prev => prev.map((r, i) => i === index ? { ...r, emissionFactor: data?.emissionFactor, calculatedEmission: data?.calculatedEmission, loading: false } : r));
@@ -224,11 +416,17 @@ const DataEntryTabContent: React.FC = () => {
     const updateScope3 = (i: number, field: keyof Scope3Row, val: string) => {
         setScope3Rows(r => {
             const next = r.map((row, idx) => {
-            if (idx !== i) return row;
-            const updated = { ...row, [field]: val };
-            if (field === 'activityCategory') updated.subCategory = SCOPE3_SUB_CATS[val]?.[0] ?? '';
-            return updated;
-        });
+                if (idx !== i) return row;
+                const updated = { ...row, [field]: val, calculatedEmission: field === 'quantity' ? row.calculatedEmission : undefined };
+                if (field === 'activityCategory') {
+                    const mapping = sourcesByActivity(scope3Options);
+                    updated.subCategory = mapping[val]?.[0] ?? '';
+                }
+                return updated;
+            });
+            if (field === 'activityCategory' || field === 'subCategory' || field === 'unit') {
+                void syncScope3UnitsAndFactor(i, next);
+            }
             void calculateScope3Row(i, next);
             return next;
         });
@@ -269,8 +467,20 @@ const DataEntryTabContent: React.FC = () => {
                 };
             }
 
-            const res = await dataEntryApi.submit(payload);
-            if (res.data.success) showSuccess(`Data saved successfully! ${res.data.data ?? ''} record(s) submitted.`);
+            const res = editingSubmissionId
+                ? await dataEntryApi.updateSubmission(editingSubmissionId, payload)
+                : await dataEntryApi.submit(payload, selectedFiles);
+            if (res.data.success) {
+                showSuccess(editingSubmissionId
+                    ? `Submission updated and resubmitted (${res.data.data ?? 0} record(s)).`
+                    : `Data saved successfully! ${res.data.data ?? ''} record(s) submitted.`);
+                setSelectedFiles([]); // Clear files after success
+                if (editingSubmissionId) {
+                    const nextParams = new URLSearchParams(searchParams);
+                    nextParams.delete('editSubmissionId');
+                    setSearchParams(nextParams, { replace: true });
+                }
+            }
         } catch (e: any) {
             setErrorMsg(e.response?.data?.message || 'Save failed. Please try again.');
         } finally { setSubmitting(false); }
@@ -390,25 +600,32 @@ const DataEntryTabContent: React.FC = () => {
                                 <Factory className="w-5 h-5 text-orange-500" /> Scope 1 Data
                             </h2>
                             <div className="grid grid-cols-12 gap-4 mb-2 px-1">
-                                <div className="col-span-3 text-sm font-semibold text-slate-700">Fuel Type</div>
+                                <div className="col-span-2 text-sm font-semibold text-slate-700">Activity Type</div>
+                                <div className="col-span-2 text-sm font-semibold text-slate-700">Source</div>
                                 <div className="col-span-2 text-sm font-semibold text-slate-700">Unit</div>
                                 <div className="col-span-2 text-sm font-semibold text-slate-700">Quantity</div>
                                 <div className="col-span-2 text-sm font-semibold text-slate-700">Factor</div>
-                                <div className="col-span-2 text-sm font-semibold text-slate-700">Emission</div>
+                                <div className="col-span-1 text-sm font-semibold text-slate-700">Emission</div>
                                 <div className="col-span-1" />
                             </div>
                             <div className="space-y-3">
                                 {fuelRows.map((row, i) => (
                                     <div key={i} className="grid grid-cols-12 gap-4 items-center bg-white p-2 rounded-lg border border-slate-100 hover:border-slate-200 transition-colors">
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-2 relative">
+                                            <select value={row.activityType} onChange={e => updateFuel(i, 'activityType', e.target.value)} className={sel}>
+                                                {[...new Set(scope1Options.map(o => o.activityType))].map(a => <option key={a}>{a}</option>)}
+                                            </select>
+                                            <ChevronDown className="w-4 h-4 absolute right-3 top-3 text-slate-400 pointer-events-none" />
+                                        </div>
+                                        <div className="col-span-2 relative">
                                             <select value={row.fuelType} onChange={e => updateFuel(i, 'fuelType', e.target.value)} className={sel}>
-                                                {FUEL_TYPES.map(f => <option key={f}>{f}</option>)}
+                                                {(sourcesByActivity(scope1Options)[row.activityType] ?? []).map(f => <option key={f}>{f}</option>)}
                                             </select>
                                             <ChevronDown className="w-4 h-4 absolute right-3 top-3 text-slate-400 pointer-events-none" />
                                         </div>
                                         <div className="col-span-2 relative">
                                             <select value={row.unit} onChange={e => updateFuel(i, 'unit', e.target.value)} className={sel}>
-                                                {UNITS_FUEL.map(u => <option key={u}>{u}</option>)}
+                                                {[...new Set(scope1Options.filter(o => o.activityType === row.activityType && o.source === row.fuelType).map(o => o.unit))].map(u => <option key={u}>{u}</option>)}
                                             </select>
                                             <ChevronDown className="w-4 h-4 absolute right-3 top-3 text-slate-400 pointer-events-none" />
                                         </div>
@@ -416,8 +633,8 @@ const DataEntryTabContent: React.FC = () => {
                                             <input type="number" min="0" value={row.quantity} onChange={e => updateFuel(i, 'quantity', e.target.value)}
                                                 placeholder="e.g. 145,000" className={inp} />
                                         </div>
-                                        <div className="col-span-2 text-sm text-slate-600">{row.loading ? 'Calculating...' : (row.emissionFactor ?? '—')}</div>
-                                        <div className="col-span-2 text-sm font-semibold text-slate-700">{row.loading ? '...' : `${formatEmission(row.calculatedEmission)} kg CO2e`}</div>
+                                        <div className="col-span-2 text-sm text-slate-600">{row.loading ? 'Calculating...' : (row.emissionFactor ?? '—')} {row.factorUnit ? <span className="text-xs text-slate-400">({row.factorUnit})</span> : null}</div>
+                                        <div className="col-span-1 text-sm font-semibold text-slate-700">{row.loading ? '...' : `${formatEmission(row.calculatedEmission)}`}</div>
                                         <div className="col-span-1">
                                             <button onClick={() => removeFuelRow(i)} disabled={fuelRows.length === 1}
                                                 className="p-2 text-slate-400 bg-white border border-slate-200 rounded-md hover:text-rose-500 hover:border-rose-200 hover:bg-rose-50 transition-colors disabled:opacity-30">
@@ -444,25 +661,32 @@ const DataEntryTabContent: React.FC = () => {
                                 <Zap className="w-5 h-5 text-yellow-500" /> Scope 2 Data
                             </h2>
                             <div className="grid grid-cols-12 gap-4 mb-2 px-1">
-                                <div className="col-span-3 text-sm font-semibold text-slate-700">Electricity Source</div>
+                                <div className="col-span-2 text-sm font-semibold text-slate-700">Activity Type</div>
+                                <div className="col-span-2 text-sm font-semibold text-slate-700">Source</div>
                                 <div className="col-span-2 text-sm font-semibold text-slate-700">Unit</div>
                                 <div className="col-span-2 text-sm font-semibold text-slate-700">Quantity</div>
                                 <div className="col-span-2 text-sm font-semibold text-slate-700">Factor</div>
-                                <div className="col-span-2 text-sm font-semibold text-slate-700">Emission</div>
+                                <div className="col-span-1 text-sm font-semibold text-slate-700">Emission</div>
                                 <div className="col-span-1" />
                             </div>
                             <div className="space-y-3">
                                 {elecRows.map((row, i) => (
                                     <div key={i} className="grid grid-cols-12 gap-4 items-center bg-white p-2 rounded-lg border border-slate-100 hover:border-slate-200 transition-colors">
-                                        <div className="col-span-3 relative">
+                                        <div className="col-span-2 relative">
+                                            <select value={row.activityType} onChange={e => updateElec(i, 'activityType', e.target.value)} className={sel}>
+                                                {[...new Set(scope2Options.map(o => o.activityType))].map(a => <option key={a}>{a}</option>)}
+                                            </select>
+                                            <ChevronDown className="w-4 h-4 absolute right-3 top-3 text-slate-400 pointer-events-none" />
+                                        </div>
+                                        <div className="col-span-2 relative">
                                             <select value={row.electricitySource} onChange={e => updateElec(i, 'electricitySource', e.target.value)} className={sel}>
-                                                {ELEC_SOURCES.map(s => <option key={s}>{s}</option>)}
+                                                {(sourcesByActivity(scope2Options)[row.activityType] ?? []).map(s => <option key={s}>{s}</option>)}
                                             </select>
                                             <ChevronDown className="w-4 h-4 absolute right-3 top-3 text-slate-400 pointer-events-none" />
                                         </div>
                                         <div className="col-span-2 relative">
                                             <select value={row.unit} onChange={e => updateElec(i, 'unit', e.target.value)} className={sel}>
-                                                {UNITS_ELEC.map(u => <option key={u}>{u}</option>)}
+                                                {[...new Set(scope2Options.filter(o => o.activityType === row.activityType && o.source === row.electricitySource).map(o => o.unit))].map(u => <option key={u}>{u}</option>)}
                                             </select>
                                             <ChevronDown className="w-4 h-4 absolute right-3 top-3 text-slate-400 pointer-events-none" />
                                         </div>
@@ -470,8 +694,8 @@ const DataEntryTabContent: React.FC = () => {
                                             <input type="number" min="0" value={row.quantity} onChange={e => updateElec(i, 'quantity', e.target.value)}
                                                 placeholder="e.g. 500,000" className={inp} />
                                         </div>
-                                        <div className="col-span-2 text-sm text-slate-600">{row.loading ? 'Calculating...' : (row.emissionFactor ?? '—')}</div>
-                                        <div className="col-span-2 text-sm font-semibold text-slate-700">{row.loading ? '...' : `${formatEmission(row.calculatedEmission)} kg CO2e`}</div>
+                                        <div className="col-span-2 text-sm text-slate-600">{row.loading ? 'Calculating...' : (row.emissionFactor ?? '—')} {row.factorUnit ? <span className="text-xs text-slate-400">({row.factorUnit})</span> : null}</div>
+                                        <div className="col-span-1 text-sm font-semibold text-slate-700">{row.loading ? '...' : `${formatEmission(row.calculatedEmission)}`}</div>
                                         <div className="col-span-1">
                                             <button onClick={() => removeElecRow(i)} disabled={elecRows.length === 1}
                                                 className="p-2 text-slate-400 bg-white border border-slate-200 rounded-md hover:text-rose-500 hover:border-rose-200 hover:bg-rose-50 transition-colors disabled:opacity-30">
@@ -511,19 +735,19 @@ const DataEntryTabContent: React.FC = () => {
                                     <div key={i} className="grid grid-cols-12 gap-4 items-center bg-white p-2 rounded-lg border border-slate-100 hover:border-slate-200 transition-colors">
                                         <div className="col-span-2 relative">
                                             <select value={row.activityCategory} onChange={e => updateScope3(i, 'activityCategory', e.target.value)} className={sel}>
-                                                {SCOPE3_ACTIVITY_CATS.map(c => <option key={c}>{c}</option>)}
+                                                {[...new Set(scope3Options.map(o => o.activityType))].map(c => <option key={c}>{c}</option>)}
                                             </select>
                                             <ChevronDown className="w-4 h-4 absolute right-3 top-3 text-slate-400 pointer-events-none" />
                                         </div>
                                         <div className="col-span-3 relative">
                                             <select value={row.subCategory} onChange={e => updateScope3(i, 'subCategory', e.target.value)} className={sel}>
-                                                {(SCOPE3_SUB_CATS[row.activityCategory] ?? []).map(s => <option key={s}>{s}</option>)}
+                                                {(sourcesByActivity(scope3Options)[row.activityCategory] ?? []).map(s => <option key={s}>{s}</option>)}
                                             </select>
                                             <ChevronDown className="w-4 h-4 absolute right-3 top-3 text-slate-400 pointer-events-none" />
                                         </div>
                                         <div className="col-span-1 relative">
                                             <select value={row.unit} onChange={e => updateScope3(i, 'unit', e.target.value)} className={sel}>
-                                                {UNITS_SCOPE3.map(u => <option key={u}>{u}</option>)}
+                                                {[...new Set(scope3Options.filter(o => o.activityType === row.activityCategory && o.source === row.subCategory).map(o => o.unit))].map(u => <option key={u}>{u}</option>)}
                                             </select>
                                             <ChevronDown className="w-4 h-4 absolute right-3 top-3 text-slate-400 pointer-events-none" />
                                         </div>
@@ -531,7 +755,7 @@ const DataEntryTabContent: React.FC = () => {
                                             <input type="number" min="0" value={row.quantity} onChange={e => updateScope3(i, 'quantity', e.target.value)}
                                                 placeholder="e.g. 25,000" className={inp} />
                                         </div>
-                                        <div className="col-span-2 text-sm text-slate-600">{row.loading ? 'Calculating...' : (row.emissionFactor ?? '—')}</div>
+                                        <div className="col-span-2 text-sm text-slate-600">{row.loading ? 'Calculating...' : (row.emissionFactor ?? '—')} {row.factorUnit ? <span className="text-xs text-slate-400">({row.factorUnit})</span> : null}</div>
                                         <div className="col-span-1 text-sm font-semibold text-slate-700">{row.loading ? '...' : formatEmission(row.calculatedEmission)}</div>
                                         <div className="col-span-1">
                                             <button onClick={() => removeScope3Row(i)} disabled={scope3Rows.length === 1}
@@ -580,6 +804,42 @@ const DataEntryTabContent: React.FC = () => {
                             </p>
                         </>
                     )}
+                    {/* ── Supporting Documents Section ── */}
+                    <div className="mt-8 pt-6 border-t border-slate-100">
+                        <h3 className="text-sm font-bold text-slate-800 mb-3 flex items-center gap-2">
+                            <FileText className="w-4 h-4 text-teal-600" /> Supporting Documents
+                        </h3>
+                        <p className="text-xs text-slate-400 mb-4">
+                            Upload proof files (Invoices, Logs, Reports). Allowed types: JPG, PNG, PDF, XLS, CSV, DOC.
+                        </p>
+
+                        <div className="flex flex-wrap gap-3 mb-4">
+                            {selectedFiles.map((file, idx) => (
+                                <div key={idx} className="flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs text-slate-600">
+                                    <FileText className="w-3.5 h-3.5 text-slate-400" />
+                                    <span className="truncate max-w-[150px] font-medium">{file.name}</span>
+                                    <button onClick={() => setSelectedFiles(prev => prev.filter((_, i) => i !== idx))} className="ml-1 p-0.5 hover:bg-slate-100 rounded text-slate-400 hover:text-rose-500 transition-colors">
+                                        <X className="w-3 h-3" />
+                                    </button>
+                                </div>
+                            ))}
+
+                            <label className="flex items-center gap-2 px-4 py-2 bg-white border-2 border-dashed border-slate-200 rounded-lg text-xs font-semibold text-slate-500 hover:border-teal-500/50 hover:bg-teal-50/30 transition-all cursor-pointer group">
+                                <Upload className="w-3.5 h-3.5 text-slate-400 group-hover:text-teal-600" />
+                                <span>Upload Files</span>
+                                <input
+                                    type="file"
+                                    multiple
+                                    className="hidden"
+                                    onChange={(e) => {
+                                        if (e.target.files) {
+                                            setSelectedFiles(prev => [...prev, ...Array.from(e.target.files!)]);
+                                        }
+                                    }}
+                                />
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Save Footer */}
@@ -591,7 +851,9 @@ const DataEntryTabContent: React.FC = () => {
                     </div>
                     <button onClick={handleSave} disabled={submitting || !reportingYearId || !facilityId}
                         className="flex items-center gap-2 px-6 py-2.5 bg-[#23705C] text-white rounded-md text-sm font-bold hover:bg-[#1b5e4c] transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
-                        {submitting ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving…</> : <>Save Data</>}
+                        {submitting || loadingEditSubmission
+                            ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving…</>
+                            : <>{editingSubmissionId ? 'Update & Resubmit' : 'Save Data'}</>}
                     </button>
                 </div>
             </div>

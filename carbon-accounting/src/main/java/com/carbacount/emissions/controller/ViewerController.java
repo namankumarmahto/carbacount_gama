@@ -18,7 +18,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/api/viewer")
-@PreAuthorize("hasAnyRole('OWNER', 'ADMIN', 'VIEWER')")
+@PreAuthorize("hasAnyRole('OWNER', 'ADMIN', 'VIEWER', 'AUDITOR')")
 public class ViewerController {
 
     @Autowired
@@ -51,7 +51,7 @@ public class ViewerController {
      * "..." }
      */
     @PutMapping("/verify/{recordId}")
-    @PreAuthorize("hasAnyRole('OWNER', 'ADMIN', 'VIEWER')")
+    @PreAuthorize("hasRole('AUDITOR')")
     public ResponseEntity<ApiResponse<String>> verifyRecord(
             @PathVariable UUID recordId,
             @RequestBody VerifyRequest req) {
@@ -59,6 +59,19 @@ public class ViewerController {
             dataEntryService.verifyRecord(recordId, req.getType(), req.getAction(), req.getReason());
             String msg = "APPROVE".equalsIgnoreCase(req.getAction()) ? "Record approved" : "Record rejected";
             return ResponseEntity.ok(new ApiResponse<>(true, msg, msg));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ApiResponse<>(false, e.getMessage(), null));
+        }
+    }
+
+    @PutMapping("/submission/{submissionId}/verify")
+    @PreAuthorize("hasRole('AUDITOR')")
+    public ResponseEntity<ApiResponse<String>> verifySubmission(
+            @PathVariable UUID submissionId,
+            @RequestBody VerifyRequest req) {
+        try {
+            dataEntryService.verifySubmission(submissionId, req.getAction(), req.getReason());
+            return ResponseEntity.ok(new ApiResponse<>(true, "Submission " + req.getAction(), "Success"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(new ApiResponse<>(false, e.getMessage(), null));
         }

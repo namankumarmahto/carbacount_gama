@@ -34,13 +34,13 @@ SELECT
     s.created_by,
     COALESCE(s.status, 'SUBMITTED'),
     MIN(s.submitted_at),
-    MAX(s.verified_by),
+    MAX(s.verified_by::text)::uuid,
     MAX(s.verified_at),
     MAX(s.rejection_reason)
 FROM scope1 s
 JOIN facilities f ON f.id = s.facility_id
 WHERE s.submission_id IS NOT NULL
-GROUP BY s.submission_id, f.organization_id, s.facility_id, s.reporting_year_id, s.created_by
+GROUP BY s.submission_id, f.organization_id, s.facility_id, s.reporting_year_id, s.created_by, s.status
 ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO data_entry_submissions (
@@ -56,13 +56,13 @@ SELECT
     s.created_by,
     COALESCE(s.status, 'SUBMITTED'),
     MIN(s.submitted_at),
-    MAX(s.verified_by),
+    MAX(s.verified_by::text)::uuid,
     MAX(s.verified_at),
     MAX(s.rejection_reason)
 FROM scope2 s
 JOIN facilities f ON f.id = s.facility_id
 WHERE s.submission_id IS NOT NULL
-GROUP BY s.submission_id, f.organization_id, s.facility_id, s.reporting_year_id, s.created_by
+GROUP BY s.submission_id, f.organization_id, s.facility_id, s.reporting_year_id, s.created_by, s.status
 ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO data_entry_submissions (
@@ -78,13 +78,13 @@ SELECT
     s.created_by,
     COALESCE(s.status, 'SUBMITTED'),
     MIN(s.submitted_at),
-    MAX(s.verified_by),
+    MAX(s.verified_by::text)::uuid,
     MAX(s.verified_at),
     MAX(s.rejection_reason)
 FROM scope3_activities s
 JOIN facilities f ON f.id = s.facility_id
 WHERE s.submission_id IS NOT NULL
-GROUP BY s.submission_id, f.organization_id, s.facility_id, s.reporting_year_id, s.created_by
+GROUP BY s.submission_id, f.organization_id, s.facility_id, s.reporting_year_id, s.created_by, s.status
 ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO data_entry_submissions (
@@ -100,13 +100,13 @@ SELECT
     p.created_by,
     COALESCE(p.status, 'SUBMITTED'),
     MIN(p.submitted_at),
-    MAX(p.verified_by),
+    MAX(p.verified_by::text)::uuid,
     MAX(p.verified_at),
     MAX(p.rejection_reason)
 FROM production_data p
 JOIN facilities f ON f.id = p.facility_id
 WHERE p.submission_id IS NOT NULL
-GROUP BY p.submission_id, f.organization_id, p.facility_id, p.reporting_year_id, p.created_by
+GROUP BY p.submission_id, f.organization_id, p.facility_id, p.reporting_year_id, p.created_by, p.status
 ON CONFLICT (id) DO NOTHING;
 
 DO $$

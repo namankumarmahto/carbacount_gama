@@ -3,6 +3,7 @@ package com.carbacount.emissions.dto;
 import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -28,9 +29,11 @@ public class EmissionRecordResponse {
     private BigDecimal calculatedEmission;
     private BigDecimal totalEmission;
     private String status; // PENDING | APPROVED | REJECTED
+    private String reviewStatus; // PENDING_REVIEW | UNDER_REVIEW | VERIFIED | NEEDS_CORRECTION | REJECTED
     private String rejectionReason;
     private String submittedBy;
     private LocalDateTime submittedAt;
     private LocalDateTime createdAt;
     private LocalDateTime verifiedAt;
+    private List<SubmissionDocumentResponse> documents;
 }

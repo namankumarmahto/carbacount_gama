@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME:-postgres}
       POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD:-admin}
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -31,7 +31,7 @@ services:
     build: .
     container_name: carbacount-app
     ports:
-      - "8080:8080"
+      - "8081:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/carbon_db
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME:-postgres}

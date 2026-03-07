@@ -40,6 +40,9 @@ public class EmissionFactor {
     @Column(name = "source_name")
     private String sourceName;
 
+    @Column(name = "industry_type")
+    private String industryType;
+
     @Column(nullable = false)
     private String unit;
 

@@ -28,7 +28,12 @@ spring:
             enable: true
 
 server:
-  port: 8081
+  port: ${PORT:8081}
+
+supabase:
+  url: ${SUPABASE_URL:https://djdovtnptznogryifdjs.supabase.co}
+  service-key: ${SUPABASE_SERVICE_KEY:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqZG92dG5wdHpub2dyeWlmZGpzIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mjg5NTA0MSwiZXhwIjoyMDg4NDcxMDQxfQ.AzBM3A9a6RtlFiHR9aPqTrDdR0yd6v5Fp_s-wjRmHYI}
+  bucket-name: ${STORAGE_BUCKET_NAME:supporting-documents}
 
 jwt:
   secret: aVeryLongSecretKeyThatIsAtLeast32BytesLongForHS256AlgorithmToWorkProperlyReplaceInProd

@@ -14,36 +14,35 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Auditor verification endpoints.
- * Accessible by OWNER, ADMIN (with org-scoped token), and AUDITOR.
+ * Auditor verification endpoints for scope-wise data entry reviews.
+ * Accessible only by roles with AUDITOR privileges.
  */
 @RestController
 @RequestMapping("/api/auditor")
-@PreAuthorize("hasAnyRole('OWNER', 'ADMIN', 'AUDITOR')")
+@PreAuthorize("hasRole('AUDITOR')")
 public class AuditorController {
 
     @Autowired
     private AuditorService auditorService;
 
-    /**
-     * Step 11: List all SUBMITTED records pending verification.
-     */
-    @GetMapping("/pending")
-    public ResponseEntity<ApiResponse<List<VerificationRecordDTO>>> getSubmittedRecords() {
+    @GetMapping("/submissions")
+    public ResponseEntity<ApiResponse<List<VerificationRecordDTO>>> getRecordsByReviewStatus(
+            @RequestParam(defaultValue = "PENDING_REVIEW") String reviewStatus) {
         try {
-            List<VerificationRecordDTO> records = auditorService.getSubmittedRecords();
-            return ResponseEntity.ok(new ApiResponse<>(true, "Pending records fetched", records));
+            List<VerificationRecordDTO> records = auditorService.getRecordsByReviewStatus(reviewStatus);
+            return ResponseEntity.ok(new ApiResponse<>(true, "Records fetched", records));
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
                     .body(new ApiResponse<>(false, "Failed to fetch records: " + e.getMessage(), null));
         }
     }
 
-    /**
-     * Step 11: VERIFY or REJECT a submission.
-     * Body: { type: "SCOPE1"|"SCOPE2"|"SCOPE3"|"PRODUCTION", action:
-     * "VERIFIED"|"REJECTED", reason?: string }
-     */
+    // Backward compatibility
+    @GetMapping("/pending")
+    public ResponseEntity<ApiResponse<List<VerificationRecordDTO>>> getPendingRecordsCompat() {
+        return getRecordsByReviewStatus("PENDING_REVIEW");
+    }
+
     @PutMapping("/verify/{submissionId}")
     public ResponseEntity<ApiResponse<String>> verifyRecord(
             @PathVariable UUID submissionId,
@@ -51,7 +50,7 @@ public class AuditorController {
         try {
             auditorService.verifySubmission(submissionId, request);
             return ResponseEntity.ok(new ApiResponse<>(true,
-                    "Submission " + request.getAction() + " successfully", null));
+                    "Submission review status updated successfully", null));
         } catch (Exception e) {
             return ResponseEntity.badRequest()
                     .body(new ApiResponse<>(false, e.getMessage(), null));

@@ -104,6 +104,10 @@ export const ownerApi = {
         axiosInstance.put<ApiResponse<any>>(`/api/owner/emission-factors/${id}`, data),
     deleteEmissionFactor: (id: string) =>
         axiosInstance.delete<ApiResponse<string>>(`/api/owner/emission-factors/${id}`),
+    getOrgSettings: () =>
+        axiosInstance.get<ApiResponse<any>>('/api/owner/org-settings'),
+    updateOrgSettings: (data: any) =>
+        axiosInstance.put<ApiResponse<any>>('/api/owner/org-settings', data),
 };
 
 export const reportingYearApi = {
@@ -129,8 +133,19 @@ export const referenceApi = {
         axiosInstance.get<ApiResponse<any[]>>('/api/industry-types'),
     getCategories: (industryTypeId: string, scope: string) =>
         axiosInstance.get<ApiResponse<any[]>>(`/api/categories?industryTypeId=${industryTypeId}&scope=${scope}`),
-    getEmissionFactors: (scope: string) =>
-        axiosInstance.get<ApiResponse<any[]>>(`/api/emission-factors?scope=${scope}`),
+    getEmissionFactors: (scope: string, industry?: string) =>
+        axiosInstance.get<ApiResponse<any>>(`/api/emission-factors?scope=${scope}${industry ? `&industry=${encodeURIComponent(industry)}` : ''}`),
+    getEmissionFactorUnits: (scope: string, source: string, industry?: string) =>
+        axiosInstance.get<ApiResponse<string[]>>(`/api/emission-factors/units?scope=${scope}&source=${encodeURIComponent(source)}${industry ? `&industry=${encodeURIComponent(industry)}` : ''}`),
+    getEmissionFactorValue: (params: { scope: string; source: string; unit: string; activityType?: string; industry?: string }) => {
+        const query = new URLSearchParams();
+        query.set('scope', params.scope);
+        query.set('source', params.source);
+        query.set('unit', params.unit);
+        if (params.activityType) query.set('activityType', params.activityType);
+        if (params.industry) query.set('industry', params.industry);
+        return axiosInstance.get<ApiResponse<any>>(`/api/emission-factors/factor?${query.toString()}`);
+    },
     getCountries: () =>
         axiosInstance.get<ApiResponse<any[]>>('/api/countries'),
     getStates: (countryId: string) =>
@@ -143,18 +158,44 @@ export const referenceApi = {
 export const dataEntryApi = {
     calculate: (data: any) =>
         axiosInstance.post<ApiResponse<any>>('/api/data-entry/emission/calculate', data),
-    submit: (data: any) =>
-        axiosInstance.post<ApiResponse<number>>('/api/data-entry/emission/submit', data),
+    submit: (data: any, files?: File[]) => {
+        if (!files || files.length === 0) {
+            // If no files, we could still send as multipart OR keep it as simple JSON if we had a fallback
+            // But the backend @PostMapping(value = "/submit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+            // makes multipart mandatory now.
+            const formData = new FormData();
+            formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+            return axiosInstance.post<ApiResponse<number>>('/api/data-entry/emission/submit', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
+        }
+        const formData = new FormData();
+        formData.append('data', new Blob([JSON.stringify(data)], { type: 'application/json' }));
+        files.forEach(file => formData.append('files', file));
+        return axiosInstance.post<ApiResponse<number>>('/api/data-entry/emission/submit', formData, {
+            headers: { 'Content-Type': 'multipart/form-data' }
+        });
+    },
     getMySubmissions: () =>
         axiosInstance.get<ApiResponse<any[]>>('/api/data-entry/emission/my-submissions'),
     getSubmissionDetails: (submissionId: string) =>
         axiosInstance.get<ApiResponse<any[]>>(`/api/data-entry/emission/submission/${submissionId}/details`),
+    getEditableSubmission: (submissionId: string) =>
+        axiosInstance.get<ApiResponse<any>>(`/api/data-entry/emission/submission/${submissionId}/edit-data`),
+    updateSubmission: (submissionId: string, data: any) =>
+        axiosInstance.put<ApiResponse<number>>(`/api/data-entry/emission/submission/${submissionId}`, data),
+    deleteSubmission: (submissionId: string) =>
+        axiosInstance.delete<ApiResponse<string>>(`/api/data-entry/emission/submission/${submissionId}`),
     getApproved: () =>
         axiosInstance.get<ApiResponse<any[]>>('/api/data-entry/emission/approved'),
     getAll: () =>
         axiosInstance.get<ApiResponse<any[]>>('/api/data-entry/emission/all'),
     getMyFacilities: () =>
         axiosInstance.get<ApiResponse<any[]>>('/api/data-entry/facilities'),
+    downloadDocument: (documentId: string) =>
+        axiosInstance.get(`/api/data-entry/emission/documents/download/${documentId}`, {
+            responseType: 'blob'
+        }),
 };
 
 export const viewerApi = {
@@ -179,8 +220,10 @@ export const platformApi = {
 };
 
 export const auditorApi = {
+    getByReviewStatus: (reviewStatus: string) =>
+        axiosInstance.get<ApiResponse<any[]>>(`/api/auditor/submissions?reviewStatus=${encodeURIComponent(reviewStatus)}`),
     getPending: () =>
-        axiosInstance.get<ApiResponse<any[]>>('/api/auditor/pending'),
-    verify: (recordId: string, data: { type: string; action: string; reason?: string }) =>
-        axiosInstance.put<ApiResponse<string>>(`/api/auditor/verify/${recordId}`, data),
+        axiosInstance.get<ApiResponse<any[]>>('/api/auditor/submissions?reviewStatus=PENDING_REVIEW'),
+    verify: (submissionId: string, data: { reviewStatus: string; reason?: string; action?: string; type?: string }) =>
+        axiosInstance.put<ApiResponse<string>>(`/api/auditor/verify/${submissionId}`, data),
 };

@@ -1,6 +1,6 @@
 package com.carbon.accounting.interfaces.rest;
 
-import com.carbon.accounting.common.response.ApiResponse;
+import com.carbacount.common.response.ApiResponse;
 import com.carbon.accounting.infrastructure.persistence.entity.EmissionCategoryEntity;
 import com.carbon.accounting.infrastructure.persistence.entity.IndustryTypeEntity;
 import com.carbon.accounting.infrastructure.persistence.repository.SpringDataEmissionCategoryRepository;

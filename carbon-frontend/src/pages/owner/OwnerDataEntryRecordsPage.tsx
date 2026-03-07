@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { RefreshCw, Eye, X, User } from 'lucide-react';
+import { RefreshCw, Eye, X, User, FileText, Loader2 } from 'lucide-react';
 import { dataEntryApi } from '../../api/services';
 
 type SubmissionStatus = 'DRAFT' | 'SUBMITTED' | 'VERIFIED' | 'REJECTED';
@@ -14,6 +14,12 @@ interface SubmissionRow {
     status: SubmissionStatus;
     submittedBy?: string;
     totalEmission?: number;
+    documents?: Array<{
+        id: string;
+        fileName: string;
+        fileType: string;
+        fileUrl: string;
+    }>;
 }
 
 interface SubmissionDetailRow {
@@ -36,12 +42,36 @@ const statusClass: Record<SubmissionStatus, string> = {
     REJECTED: 'bg-rose-100 text-rose-700',
 };
 
+const statusDescription: Record<SubmissionStatus, string> = {
+    DRAFT: 'Not submitted',
+    SUBMITTED: 'Waiting for auditor',
+    VERIFIED: 'Accepted and counted',
+    REJECTED: 'Returned for correction',
+};
+
 const OwnerDataEntryRecordsPage: React.FC = () => {
     const [rows, setRows] = useState<SubmissionRow[]>([]);
     const [loading, setLoading] = useState(true);
     const [detailsLoading, setDetailsLoading] = useState(false);
     const [selected, setSelected] = useState<SubmissionRow | null>(null);
     const [details, setDetails] = useState<SubmissionDetailRow[]>([]);
+    const [viewingDocId, setViewingDocId] = useState<string | null>(null);
+
+    const handlePreview = async (doc: any) => {
+        if (!doc.id) return;
+        setViewingDocId(doc.id);
+        try {
+            const res = await dataEntryApi.downloadDocument(doc.id);
+            const blob = new Blob([res.data], { type: res.headers['content-type'] });
+            const url = window.URL.createObjectURL(blob);
+            window.open(url, '_blank');
+        } catch (err) {
+            console.error('Failed to preview:', err);
+            alert('Could not open preview.');
+        } finally {
+            setViewingDocId(null);
+        }
+    };
 
     const fetchRows = useCallback(async () => {
         setLoading(true);
@@ -126,9 +156,12 @@ const OwnerDataEntryRecordsPage: React.FC = () => {
                                     </td>
                                     <td className="py-3.5 px-5 text-slate-700">{r.totalEmission != null ? `${r.totalEmission} kg CO2e` : '—'}</td>
                                     <td className="py-3.5 px-5">
-                                        <span className={`inline-flex items-center px-2.5 py-1 rounded text-xs font-semibold ${statusClass[r.status] || 'bg-slate-100 text-slate-600'}`}>
-                                            {r.status}
-                                        </span>
+                                        <div className="flex flex-col gap-1">
+                                            <span className={`inline-flex w-fit items-center px-2.5 py-1 rounded text-xs font-semibold ${statusClass[r.status] || 'bg-slate-100 text-slate-600'}`}>
+                                                {r.status}
+                                            </span>
+                                            <span className="text-[11px] text-slate-500">{statusDescription[r.status as SubmissionStatus] || '—'}</span>
+                                        </div>
                                     </td>
                                     <td className="py-3.5 px-5">
                                         <button
@@ -188,6 +221,31 @@ const OwnerDataEntryRecordsPage: React.FC = () => {
                                             ))}
                                         </tbody>
                                     </table>
+                                </div>
+                            )}
+
+                            {selected && selected.documents && selected.documents.length > 0 && (
+                                <div className="mt-6 pt-5 border-t border-slate-100">
+                                    <h4 className="text-[11px] uppercase text-slate-500 font-bold mb-3 flex items-center gap-1.5">
+                                        <FileText className="w-3.5 h-3.5" /> Attached Documents
+                                    </h4>
+                                    <div className="flex flex-wrap gap-3">
+                                        {selected.documents.map((doc: any) => (
+                                            <div key={doc.id} className="flex items-center gap-3 p-2.5 bg-slate-50 border border-slate-100 rounded-lg text-xs">
+                                                <FileText className="w-4 h-4 text-slate-400" />
+                                                <div className="flex flex-col">
+                                                    <span className="font-medium text-slate-700 max-w-[200px] truncate">{doc.fileName}</span>
+                                                    <button
+                                                        onClick={() => handlePreview(doc)}
+                                                        disabled={!!viewingDocId}
+                                                        className="text-emerald-600 hover:text-emerald-700 font-medium mt-1 flex items-center gap-1 disabled:opacity-50"
+                                                    >
+                                                        {viewingDocId === doc.id ? <Loader2 className="w-3 h-3 animate-spin" /> : <Eye className="w-3 h-3" />} Preview
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             )}
                         </div>

@@ -67,6 +67,9 @@ public class SecurityConfig {
                         // ── Platform ADMIN only (platform-level) ─────────────────────────
                         .requestMatchers("/api/platform/**").hasRole("ADMIN")
 
+                        // ── Shared admin/owner for emission factors ───────────────────────
+                        .requestMatchers("/api/owner/emission-factors/**").hasAnyRole("OWNER", "ADMIN")
+
                         // ── Organization OWNER endpoints ──────────────────────────────────
                         // Also accessible by ADMIN with an org-scoped token (resolved as OWNER)
                         .requestMatchers("/api/owner/**").hasRole("OWNER")
@@ -98,13 +101,7 @@ public class SecurityConfig {
     @Bean
     public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
         org.springframework.web.cors.CorsConfiguration configuration = new org.springframework.web.cors.CorsConfiguration();
-        configuration.setAllowedOrigins(java.util.Arrays.asList(
-                "http://localhost:5173",
-                "http://localhost:5174",
-                "http://localhost:3000",
-                "http://192.168.1.17:5173",
-                "http://192.168.1.17:5174",
-                "http://192.168.1.17:3000"));
+        configuration.setAllowedOriginPatterns(java.util.Arrays.asList("*"));
         configuration.setAllowedMethods(java.util.Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(java.util.Arrays.asList("Authorization", "Content-Type", "X-Requested-With"));
         configuration.setAllowCredentials(true);

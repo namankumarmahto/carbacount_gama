@@ -2,6 +2,7 @@ package com.carbacount.emissions.repository;
 
 import com.carbacount.emissions.entity.Scope3Activity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -25,6 +26,9 @@ public interface Scope3ActivityRepository extends JpaRepository<Scope3Activity, 
     List<Scope3Activity> findByFacilityIdInAndStatus(List<UUID> facilityIds, String status);
 
     List<Scope3Activity> findBySubmissionId(UUID submissionId);
+
+    @Modifying
+    void deleteBySubmissionId(UUID submissionId);
 
     @Query("SELECT COALESCE(SUM(s.calculatedEmission), 0) FROM Scope3Activity s WHERE s.facility.organization.id = :organizationId AND s.reportingYear.id = :reportingYearId AND s.status IN :statuses")
     BigDecimal sumCalculatedEmission(@Param("organizationId") UUID organizationId,

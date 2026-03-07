@@ -2,7 +2,7 @@ package com.carbon.accounting.interfaces.rest;
 
 import com.carbon.accounting.application.dto.DashboardResponseDTO;
 import com.carbon.accounting.application.usecase.GetDashboardUseCase;
-import com.carbon.accounting.common.response.ApiResponse;
+import com.carbacount.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

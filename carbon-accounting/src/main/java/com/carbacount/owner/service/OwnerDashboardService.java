@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OwnerDashboardService {
 
-    private static final List<String> VALID_STATUSES = List.of("SUBMITTED", "VERIFIED");
+    private static final List<String> VALID_STATUSES = List.of("VERIFIED");
     private static final Set<String> REQUIRED_SCOPES = Set.of("SCOPE1", "SCOPE2", "SCOPE3");
 
     private final Scope1Repository scope1Repository;
@@ -194,7 +194,7 @@ public class OwnerDashboardService {
                             .filter(REQUIRED_SCOPES::contains)
                             .collect(Collectors.toSet());
                     Set<String> verifiedScopes = facilitySubmissions.stream()
-                            .filter(s -> "VERIFIED".equals(s.getStatus()))
+                            .filter(s -> "VERIFIED".equals(s.getReviewStatus()))
                             .map(DataEntrySubmission::getScopeType)
                             .filter(REQUIRED_SCOPES::contains)
                             .collect(Collectors.toSet());
