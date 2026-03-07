@@ -3,15 +3,15 @@ services:
     image: postgres:15-alpine
     container_name: carbacount-db
     environment:
-      POSTGRES_DB: carbon_db
-      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME:-postgres}
-      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD:-admin}
+      POSTGRES_DB: ${POSTGRES_DB:-carbon_db}
+      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     ports:
-      - "5433:5432"
+      - "${DB_PORT_MAP:-5433}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      test: [ "CMD-SHELL", "pg_isready -U ${SPRING_DATASOURCE_USERNAME}" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -31,14 +31,17 @@ services:
     build: .
     container_name: carbacount-app
     ports:
-      - "8081:8080"
+      - "${PORT_MAP:-8081}:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/carbon_db
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME:-postgres}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD:-admin}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       SPRING_REDIS_HOST: redis
       SPRING_REDIS_PORT: 6379
-      JWT_SECRET: ${JWT_SECRET:-9a4f4e35455ad5b1ff013032130c29f26d705c757c913508f7b7cf72b64d6e9f280205f0d3a5ca85c15e8e7a6f2649a18d1845f7bd25902047394c8e76c7c4e5}
+      JWT_SECRET: ${JWT_SECRET}
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY}
+      STORAGE_BUCKET_NAME: ${STORAGE_BUCKET_NAME}
     depends_on:
       postgres:
         condition: service_healthy

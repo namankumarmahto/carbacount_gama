@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db.djdovtnptznogryifdjs.supabase.co:5432/postgres?sslmode=require}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/carbon_db}
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_DATASOURCE_PASSWORD:admin}
     driver-class-name: org.postgresql.Driver
@@ -38,12 +38,12 @@ management:
       show-details: when_authorized
 
 jwt:
-  secret: ${JWT_SECRET:9a4f4e35455ad5b1ff013032130c29f26d705c757c913508f7b7cf72b64d6e9f280205f0d3a5ca85c15e8e7a6f2649a18d1845f7bd25902047394c8e76c7c4e5}
-  expiration: 86400000
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION:86400000}
 
 supabase:
-  url: ${SUPABASE_URL:https://djdovtnptznogryifdjs.supabase.co}
-  service-key: ${SUPABASE_SERVICE_KEY:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRqZG92dG5wdHpub2dyeWlmZGpzIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mjg5NTA0MSwiZXhwIjoyMDg4NDcxMDQxfQ.AzBM3A9a6RtlFiHR9aPqTrDdR0yd6v5Fp_s-wjRmHYI}
+  url: ${SUPABASE_URL}
+  service-key: ${SUPABASE_SERVICE_KEY}
   bucket-name: ${STORAGE_BUCKET_NAME:supporting-documents}
 
 logging:
